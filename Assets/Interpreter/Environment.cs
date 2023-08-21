@@ -8,11 +8,13 @@ namespace MyInterpreter
 {
     public class Environment
     {
+        public List<Object> outputStream;
         public Dictionary<string, Object> store;
         private Environment outer;
 
         public Environment()
         {
+            outputStream = new List<Object>();
             store = new Dictionary<string, Object>();
             outer = null;
         }

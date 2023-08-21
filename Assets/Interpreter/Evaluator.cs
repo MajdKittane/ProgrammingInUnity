@@ -75,8 +75,9 @@ namespace MyInterpreter
             else if (node is InfixExpression)
             {
                 InfixExpression infix = (InfixExpression)node;
+                
                 var left = Eval(infix.left, env);
-
+                //Console.WriteLine(left.ToString());
                 if (IsError(left))
                 {
                     Error error = (Error)left;
@@ -84,15 +85,21 @@ namespace MyInterpreter
                 }
 
                 var right = Eval(infix.right, env);
-
+               // Console.WriteLine(right.ToString());
                 if (IsError(right))
                 {
                     Error error = (Error)right;
                     return error;
                 }
 
-                
+                //Console.WriteLine(EvalInfixExpression(infix.op, left, right).ToString());
                 return EvalInfixExpression(infix.op, left, right);
+            }
+
+            else if (node is LoopExpression)
+            {
+                LoopExpression loopExpression = (LoopExpression)node;
+                return EvalLoopExpression(loopExpression,env);
             }
             else if (node is CallExpression)
             {
@@ -242,6 +249,27 @@ namespace MyInterpreter
             else return NULL;
         }
 
+        private static Object EvalLoopExpression(LoopExpression loopExpression, Environment env)
+        {
+            while (true)
+            {
+                var condition = Eval(loopExpression.condition, env);
+                if (IsError(condition))
+                {
+                    return (Error)condition;
+                }
+                if (IsTruthy(condition))
+                {
+                    Object result = Eval(loopExpression.body, env);
+                    condition = Eval(loopExpression.condition, env);
+                    if (IsTruthy(condition)) continue;
+                    else return result;
+                }
+                else break;
+            }
+            return NULL;
+        }
+
         private static Object EvalPrefixExpression(string op, Object right)
         {
             if (op == TokenType.Bang)
@@ -257,7 +285,7 @@ namespace MyInterpreter
 
         private static Object EvalInfixExpression(string op, Object left, Object right)
         {
-            if (op == TokenType.Plus || op == TokenType.Minus || op == TokenType.Asterisk || op == TokenType.Slash)
+            if (op == TokenType.Plus || op == TokenType.Minus || op == TokenType.Asterisk || op == TokenType.Slash || op == TokenType.Mod)
             {
                 return EvalIntegerInfixExpression(op, left, right);
             }
@@ -332,6 +360,10 @@ namespace MyInterpreter
             else if (op == TokenType.Slash)
             {
                 return new Integer { value = leftValue / rightValue };
+            }
+            else if (op == TokenType.Mod)
+            {
+                return new Integer { value = leftValue % rightValue};
             }
             else if (op == TokenType.LessThan)
             {
@@ -507,6 +539,11 @@ namespace MyInterpreter
             {
                 Boolean b = (Boolean)obj;
                 return b.value;
+            }
+            else if (obj is Integer)
+            {
+                Integer i = (Integer)obj;
+                return i.value > 0 ? true : false;
             }
             else return true;
         }

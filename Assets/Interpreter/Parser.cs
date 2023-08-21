@@ -42,6 +42,7 @@ namespace MyInterpreter
             {TokenType.Minus,Precedence.Sum},
             {TokenType.Slash,Precedence.Product},
             {TokenType.Asterisk,Precedence.Product},
+            {TokenType.Mod,Precedence.Product},
             {TokenType.LeftParen,Precedence.Call},
             {TokenType.LeftBracket,Precedence.Index}
         };
@@ -66,11 +67,13 @@ namespace MyInterpreter
             RegisterPrefix(TokenType.str, ParseStringLiteral);
             RegisterPrefix(TokenType.LeftBracket, ParseArrayLiteral);
             RegisterPrefix(TokenType.LeftBrace, ParseHashLiteral);
+            RegisterPrefix(TokenType.Loop, ParseLoopExpression);
 
             RegisterInfix(TokenType.Plus, ParseInfixExpression);
             RegisterInfix(TokenType.Minus, ParseInfixExpression);
             RegisterInfix(TokenType.Slash, ParseInfixExpression);
             RegisterInfix(TokenType.Asterisk, ParseInfixExpression);
+            RegisterInfix(TokenType.Mod, ParseInfixExpression);
             RegisterInfix(TokenType.Equal, ParseInfixExpression);
             RegisterInfix(TokenType.NotEqual, ParseInfixExpression);
             RegisterInfix(TokenType.LessThan, ParseInfixExpression);
@@ -297,12 +300,31 @@ namespace MyInterpreter
             return expression;
         }
 
-       /* private Expression ParseForExpression()
+        private Expression ParseLoopExpression()
         {
-            ForExpression expression = new ForExpression { token = currentToken };
+            LoopExpression expression = new LoopExpression { token = currentToken };
 
-            if (!ExpectPeek(TokenType.))
-        }*/
+            if (!ExpectPeek(TokenType.LeftParen))
+            {
+                return null;
+            }
+            NextToken();
+            expression.condition = ParseExpression((int)Precedence.Lowest);
+
+            if (!ExpectPeek(TokenType.RightParen))
+            {
+                return null;
+            }
+
+            if (!ExpectPeek(TokenType.LeftBrace))
+            {
+                return null;
+            }
+
+            expression.body = ParseBlockStatement();
+
+            return expression;
+        }
 
         private BlockStatement ParseBlockStatement()
         {
@@ -420,7 +442,7 @@ namespace MyInterpreter
 
         private Expression ParseArrayLiteral()
         {
-            return new ArrayLiteral { token = currentToken, elements=ParseExpressionList(TokenType.RightBracket)};
+            return new ArrayLiteral { token = currentToken, elements = ParseExpressionList(TokenType.RightBracket) };
         }
 
         private Expression ParseIndexExpression(Expression _left)

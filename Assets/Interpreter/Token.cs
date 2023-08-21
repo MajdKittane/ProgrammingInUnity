@@ -19,7 +19,8 @@ namespace MyInterpreter
 			{"false", TokenType.False},
 			{"if", TokenType.If},
 			{"else", TokenType.Else},
-			{"return", TokenType.Return}
+			{"return", TokenType.Return},
+			{"loop", TokenType.Loop}
 		};
 
 		public Token(TokenType _type, string _literal)
@@ -58,6 +59,7 @@ namespace MyInterpreter
 					Assign = "=",
 					Plus = "+",
 					Minus = "-",
+					Mod = "%",
 					Bang = "!",
 					Asterisk = "*",
 					Slash = "/",
@@ -86,7 +88,7 @@ namespace MyInterpreter
 					False = "False",
 					If = "If",
 					Else = "Else",
-					For = "For",
+					Loop = "Loop",
 					While = "While",
 					Return = "Return";
 					

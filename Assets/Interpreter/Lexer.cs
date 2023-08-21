@@ -64,6 +64,9 @@ namespace MyInterpreter
                 case (byte)'/':
                     tok = new Token(TokenType.Slash, "/");
                     break;
+                case (byte)'%':
+                    tok = new Token(TokenType.Mod, "%");
+                    break;
                 case (byte)'<':
                     tok = new Token(TokenType.LessThan, "<");
                     break;
@@ -108,21 +111,21 @@ namespace MyInterpreter
                     {
                         string literal = ReadIdentifier();
                         tok = new Token(Token.LookupIdentifierType(literal), literal);
-                        Console.WriteLine(tok.literal + "\t" + tok.tokenType);
+                        //Console.WriteLine(tok.literal + "\t" + tok.tokenType);
                         return tok;
                     }
                     else if (Char.IsDigit((char)this.character))
                     {
                         string literal = ReadNumber();
                         tok = new Token(TokenType.Int, literal);
-                        Console.WriteLine(tok.literal + "\t" + tok.tokenType);
+                        //Console.WriteLine(tok.literal + "\t" + tok.tokenType);
                         return tok;
                     }
                     else tok = new Token(TokenType.Illegal, ((char)this.character).ToString());
                     break;
             }
             ReadChar();
-            Console.WriteLine(tok.literal + "\t" + tok.tokenType);
+            //Console.WriteLine(tok.literal + "\t" + tok.tokenType);
             return tok;
         }
         

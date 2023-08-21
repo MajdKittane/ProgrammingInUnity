@@ -69,7 +69,7 @@ public class CodeHighlighter : MonoBehaviour
 
     string SkipTags(string word)
     {
-        if (word.Contains("<")) word = word.Substring(word.IndexOf(">")+1,word.LastIndexOf("<")- word.IndexOf(">") -1);
+        if (word.Contains("</color>")) word = word.Substring(word.IndexOf(">")+1,word.LastIndexOf("<")- word.IndexOf(">") -1);
         return word;
     }
 }

@@ -219,11 +219,10 @@ namespace MyInterpreter
         }
     }
 
-    public class ForExpression : Expression
+    public class LoopExpression : Expression
     {
         public Token token { get; set; }
-        public Expression from { get; set; }
-        public Expression to { get; set; }
+        public Expression condition { get; set; }
         public BlockStatement body { get; set; }
 
         public void expressionNode() { }
@@ -234,8 +233,7 @@ namespace MyInterpreter
         {
             string output = "";
             output = "for";
-            output += from.ToString() + " to ";
-            output += to.ToString() + " ";
+            output += condition.ToString();
             output += body.ToString();
             return output;
         }
