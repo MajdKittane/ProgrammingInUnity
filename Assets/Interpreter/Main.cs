@@ -11,7 +11,7 @@ namespace MyInterpreter
         static void Main(string[] args)
         {
 
-            var input = @"let x = 20 % 7;
+            var input = @"let x = !(true == true);
 ";
             /*var input2 = @"if ( 1 < 2)
 {
@@ -30,10 +30,10 @@ let x = 0;
             var parser = new Parser(lexer);
             var program = parser.ParseProgram();
 
-            /*foreach (var v in program.statements)
+            foreach (var v in program.statements)
             {
                 Console.WriteLine(v.ToString());
-            }*/
+            }
 
 
             Environment env = new Environment();
@@ -44,6 +44,14 @@ let x = 0;
 
 
             }
+            foreach (var v in parser.errors)
+            {
+                Console.WriteLine(v);
+
+
+            }
+            
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace MyInterpreter
     public class Parser
     {
         private Lexer lexer;
-        private List<string> errors;
+        public List<string> errors;
         private Token currentToken;
         private Token peekToken;
 
@@ -131,6 +131,12 @@ namespace MyInterpreter
             }
 
             statement.name = new Identifier { token = currentToken, value = currentToken.literal };
+
+            if (peekToken.tokenType == TokenType.LeftBracket)
+            {
+                NextToken();
+                
+            }
 
             if (!ExpectPeek(TokenType.Assign))
             {
@@ -487,7 +493,6 @@ namespace MyInterpreter
                     return null;
                 }
             }
-
             if (!ExpectPeek(TokenType.RightBrace))
             {
                 return null;

@@ -166,6 +166,12 @@ namespace MyInterpreter
                 Boolean b = (Boolean)node;
                 return NativeBoolToBooleanObject(b.value);
             }
+            else if (node is BooleanLiteral)
+            {
+                BooleanLiteral bl = (BooleanLiteral)node;
+                Boolean b = new Boolean { value = bl.value };
+                return NativeBoolToBooleanObject(b.value);
+            }
             else if (node is ArrayLiteral)
             {
                 ArrayLiteral arrayLiteral = (ArrayLiteral)node;
@@ -314,11 +320,11 @@ namespace MyInterpreter
 
         private static Object EvalBangOperatorExpression(Object right)
         {
-            if ((right is Boolean bt && bt.value == true) || (right is Integer it && it.value <= 0))
+            if ((right is Boolean bt && bt.value == false) || (right is Integer it && it.value <= 0))
             {
                 return TRUE;
             }
-            else if ((right is Boolean bf && bf.value == false) || (right is Integer iff && iff.value > 0))
+            else if ((right is Boolean bf && bf.value == true) || (right is Integer iff && iff.value > 0))
             {
                 return FALSE;
             }
@@ -342,8 +348,23 @@ namespace MyInterpreter
 
         private static Object EvalIntegerInfixExpression(string op, Object left, Object right)
         {
-            var leftValue = ((Integer)left).value;
-            var rightValue = ((Integer)right).value;
+            long leftValue;
+            long rightValue;
+
+            if (left is Boolean)
+            {
+                Boolean bl = (Boolean)left;
+                leftValue = bl.value == true ? 1 : 0;
+            }
+            else leftValue = ((Integer)left).value;
+
+
+            if (right is Boolean)
+            {
+                Boolean br = (Boolean)right;
+                rightValue = br.value == true ? 1 : 0;
+            }
+            else rightValue = ((Integer)right).value;
 
             if (op == TokenType.Plus)
             {
@@ -422,7 +443,7 @@ namespace MyInterpreter
 
             if (idx < 0 || idx > max)
             {
-                return NULL;
+                return new Error { message = $"index out of bounds: {idx}" };
             }
 
             return array.elements[(int)idx];
@@ -557,7 +578,15 @@ namespace MyInterpreter
 
         private static bool IsError(Object obj)
         {
-            return obj != null && obj.GetType() == typeof(Error);
+            bool isError = obj != null && obj.GetType() == typeof(Error);
+            
+            ///-------Here we change what happens when an error is detected, will change it later to halt interpretaion-----------///
+            if (isError)
+            {
+                Error error = (Error)obj;
+                Console.WriteLine(error.message);
+            }
+            return isError;
         }
     }
 }

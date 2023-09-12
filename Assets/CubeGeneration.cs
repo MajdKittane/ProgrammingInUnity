@@ -10,8 +10,8 @@ public class CubeGeneration : MonoBehaviour
     {
         for (int i=0; i<4; i++)
         {
-            Instantiate(cube, new Vector3(i*1.5f,0,0),false,this.transform);
-        }
+            //Instantiate(cube, new Vector3(i*1.5f,0,0),false,this.transform);
+        };
     }
 
     // Update is called once per frame
