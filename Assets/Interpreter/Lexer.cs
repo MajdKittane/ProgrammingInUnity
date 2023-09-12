@@ -15,7 +15,7 @@ namespace MyInterpreter
 
         public Lexer(string _input)
         {
-            this.input = _input;
+            this.input = _input.ToLower();
             this.ReadChar();
         }
 

@@ -169,8 +169,7 @@ namespace MyInterpreter
             else if (node is BooleanLiteral)
             {
                 BooleanLiteral bl = (BooleanLiteral)node;
-                Boolean b = new Boolean { value = bl.value };
-                return NativeBoolToBooleanObject(b.value);
+                return NativeBoolToBooleanObject(bl.value);
             }
             else if (node is ArrayLiteral)
             {
@@ -257,23 +256,31 @@ namespace MyInterpreter
 
         private static Object EvalLoopExpression(LoopExpression loopExpression, Environment env)
         {
-            while (true)
+            var condition = Eval(loopExpression.condition, env);
+            Object result = NULL;
+
+            if (IsError(condition))
             {
-                var condition = Eval(loopExpression.condition, env);
-                if (IsError(condition))
-                {
-                    return (Error)condition;
-                }
-                if (IsTruthy(condition))
-                {
-                    Object result = Eval(loopExpression.body, env);
-                    condition = Eval(loopExpression.condition, env);
-                    if (IsTruthy(condition)) continue;
-                    else return result;
-                }
-                else break;
+                return (Error)condition;
             }
-            return NULL;
+
+            if (condition is Integer i)
+            {
+                while (i.value > 0)
+                {
+                    result = Eval(loopExpression.body, env);
+                    i.value--;
+                }
+            }
+
+            if (condition is Boolean) { 
+                while (IsTruthy(condition))
+                {
+                        result = Eval(loopExpression.body, env);
+                        condition = Eval(loopExpression.condition, env);
+                }
+            }
+            return result;
         }
 
         private static Object EvalPrefixExpression(string op, Object right)

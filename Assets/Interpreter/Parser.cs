@@ -135,7 +135,6 @@ namespace MyInterpreter
             if (peekToken.tokenType == TokenType.LeftBracket)
             {
                 NextToken();
-                
             }
 
             if (!ExpectPeek(TokenType.Assign))

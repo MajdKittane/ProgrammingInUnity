@@ -11,7 +11,13 @@ namespace MyInterpreter
         static void Main(string[] args)
         {
 
-            var input = @"let x = !(true == true);
+            var input = @"let x = 5;
+let y = 5;
+loop(y>0)
+{
+let x = x*2;
+let y = y - 1;
+}
 ";
             /*var input2 = @"if ( 1 < 2)
 {
