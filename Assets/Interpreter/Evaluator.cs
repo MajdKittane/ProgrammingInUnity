@@ -303,7 +303,7 @@ namespace MyInterpreter
             {
                 return EvalIntegerInfixExpression(op, left, right);
             }
-            else if (op == TokenType.LessThan || op == TokenType.GreaterThan || op == TokenType.Equal || op == TokenType.NotEqual)
+            else if (op == TokenType.LessThanEqual || op == TokenType.GreaterThanEqual || op == TokenType.LessThan || op == TokenType.GreaterThan || op == TokenType.Equal || op == TokenType.NotEqual || op == TokenType.And || op == TokenType.Or)
             {
                 return NativeBoolToBooleanObject(((Boolean)EvalIntegerInfixExpression(op, left, right)).value);
             }
@@ -402,6 +402,14 @@ namespace MyInterpreter
             {
                 return new Boolean { value = leftValue > rightValue };
             }
+            else if (op == TokenType.LessThanEqual)
+            {
+                return new Boolean { value = leftValue <= rightValue };
+            }
+            else if (op == TokenType.GreaterThanEqual)
+            {
+                return new Boolean { value = leftValue >= rightValue };
+            }
             else if (op == TokenType.Equal)
             {
                 return new Boolean { value = leftValue == rightValue };
@@ -409,6 +417,14 @@ namespace MyInterpreter
             else if (op == TokenType.NotEqual)
             {
                 return new Boolean { value = leftValue != rightValue };
+            }
+            else if (op == TokenType.And)
+            {
+                return new Boolean { value = (leftValue != 0) && (rightValue != 0) };
+            }
+            else if (op == TokenType.Or)
+            {
+                return new Boolean { value = (leftValue != 0) || (rightValue != 0) };
             }
             else
             {

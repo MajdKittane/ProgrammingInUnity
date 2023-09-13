@@ -68,10 +68,28 @@ namespace MyInterpreter
                     tok = new Token(TokenType.Mod, "%");
                     break;
                 case (byte)'<':
-                    tok = new Token(TokenType.LessThan, "<");
+                    if (PeekChar() == '=')
+                    {
+                        character = (byte)(character + character);
+                        ReadChar();
+                        tok = new Token(TokenType.LessThanEqual, "<=");
+                    }
+                    else
+                    {
+                        tok = new Token(TokenType.LessThan, "<");
+                    }
                     break;
                 case (byte)'>':
-                    tok = new Token(TokenType.GreaterThan, ">");
+                    if (PeekChar() == '=')
+                    {
+                        character = (byte)(character + character);
+                        ReadChar();
+                        tok = new Token(TokenType.GreaterThanEqual, ">=");
+                    }
+                    else
+                    {
+                        tok = new Token(TokenType.GreaterThan, ">");
+                    }
                     break;
                 case (byte)',':
                     tok = new Token(TokenType.Comma, ",");
@@ -102,6 +120,30 @@ namespace MyInterpreter
                     break;
                 case (byte)'"':
                     tok = new Token(TokenType.str, ReadString());
+                    break;
+                case (byte)'&':
+                    if (PeekChar() == '&')
+                    {
+                        character = (byte)(character + character);
+                        ReadChar();
+                        tok = new Token(TokenType.And, "&&");
+                    }
+                    else
+                    {
+                        tok = new Token(TokenType.Illegal, "&");
+                    }
+                    break;
+                case (byte)'|':
+                    if (PeekChar() == '|')
+                    {
+                        character = (byte)(character + character);
+                        ReadChar();
+                        tok = new Token(TokenType.Or, "||");
+                    }
+                    else
+                    {
+                        tok = new Token(TokenType.Illegal, "|");
+                    }
                     break;
                 case 0:
                     tok = new Token(TokenType.EOF, "");

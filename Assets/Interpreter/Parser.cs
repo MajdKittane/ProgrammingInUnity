@@ -23,6 +23,7 @@ namespace MyInterpreter
         private enum Precedence
         {
             Lowest,
+            Logic,
             Equals,
             LessOrGreater,
             Sum,
@@ -34,10 +35,14 @@ namespace MyInterpreter
 
         private Dictionary<TokenType, Precedence> precedences = new Dictionary<TokenType, Precedence>()
         {
+            {TokenType.And,Precedence.Logic},
+            {TokenType.Or,Precedence.Logic},
             {TokenType.Equal,Precedence.Equals},
             {TokenType.NotEqual,Precedence.Equals},
             {TokenType.LessThan,Precedence.LessOrGreater},
             {TokenType.GreaterThan,Precedence.LessOrGreater},
+            {TokenType.LessThanEqual,Precedence.LessOrGreater},
+            {TokenType.GreaterThanEqual,Precedence.LessOrGreater},
             {TokenType.Plus,Precedence.Sum},
             {TokenType.Minus,Precedence.Sum},
             {TokenType.Slash,Precedence.Product},
@@ -78,6 +83,10 @@ namespace MyInterpreter
             RegisterInfix(TokenType.NotEqual, ParseInfixExpression);
             RegisterInfix(TokenType.LessThan, ParseInfixExpression);
             RegisterInfix(TokenType.GreaterThan, ParseInfixExpression);
+            RegisterInfix(TokenType.LessThanEqual, ParseInfixExpression);
+            RegisterInfix(TokenType.GreaterThanEqual, ParseInfixExpression);
+            RegisterInfix(TokenType.And, ParseInfixExpression);
+            RegisterInfix(TokenType.Or, ParseInfixExpression);
             RegisterInfix(TokenType.LeftParen, ParseCallExpression);
             RegisterInfix(TokenType.LeftBracket, ParseIndexExpression);
 
@@ -561,7 +570,7 @@ namespace MyInterpreter
 
         private void PeekError(TokenType type)
         {
-            errors.Add($"Expected next token to be {type}, got {peekToken.tokenType} instead.");
+            errors.Add($"Expected next token to be {type.value}, got {peekToken.tokenType.value} instead.");
         }
     }
 }

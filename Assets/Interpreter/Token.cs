@@ -41,13 +41,15 @@ namespace MyInterpreter
 
 	public class TokenType
 	{
-		readonly string value;
+		public readonly string value;
 		TokenType(string tok) { this.value = tok; }
 		public static implicit operator string(TokenType tok) { return tok.value; }
 		public static implicit operator TokenType(string v) { return new TokenType(v); }
 
 
-		public static readonly TokenType Illegal = "Illegal",
+		public static readonly TokenType
+
+					Illegal = "Illegal",
 					EOF = "EOF",
 
 
@@ -68,7 +70,11 @@ namespace MyInterpreter
 
 					LessThan = "<",
 					GreaterThan = ">",
+					LessThanEqual = "<=",
+					GreaterThanEqual = ">=",
 
+					And = "&&",
+					Or = "||",
 
 					Comma = ",",
 					Semicolon = ";",
