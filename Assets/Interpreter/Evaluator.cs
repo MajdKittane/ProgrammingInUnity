@@ -54,7 +54,23 @@ namespace MyInterpreter
                     Error error = (Error)val;
                     return error;
                 }
-                env.Set(letStatement.name.value, val);
+                if (letStatement.index == null) env.Set(letStatement.name.value, val);
+                else
+                {
+                    if (!(env.Get(letStatement.name.value) is Array))
+                    {
+                        return (Error) val;
+                    }
+                    var index = Eval(letStatement.index, env);
+                    if (IsError(index))
+                    {
+                        return (Error) index;
+                    }
+                    Integer idx = (Integer)index;
+                    Array arr = (Array) env.Get(letStatement.name.value);
+                    arr.elements[(int)idx.value] = val;
+                    env.Set(letStatement.name.value,arr);
+                }
             }
             else if (node is IfExpression)
             {

@@ -141,6 +141,17 @@ namespace MyInterpreter
 
             statement.name = new Identifier { token = currentToken, value = currentToken.literal };
 
+            if (peekToken.tokenType == TokenType.LeftBracket)
+            {
+                NextToken();
+                NextToken();
+                statement.index = ParseExpression((int)Precedence.Lowest);
+                if (!ExpectPeek(TokenType.RightBracket))
+                {
+                    return null;
+                }
+            }
+
             if (!ExpectPeek(TokenType.Assign))
             {
                 return null;
@@ -154,6 +165,7 @@ namespace MyInterpreter
                 NextToken();
             }
 
+            //Console.WriteLine(statement.ToString());
             return statement;
 
         }

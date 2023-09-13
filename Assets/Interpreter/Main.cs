@@ -11,15 +11,9 @@ namespace MyInterpreter
         static void Main(string[] args)
         {
 
-            var input = @"let fib = fn(x)
-{
-if (x==1 || x == 2)
-{
-return x-1;
-}
-return fib(x-1) + fib(x-2);
-};
-let z = fib(9);
+            var input = @"let x = [1,2];
+let x[1]=3;
+
 ";
             /*var input2 = @"if ( 1 < 2)
 {

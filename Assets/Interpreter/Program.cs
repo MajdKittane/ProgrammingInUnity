@@ -71,6 +71,7 @@ namespace MyInterpreter
     {
         public Token token { get; set; }
         public Identifier name { get; set; }
+        public Expression index { get; set; }
         public Expression value { get; set; }
 
         public void statementNode() { }
@@ -83,6 +84,10 @@ namespace MyInterpreter
 
             output += TokenLiteral() + " ";
             output += name.ToString();
+            if (index != null)
+            {
+                output += "["+index.ToString()+"]";
+            }
             output += " = ";
 
             if (value != null)
@@ -375,7 +380,7 @@ namespace MyInterpreter
             string output = "";
 
             List<string> elems = new List<string>();
-            foreach (Identifier element in elements)
+            foreach (Expression element in elements)
             {
                 elems.Add(element.ToString());
             }
