@@ -149,7 +149,8 @@ namespace MyInterpreter
                 FunctionLiteral fn = (FunctionLiteral)node;
                 var _parameters = fn.parameters;
                 var _body = fn.body;
-                return new Function { parameters = _parameters, body = _body };
+                var _env = env;
+                return new Function { parameters = _parameters, body = _body, env = _env };
             }
             else if (node is IntegerLiteral)
             {

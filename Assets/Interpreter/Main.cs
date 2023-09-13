@@ -11,13 +11,19 @@ namespace MyInterpreter
         static void Main(string[] args)
         {
 
-            var input = @"let x = 5;
-let y = 5;
-loop(y>0)
+            var input = @"let fib = fn(x)
 {
-let x = x*2;
-let y = y - 1;
+if (x<2)
+{
+return 0;
 }
+if (x==2)
+{
+return 1;
+}
+return fib(x-1) + fib(x-2);
+};
+let z = fib(9);
 ";
             /*var input2 = @"if ( 1 < 2)
 {
@@ -47,14 +53,10 @@ let x = 0;
             foreach (var v in env.store.Keys)
             {
                 Console.WriteLine(v + "\t" + env.store[v].Inspect());
-
-
             }
             foreach (var v in parser.errors)
             {
                 Console.WriteLine(v);
-
-
             }
             
 

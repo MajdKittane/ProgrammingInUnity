@@ -30,7 +30,7 @@ namespace MyInterpreter
             Prefix,
             Call,
             Index
-        }
+        };
 
         private Dictionary<TokenType, Precedence> precedences = new Dictionary<TokenType, Precedence>()
         {
@@ -131,11 +131,6 @@ namespace MyInterpreter
             }
 
             statement.name = new Identifier { token = currentToken, value = currentToken.literal };
-
-            if (peekToken.tokenType == TokenType.LeftBracket)
-            {
-                NextToken();
-            }
 
             if (!ExpectPeek(TokenType.Assign))
             {
