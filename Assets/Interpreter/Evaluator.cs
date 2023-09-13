@@ -614,7 +614,7 @@ namespace MyInterpreter
             return value ? TRUE : FALSE;
         }
 
-        private static readonly Dictionary<string, Builtin> builtins = new Dictionary<string, Builtin>();
+        private static readonly Dictionary<string, Builtin> builtins = Builtins.builtins;
 
         private static bool IsError(Object obj)
         {

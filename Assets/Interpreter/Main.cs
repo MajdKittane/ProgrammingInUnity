@@ -11,8 +11,13 @@ namespace MyInterpreter
         static void Main(string[] args)
         {
 
-            var input = @"let x = [1,2];
-let x[1]=3;
+            var input = @"let arr = [40,50,60,70,80,90,100];
+let i = 0;
+loop(i<7)
+{
+out(arr[i]);
+let i = i + 1;
+}
 
 ";
             /*var input2 = @"if ( 1 < 2)
@@ -27,14 +32,14 @@ let x = 0;
 }
 }
 ";*/
-            Console.WriteLine(input);
+            //Console.WriteLine(input);
             var lexer = new Lexer(input);
             var parser = new Parser(lexer);
             var program = parser.ParseProgram();
 
             foreach (var v in program.statements)
             {
-                Console.WriteLine(v.ToString());
+                //Console.WriteLine(v.ToString());
             }
 
 
@@ -42,11 +47,11 @@ let x = 0;
             Evaluator.Eval(program, env);
             foreach (var v in env.store.Keys)
             {
-                Console.WriteLine(v + "\t" + env.store[v].Inspect());
+              //  Console.WriteLine(v + "\t" + env.store[v].Inspect());
             }
             foreach (var v in parser.errors)
             {
-                Console.WriteLine(v);
+                //Console.WriteLine(v);
             }
             
 
