@@ -5,12 +5,13 @@ using MyInterpreter;
 
 public class Interpreter : MonoBehaviour
 {
+    public GameObject prefab;
     [SerializeField]
     TMPro.TMP_InputField code;
     [SerializeField]
     GameObject outputTransform;
     bool done = false;
-    int scale = 1;
+    int num = 0;
     Vector3 end;
     float elapsedTime = 0f;
     // Start is called before the first frame update
@@ -23,29 +24,24 @@ public class Interpreter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (done)
-        {
-            elapsedTime += Time.deltaTime;
-            float p = elapsedTime / 5;
-            outputTransform.transform.localScale = Vector3.Lerp(new Vector3(1,1,1),end,p);
-            if (outputTransform.transform.localScale == end) done = false;
-        }
+        
     }
 
     public void RunCode()
     {
         done = false;
         elapsedTime = 0f;
-        scale = 1;
         var lexer = new Lexer(code.text);
         var parser = new Parser(lexer);
         var program = parser.ParseProgram();
         Environment env = new Environment();
         Evaluator.Eval(program, env);
 
-        scale = int.Parse(env.store["out"].Inspect());
+        num = int.Parse(env.store["num"].Inspect());
         done = true;
-        end = new Vector3(scale,scale,scale);
-        
+        for (int i = 0; i<num; i++)
+        {
+            Instantiate(prefab, new Vector3(0f, 100f, 0f), Quaternion.identity);
+        }
     }
 }
