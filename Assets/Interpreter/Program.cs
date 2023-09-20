@@ -71,7 +71,7 @@ namespace MyInterpreter
     {
         public Token token { get; set; }
         public Identifier name { get; set; }
-        public Expression index { get; set; }
+        public List<Expression> index { get; set; }
         public Expression value { get; set; }
 
         public void statementNode() { }
@@ -86,7 +86,10 @@ namespace MyInterpreter
             output += name.ToString();
             if (index != null)
             {
-                output += "["+index.ToString()+"]";
+                foreach(var idx in index)
+                {
+                    output += "[" + idx.ToString() + "]";
+                }
             }
             output += " = ";
 

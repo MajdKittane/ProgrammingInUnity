@@ -11,14 +11,10 @@ namespace MyInterpreter
         static void Main(string[] args)
         {
 
-            var input = @"let arr = [40,50,60,70,80,90,100];
-let i = 0;
-loop(i<7)
-{
-out(arr[i]);
-let i = i + 1;
-}
-
+            var input = @"let x = [[1,2,3],[3,2,1]];
+out(x);
+let x[0][0]=66;
+out (x);
 ";
             /*var input2 = @"if ( 1 < 2)
 {
@@ -47,7 +43,7 @@ let x = 0;
             Evaluator.Eval(program, env);
             foreach (var v in env.store.Keys)
             {
-              //  Console.WriteLine(v + "\t" + env.store[v].Inspect());
+                //Console.WriteLine(v + "\t" + env.store[v].Inspect());
             }
             foreach (var v in parser.errors)
             {

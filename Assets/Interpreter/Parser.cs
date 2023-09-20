@@ -132,7 +132,7 @@ namespace MyInterpreter
 
         private LetStatement ParseLetStatement()
         {
-            LetStatement statement = new LetStatement { token = currentToken };
+            LetStatement statement = new LetStatement { token = currentToken, index = new List<Expression>() };
 
             if (!ExpectPeek(TokenType.Identifier))
             {
@@ -141,15 +141,17 @@ namespace MyInterpreter
 
             statement.name = new Identifier { token = currentToken, value = currentToken.literal };
 
-            if (peekToken.tokenType == TokenType.LeftBracket)
+            while (peekToken.tokenType == TokenType.LeftBracket)
             {
                 NextToken();
                 NextToken();
-                statement.index = ParseExpression((int)Precedence.Lowest);
+                statement.index.Add(ParseExpression((int)Precedence.Lowest));
+
                 if (!ExpectPeek(TokenType.RightBracket))
                 {
                     return null;
                 }
+
             }
 
             if (!ExpectPeek(TokenType.Assign))

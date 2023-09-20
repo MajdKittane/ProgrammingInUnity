@@ -54,22 +54,31 @@ namespace MyInterpreter
                     Error error = (Error)val;
                     return error;
                 }
-                if (letStatement.index == null) env.Set(letStatement.name.value, val);
+                if (letStatement.index.Count == 0) env.Set(letStatement.name.value, val);
                 else
                 {
                     if (!(env.Get(letStatement.name.value) is Array))
                     {
                         return (Error) val;
                     }
-                    var index = Eval(letStatement.index, env);
-                    if (IsError(index))
+                    List<Object> index = new List<Object>();
+                    List<Integer> idx = new List<Integer>();
+                    foreach (Expression indx in letStatement.index)
                     {
-                        return (Error) index;
+                        index.Add(Eval(indx, env));
+                        if (IsError(index[index.Count-1]))
+                        {
+                            return (Error)(index[index.Count - 1]);
+                        }
+                        idx.Add((Integer)(index[index.Count - 1]));
                     }
-                    Integer idx = (Integer)index;
-                    Array arr = (Array) env.Get(letStatement.name.value);
-                    arr.elements[(int)idx.value] = val;
-                    env.Set(letStatement.name.value,arr);
+                    Array OriginalArray = (Array)env.Get(letStatement.name.value) , arr = OriginalArray;
+                    for (int i = 0; i<idx.Count-1; i++)
+                    {
+                        arr = (Array)arr.elements[(int)idx[i].value];
+                    }
+                    arr.elements[(int)idx[idx.Count-1].value] = val;
+                    env.Set(letStatement.name.value,OriginalArray);
                 }
             }
             else if (node is IfExpression)
