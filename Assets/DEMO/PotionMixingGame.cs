@@ -60,6 +60,10 @@ public class PotionMixingGame : Interpreter
                 spawnedObjects[id].GetComponentInChildren<TMPro.TextMeshPro>().text = id + " = " + ((Integer)(nextEnv.store[id])).value;
                 nextPlace += new Vector3(3f, 0f, 0f);
             }
+            else
+            {
+                
+            }
         }
     }
     bool CheckLetStatements(List<Statement> statements)
