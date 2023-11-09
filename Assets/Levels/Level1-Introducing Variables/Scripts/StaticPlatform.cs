@@ -19,7 +19,7 @@ public class StaticPlatform : MonoBehaviour
     void Start()
     {
         env = new Environment();
-        env.Set("run", new Integer { value = 1 });
+        env.Set("h", new Integer { value = 1 });
     }
 
     // Update is called once per frame
@@ -38,6 +38,6 @@ public class StaticPlatform : MonoBehaviour
         Parser parser = new Parser(lexer);
         Program p = parser.ParseProgram();
         Evaluator.Eval(p, env);
-        size = ((Integer)env.store["run"]).value;
+        size = ((Integer)env.store["h"]).value;
     }
 }
