@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MachineLogic : MonoBehaviour
 {
+    [SerializeField] bool useTestInput;
+    [TextArea(3, 10)] [SerializeField] string testInput;
     [SerializeField] TMPro.TextMeshProUGUI[] cubesColors;
     [SerializeField] ColoredCubeSpawner spawner;
     [SerializeField] int[] slicesPerColor = new int[3];
@@ -89,7 +91,7 @@ public class MachineLogic : MonoBehaviour
     {
         rotating = true;
         Debug.LogWarning("TESTCASE");
-        Lexer lexer = new Lexer(input.text);
+        Lexer lexer = new Lexer(useTestInput?testInput:input.text);
         Program prog = new Parser(lexer).ParseProgram();
         env = new Environment();
         env.store.Add("cube",new Integer{value=materialIndex});

@@ -21,6 +21,7 @@ public class Pickup : MonoBehaviour
             if (objectToPickup != null && pickedObject == null)
             {
                 pickedObject = objectToPickup;
+                objectToPickup = null;
                 pickedObject.GetComponent<Rigidbody>().isKinematic = true;
                 pickedObject.GetComponent<Collider>().enabled = false;
                 pickedObject.transform.parent = pickupPoint;
@@ -38,9 +39,17 @@ public class Pickup : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.GetComponent<Rigidbody>() && other.gameObject.tag != "Player")
+        if (other.gameObject.GetComponent<ColoredCube>())
         {
             objectToPickup = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<ColoredCube>())
+        {
+            objectToPickup = null;
         }
     }
 }

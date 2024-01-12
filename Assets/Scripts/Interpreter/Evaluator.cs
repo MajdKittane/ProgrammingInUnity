@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyInterpreter
 {
+    public interface Observer
+    {
+        void OnLoopIterationEnd();
+    }
+
     public static class Evaluator
     {
         private const string unknownOperatorError = "unknown operator";
@@ -17,8 +23,11 @@ namespace MyInterpreter
         private static readonly Object TRUE = new Boolean { value = true };
         private static readonly Object FALSE = new Boolean { value = false };
 
-        public static Object Eval(Node node, Environment env)
+        public static Observer observer = null;
+
+        public static Object Eval(Node node, Environment env, Observer _observer = null)
         {
+            if (observer == null) observer = _observer;
             if (node is Program)
             {
                 Program program = (Program)node;
@@ -296,19 +305,22 @@ namespace MyInterpreter
                 {
                     result = Eval(loopExpression.body, env);
                     i.value--;
+                    observer.OnLoopIterationEnd();
+
                 }
             }
 
             if (condition is Boolean) { 
                 while (IsTruthy(condition))
                 {
-                        result = Eval(loopExpression.body, env);
-                        condition = Eval(loopExpression.condition, env);
+                    result = Eval(loopExpression.body, env);
+                    condition = Eval(loopExpression.condition, env);
+                    observer.OnLoopIterationEnd();
                 }
             }
+
             return result;
         }
-
         private static Object EvalPrefixExpression(string op, Object right)
         {
             if (op == TokenType.Bang)

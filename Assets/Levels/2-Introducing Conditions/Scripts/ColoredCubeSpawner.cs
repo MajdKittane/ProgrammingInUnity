@@ -8,18 +8,13 @@ public class ColoredCubeSpawner : MonoBehaviour
     [SerializeField] public int[] cubesPerColor = new int[3];
     [SerializeField] GameObject prefab;
     [SerializeField] Transform spawnPoint;
+    [SerializeField] float delay = 0f;
+    public List<GameObject> spawnedCubes;
+    public bool isSpawning = true;
     // Start is called before the first frame update
     void Start()
     {
-        float d = 0f;
-        for(int i = 0; i<3; i++)
-        {
-            for (int j=0; j<cubesPerColor[i]; j++)
-            {
-                d += 0.5f;
-                StartCoroutine(CubeSpawn(i,d));
-            }
-        }
+        
     }
 
     // Update is called once per frame
@@ -28,10 +23,52 @@ public class ColoredCubeSpawner : MonoBehaviour
         
     }
 
-    public IEnumerator CubeSpawn(int material, float delay)
+    public IEnumerator CubeSpawn(int material, float delay, bool useList = false)
     {
         yield return new WaitForSeconds(delay);
-        GameObject smallcube = Instantiate(prefab, spawnPoint.transform.position, Quaternion.Euler(Random.Range(0f, 90f), Random.Range(0f, 90f), Random.Range(0f, 90f)));
-        smallcube.GetComponent<MeshRenderer>().material = materials.materials[material];
+        GameObject cube = Instantiate(prefab, spawnPoint.transform.position, Quaternion.Euler(Random.Range(0f, 90f), Random.Range(0f, 90f), Random.Range(0f, 90f)));
+        cube.GetComponent<MeshRenderer>().material = materials.materials[material];
+        if (useList)
+        {
+            spawnedCubes.Add(cube);
+        }
+    }
+
+    public IEnumerator DoneSpawning(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isSpawning = false;
+    }
+
+    public void StartSpawning(bool useList = false)
+    {
+        isSpawning = true;
+
+        float d = 0f;
+
+        for (int j = 0; j < cubesPerColor[0]; j++)
+        {
+            d += delay;
+            StartCoroutine(CubeSpawn(0, d,useList));
+        }
+
+        d = 0.1f;
+
+        for (int j = 0; j < cubesPerColor[1]; j++)
+        {
+            d += delay;
+            StartCoroutine(CubeSpawn(1, d, useList));
+        }
+
+        d = 0.2f;
+
+        for (int j = 0; j < cubesPerColor[2]; j++)
+        {
+            d += delay;
+            StartCoroutine(CubeSpawn(2, d, useList));
+        }
+
+        StartCoroutine(DoneSpawning(d));
+
     }
 }
