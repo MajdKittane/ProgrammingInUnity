@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyInterpreter;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 public class Robot : MonoBehaviour, Observer
 {
-    [SerializeField] long cubeTest = 0;
     [SerializeField] bool useTestInput;
     [TextArea(3, 10)] [SerializeField] string testInput;
     [SerializeField] MaterialIndexing materials;
@@ -20,25 +20,31 @@ public class Robot : MonoBehaviour, Observer
     [SerializeField] Transform dropPos;
     [SerializeField] GameObject smallCubePrefab;
     [SerializeField] float spawnDelay;
-    int[] results = { 0, 0, 0 };
-    bool isPicking = false;
+    [SerializeField] GameObject winUI;
+    [SerializeField] GameObject loseUI;
+    [SerializeField] string nextLevel;
+    public int[] results = { 0, 0, 0 };
     bool isHolding = false;
     bool isHeld = false;
     bool isMoving = false;
     bool hasMoved = false;
     bool isSlicing = false;
-    bool noCubes = false;
-    int nextCube = 0;
+    public bool noCubes = false;
+    public int nextCube = 0;
+    public int nextCubeColor = 0;
     Environment env;
     Thread thread;
-
-
+    public int[] called = { 0,0,0};
+    int nextSlices;
 
     bool running = false;
     bool ran = false;
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         thread = new Thread(Run);
         env = new Environment();
         spawner.StartSpawning(true);
@@ -53,13 +59,11 @@ public class Robot : MonoBehaviour, Observer
     // Update is called once per frame
     void Update()
     {
-
-        if (env.Get("test") != null) cubeTest = ((Integer)env.Get("test")).value;
-
-        if (!running && Input.GetKeyDown(KeyCode.Q)) running = true;
+        if (!running && Input.GetKeyDown(KeyCode.F)) running = true;
         if (running && !ran)
         {
             ran = true;
+            button.GetComponent<MeshRenderer>().material = materials.materials[1];
             thread.Start();
         }
 
@@ -68,15 +72,16 @@ public class Robot : MonoBehaviour, Observer
         {
             spawnedCubes = spawner.isSpawning ? null : spawner.spawnedCubes;
 
-            if (spawnedCubes.Count > 0)
+            if (spawnedCubes != null)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     slices[i] = spawner.cubesPerColor[i] * slicesPerColor[i];
                 }
-                isPicking = true;
             }
         }
+
+        
 
         if (isHolding && !isHeld)
         {
@@ -96,28 +101,35 @@ public class Robot : MonoBehaviour, Observer
 
         if (isSlicing)
         {
-            int i = 0;
-            for (; i <= 2; i++)
-            {
-                if (spawnedCubes[nextCube].gameObject.GetComponent<MeshRenderer>().material.color.Equals(materials.materials[i].color))
-                {
-                    break;
-                }
-            }
-
-            int slices = (int)((Integer)env.Get("slices")).value;
+             
             float d = 0f;
-            for (int j = 1; j<=slices; j++)
+            for (int j = 1; j<=nextSlices; j++)
             {
                 d += spawnDelay;
-                StartCoroutine(SmallCubeSpawn(i, d));
+                Debug.LogWarning(nextCubeColor + "\t" + j);
+                StartCoroutine(SmallCubeSpawn(nextCubeColor, d));
             }
             isHolding = false;
             isMoving = false;
             isHeld = false;
             hasMoved = false;
             isSlicing = false;
-            StartCoroutine(DestroyCube(spawnedCubes[nextCube], d));
+            called[nextCubeColor]++;
+            StartCoroutine(DestroyCube(spawnedCubes[nextCube], d+spawnDelay));
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (spawner.cubesPerColor[i] != 0)
+            {
+                return;
+            }
+        }
+        noCubes = true;
+
+        if (noCubes)
+        {
+            CheckRemainingCubes();
         }
     }
 
@@ -126,10 +138,13 @@ public class Robot : MonoBehaviour, Observer
         
         Lexer lexer = new Lexer(useTestInput ? testInput : input.text);
         Program prog = new Parser(lexer).ParseProgram();
+        env.Set("n",new Integer { value = spawnedCubes.Count });
+        env.Set("cube", new Integer { value = nextCubeColor });
         Evaluator.Eval(prog, env, this);
     }
     void Observer.OnLoopIterationEnd()
     {
+        nextSlices = (int)((Integer)env.Get("slices")).value;
         isHolding = true;
         Thread.Sleep(100);
         isMoving = true;
@@ -146,6 +161,7 @@ public class Robot : MonoBehaviour, Observer
         catch (ThreadInterruptedException)
         {
             nextCube++;
+            env.Set("cube", new Integer { value = nextCubeColor });
         }
         
         
@@ -169,14 +185,75 @@ public class Robot : MonoBehaviour, Observer
 
     void CubeDestroyPost()
     {
+        spawner.cubesPerColor[nextCubeColor]--;
+        if (nextCube+1 < spawnedCubes.Count)
+        {
+            for (int i = 0; i <= 2; i++)
+            {
+                if (spawnedCubes[nextCube+1].gameObject.GetComponent<MeshRenderer>().material.color.Equals(materials.materials[i].color))
+                {
+                    nextCubeColor = i;
+                }
+            }
+        }
         thread.Interrupt();
+    }
+
+    void CheckResult()
+    {
         for (int i = 0; i < 3; i++)
         {
-            if (spawner.cubesPerColor[i] != 0)
+            if (results[i] != slices[i])
             {
+                Lose();
                 return;
             }
         }
-        noCubes = true;
+        Win();
+    }
+
+    void Win()
+    {
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        winUI.transform.root.gameObject.SetActive(true);
+        winUI.SetActive(true);
+        loseUI.SetActive(false);
+    }
+
+    void Lose()
+    {
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        loseUI.transform.root.gameObject.SetActive(true);
+        loseUI.SetActive(true);
+        winUI.SetActive(false);
+    }
+
+    void CheckRemainingCubes()
+    {
+
+        if (FindObjectsOfType<ColoredCube>().Length == 0)
+        {
+            CheckResult();
+        }
+    }
+
+    public void Retry()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void NextLevel()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SceneManager.LoadScene(nextLevel);
     }
 }

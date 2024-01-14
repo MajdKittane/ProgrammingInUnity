@@ -471,7 +471,6 @@ GameObject:
   - component: {fileID: 87466323}
   - component: {fileID: 87466326}
   - component: {fileID: 87466325}
-  - component: {fileID: 87466324}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -494,19 +493,6 @@ Transform:
   m_Father: {fileID: 1578495256}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &87466324
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87466322}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &87466325
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1847,7 +1833,6 @@ GameObject:
   - component: {fileID: 536858509}
   - component: {fileID: 536858512}
   - component: {fileID: 536858511}
-  - component: {fileID: 536858510}
   m_Layer: 0
   m_Name: Eye
   m_TagString: Untagged
@@ -1870,19 +1855,6 @@ Transform:
   m_Father: {fileID: 1578495256}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &536858510
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 536858508}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &536858511
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2072,6 +2044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 641270445}
   - component: {fileID: 641270444}
+  - component: {fileID: 641270446}
   m_Layer: 0
   m_Name: LevelUI
   m_TagString: Untagged
@@ -2110,6 +2083,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &641270446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641270443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1f7616b7f603549886c0644764de64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiObject: {fileID: 641270443}
 --- !u!1 &641597027
 GameObject:
   m_ObjectHideFlags: 0
@@ -3824,9 +3810,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 641270443}
+      - m_Target: {fileID: 641270446}
         m_TargetAssemblyTypeName: LevelLogic, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: SaveCode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3958,8 +3944,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MachineLogic, Assembly-CSharp
+      - m_Target: {fileID: 1578495257}
+        m_TargetAssemblyTypeName: Robot, Assembly-CSharp
         m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
@@ -4164,23 +4150,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Generate Small Cubes
-
-
-    The SmallCube/BigCube ratio is shown at the
-    colored boxes above the machine.
-
-
-    Input:
-
-    cube, 0=Red, 1=Green, 2=Blue.
-
-
-
-    Output:
-
-    slices
-    = ratio for the current cube based on its color.'
+  m_text: "Program the Robot to generate small cubes\n\nWith big number of cubes
+    it will take long time using the normal maching to produce small cubes. Instead,
+    a robot will be used.\n\n The robot does not take time travelling and produces
+    small cubes faster.\nThe SmallCube/BigCube ratio is shown at the colored boxes
+    above the Robot.\n\nInput:\ncube, 0=Red, 1=Green, 2=Blue.\nn = number of cubes\n\n\nOutput:\nslices
+    = ratio for the current cube based on its color."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4207,8 +4182,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5019,23 +4994,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a37457b10fa786439b66e1a884dc7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeTest: 0
-  useTestInput: 1
-  testInput: 'let test = 0;
-
-    loop(150)
+  useTestInput: 0
+  testInput: 'loop(n)
 
     {
 
-    let test = test + 1;
+    if (cube == 0)
+
+    {
+
+    let slices = 9;
+
+    }
+
+    if
+    (cube == 1)
+
+    {
+
+    let slices = 9;
+
+    }
+
+    if (cube == 2)
+
+    {
 
     let
-    slices = 3;
+    slices = 9;
+
+    }
 
     }'
   materials: {fileID: 11400000, guid: 86ae5925f1df8ba4d8acfee5536e0206, type: 2}
   button: {fileID: 1696169981}
-  input: {fileID: 0}
+  input: {fileID: 291134295}
   cubesColors:
   - {fileID: 1517678255}
   - {fileID: 139884985}
@@ -5047,6 +5040,14 @@ MonoBehaviour:
   dropPos: {fileID: 709423140}
   smallCubePrefab: {fileID: 389444499142982401, guid: 87bab8fea62a3d045b439196832e626e, type: 3}
   spawnDelay: 0.05
+  winUI: {fileID: 988460987}
+  loseUI: {fileID: 667155180}
+  nextLevel: Level3-Introducing Loops
+  results: 000000000000000000000000
+  noCubes: 0
+  nextCube: 0
+  nextCubeColor: 0
+  called: 000000000000000000000000
 --- !u!1 &1581532291
 GameObject:
   m_ObjectHideFlags: 3
@@ -5408,8 +5409,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MachineLogic, Assembly-CSharp
+      - m_Target: {fileID: 1578495257}
+        m_TargetAssemblyTypeName: Robot, Assembly-CSharp
         m_MethodName: Retry
         m_Mode: 1
         m_Arguments:
@@ -5500,7 +5501,6 @@ GameObject:
   - component: {fileID: 1696169985}
   - component: {fileID: 1696169984}
   - component: {fileID: 1696169983}
-  - component: {fileID: 1696169982}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -5508,19 +5508,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1696169982
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696169981}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1696169983
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6102,7 +6089,6 @@ GameObject:
   - component: {fileID: 1794563365}
   - component: {fileID: 1794563368}
   - component: {fileID: 1794563367}
-  - component: {fileID: 1794563366}
   m_Layer: 0
   m_Name: Arm_L
   m_TagString: Untagged
@@ -6125,19 +6111,6 @@ Transform:
   m_Father: {fileID: 1578495256}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1794563366
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794563364}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1794563367
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6725,7 +6698,6 @@ GameObject:
   - component: {fileID: 2067069716}
   - component: {fileID: 2067069719}
   - component: {fileID: 2067069718}
-  - component: {fileID: 2067069717}
   m_Layer: 0
   m_Name: Eye2
   m_TagString: Untagged
@@ -6748,19 +6720,6 @@ Transform:
   m_Father: {fileID: 1578495256}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2067069717
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067069715}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2067069718
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6949,7 +6908,6 @@ GameObject:
   - component: {fileID: 2072405839}
   - component: {fileID: 2072405842}
   - component: {fileID: 2072405841}
-  - component: {fileID: 2072405840}
   m_Layer: 0
   m_Name: Arm_R
   m_TagString: Untagged
@@ -6972,19 +6930,6 @@ Transform:
   m_Father: {fileID: 1578495256}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2072405840
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072405838}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2072405841
 MeshRenderer:
   m_ObjectHideFlags: 0
