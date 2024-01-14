@@ -10,6 +10,10 @@ namespace MyInterpreter
     public interface Observer
     {
         void OnLoopIterationEnd();
+        void OnLoopEnd();
+        void OnLetStatement();
+        void OnBlockEnd();
+
     }
 
     public static class Evaluator
@@ -89,6 +93,7 @@ namespace MyInterpreter
                     arr.elements[(int)idx[idx.Count-1].value] = val;
                     env.Set(letStatement.name.value,OriginalArray);
                 }
+                observer.OnLetStatement();
             }
             else if (node is IfExpression)
             {
@@ -262,10 +267,12 @@ namespace MyInterpreter
                     Type rt = result.GetType();
                     if (rt == typeof(ReturnValue) || rt == typeof(Error))
                     {
+                        observer.OnBlockEnd();
                         return result;
                     }
                 }
             }
+            observer.OnBlockEnd();
             return result;
         }
 
@@ -319,6 +326,7 @@ namespace MyInterpreter
                 }
             }
 
+            observer.OnLoopEnd();
             return result;
         }
         private static Object EvalPrefixExpression(string op, Object right)

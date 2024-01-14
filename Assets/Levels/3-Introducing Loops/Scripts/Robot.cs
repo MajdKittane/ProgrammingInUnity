@@ -256,4 +256,19 @@ public class Robot : MonoBehaviour, Observer
         Cursor.visible = false;
         SceneManager.LoadScene(nextLevel);
     }
+
+    void Observer.OnLetStatement()
+    {
+        return;
+    }
+
+    void Observer.OnBlockEnd()
+    {
+        return;
+    }
+
+    public void OnLoopEnd()
+    {
+        return;
+    }
 }
