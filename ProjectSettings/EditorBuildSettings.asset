@@ -17,4 +17,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/2-Introducing Conditions/Level2-Introducing Conditions.unity
     guid: bc8debded2987824bbec51f48681ee26
+  - enabled: 1
+    path: Assets/Levels/5-Introducing Matrices/Level5-Introducing Matrices.unity
+    guid: 20935b88f7e98014daf934efeee3737d
+  - enabled: 1
+    path: Assets/Levels/4-Introducing Arrays/Level4-Introducing Arrays.unity
+    guid: e67cbaa16e5ef2945a9ecd6652b772e5
+  - enabled: 1
+    path: Assets/Levels/3-Introducing Loops/Level3-Introducing Loops.unity
+    guid: b50ba31c050fa75479308bd01e57e106
+  - enabled: 1
+    path: Assets/Levels/1-Introducing Variables/Level1-Introducing Variables.unity
+    guid: f1eccea40812a71488c59794ba0da9fd
   m_configObjects: {}

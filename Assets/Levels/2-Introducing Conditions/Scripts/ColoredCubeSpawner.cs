@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ColoredCubeSpawner : MonoBehaviour
 {
-    [SerializeField] MaterialIndexing materials;
+    public Color[] colors = { Color.red, Color.green, Color.blue };
     [SerializeField] public int[] cubesPerColor = new int[3];
     [SerializeField] GameObject prefab;
     [SerializeField] Transform spawnPoint;
@@ -23,11 +23,11 @@ public class ColoredCubeSpawner : MonoBehaviour
         
     }
 
-    public IEnumerator CubeSpawn(int material, float delay, bool useList = false)
+    public IEnumerator CubeSpawn(int colorIndex, float delay, bool useList = false)
     {
         yield return new WaitForSeconds(delay);
         GameObject cube = Instantiate(prefab, spawnPoint.transform.position, Quaternion.Euler(Random.Range(0f, 90f), Random.Range(0f, 90f), Random.Range(0f, 90f)));
-        cube.GetComponent<MeshRenderer>().material = materials.materials[material];
+        cube.GetComponent<MeshRenderer>().material.color=colors[colorIndex];
         if (useList)
         {
             spawnedCubes.Add(cube);

@@ -3,70 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyInterpreter;
 using System.Threading;
-using UnityEngine.SceneManagement;
 
-public class Robot : MonoBehaviour, Observer
+public class Robot : IPuzzleLogic, Observer
 {
-    [SerializeField] bool useTestInput;
-    [TextArea(3, 10)] [SerializeField] string testInput;
-    [SerializeField] MaterialIndexing materials;
-    [SerializeField] GameObject button;
-    [SerializeField] TMPro.TextMeshProUGUI input;
-    [SerializeField] TMPro.TextMeshProUGUI[] cubesColors;
-    public int[] slices = new int[3];
-    [SerializeField] ColoredCubeSpawner spawner;
-    [SerializeField] int[] slicesPerColor = new int[3];
-    public List<GameObject> spawnedCubes = null;
-    [SerializeField] Transform dropPos;
-    [SerializeField] GameObject smallCubePrefab;
-    [SerializeField] float spawnDelay;
-    [SerializeField] GameObject winUI;
-    [SerializeField] GameObject loseUI;
-    [SerializeField] string nextLevel;
-    public int[] results = { 0, 0, 0 };
-    bool isHolding = false;
-    bool isHeld = false;
-    bool isMoving = false;
-    bool hasMoved = false;
-    bool isSlicing = false;
-    public bool noCubes = false;
-    public int nextCube = 0;
-    public int nextCubeColor = 0;
-    Environment env;
-    Thread thread;
-    public int[] called = { 0,0,0};
-    int nextSlices;
 
-    bool running = false;
-    bool ran = false;
+    [SerializeField] GameObject button;
+    [SerializeField] ColoredCubeSpawner spawner;
+    [SerializeField] TMPro.TextMeshProUGUI[] cubesColors;
+    [SerializeField] Transform dropPos;
+    [SerializeField] float spawnDelay;
+    [SerializeField] GameObject smallCubePrefab;
+    List<GameObject> spawnedCubes = null;
+    int[] slicesPerColor = new int[3];
+    int[] slices = new int[3];
+    int nextSlices;
+    int nextCube = 0;
+    int nextCubeColor = 0;
+    bool noCubes = false;
+    bool running, ran = false;
+    bool isHolding, isHeld = false;
+    bool isMoving, hasMoved = false;
+    bool isSlicing = false;
+    int[] results = { 0, 0, 0 };
+
+
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        thread = new Thread(Run);
-        env = new Environment();
+        base.Start();
         spawner.StartSpawning(true);
-        for (int i = 0; i<3; i++)
+        for (int i = 0; i < 3; i++)
         {
             slicesPerColor[i] = Random.Range(3, 10);
             cubesColors[i].text = slicesPerColor[i].ToString();
         }
-        
+
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        if (!running && Input.GetKeyDown(KeyCode.F)) running = true;
+        base.Update();
         if (running && !ran)
         {
+            Debug.LogWarning("ActionCALLLED");
             ran = true;
-            button.GetComponent<MeshRenderer>().material = materials.materials[1];
+            button.GetComponent<MeshRenderer>().material.color = Color.green;
             thread.Start();
         }
-
 
         if (spawnedCubes == null || spawnedCubes.Count == 0)
         {
@@ -78,10 +62,12 @@ public class Robot : MonoBehaviour, Observer
                 {
                     slices[i] = spawner.cubesPerColor[i] * slicesPerColor[i];
                 }
+                env.Set("n", new Integer { value = spawnedCubes.Count });
+                env.Set("cube", new Integer { value = nextCubeColor });
             }
         }
 
-        
+
 
         if (isHolding && !isHeld)
         {
@@ -95,15 +81,15 @@ public class Robot : MonoBehaviour, Observer
 
         if (isMoving && !hasMoved)
         {
-            this.transform.position = dropPos.GetChild(Random.Range(0,10)).position;
+            this.transform.position = dropPos.GetChild(Random.Range(0, 10)).position;
             hasMoved = true;
         }
 
         if (isSlicing)
         {
-             
+
             float d = 0f;
-            for (int j = 1; j<=nextSlices; j++)
+            for (int j = 1; j <= nextSlices; j++)
             {
                 d += spawnDelay;
                 Debug.LogWarning(nextCubeColor + "\t" + j);
@@ -114,8 +100,7 @@ public class Robot : MonoBehaviour, Observer
             isHeld = false;
             hasMoved = false;
             isSlicing = false;
-            called[nextCubeColor]++;
-            StartCoroutine(DestroyCube(spawnedCubes[nextCube], d+spawnDelay));
+            StartCoroutine(DestroyCube(spawnedCubes[nextCube], d + spawnDelay));
         }
 
         for (int i = 0; i < 3; i++)
@@ -133,17 +118,87 @@ public class Robot : MonoBehaviour, Observer
         }
     }
 
-    void Run()
+    public IEnumerator SmallCubeSpawn(int colorIndex, float delay)
     {
-        
-        Lexer lexer = new Lexer(useTestInput ? testInput : input.text);
-        Program prog = new Parser(lexer).ParseProgram();
-        env.Set("n",new Integer { value = spawnedCubes.Count });
-        env.Set("cube", new Integer { value = nextCubeColor });
-        Evaluator.Eval(prog, env, this);
+        yield return new WaitForSeconds(delay);
+        this.transform.position = dropPos.GetChild(Random.Range(0, 10)).position;
+        GameObject smallcube = Instantiate(smallCubePrefab, this.transform.position, Quaternion.Euler(Random.Range(0f, 90f), Random.Range(0f, 90f), Random.Range(0f, 90f)));
+        smallcube.GetComponent<MeshRenderer>().material.color = spawner.colors[colorIndex];
+        results[colorIndex]++;
     }
-    void Observer.OnLoopIterationEnd()
+
+    public IEnumerator DestroyCube(GameObject cube, float delay)
     {
+        yield return new WaitForSeconds(delay);
+        Destroy(cube);
+        CubeDestroyPost();
+    }
+
+    void CubeDestroyPost()
+    {
+        spawner.cubesPerColor[nextCubeColor]--;
+        if (nextCube + 1 < spawnedCubes.Count)
+        {
+            for (int i = 0; i <= 2; i++)
+            {
+                if (spawnedCubes[nextCube + 1].gameObject.GetComponent<MeshRenderer>().material.color.Equals(spawner.colors[i]))
+                {
+                    nextCubeColor = i;
+                }
+            }
+        }
+        thread.Interrupt();
+    }
+
+    void CheckRemainingCubes()
+    {
+
+        if (FindObjectsOfType<ColoredCube>().Length == 0)
+        {
+            CheckResult();
+        }
+    }
+
+    public override void Action()
+    {
+
+        if (!running)
+        {
+            running = true;
+        }
+    }
+
+    public override void CheckResult()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (results[i] != slices[i])
+            {
+                levelManager.Lose();
+                return;
+            }
+        }
+        levelManager.Win();
+    }
+
+    public void OnBlockEnd()
+    {
+        return;
+    }
+
+    public void OnLetStatement()
+    {
+        return;
+    }
+
+    public void OnLoopEnd()
+    {
+        return;
+    }
+
+    public void OnLoopIterationEnd()
+    {
+        Debug.Log("ITERATION");
         nextSlices = (int)((Integer)env.Get("slices")).value;
         isHolding = true;
         Thread.Sleep(100);
@@ -163,113 +218,8 @@ public class Robot : MonoBehaviour, Observer
             nextCube++;
             env.Set("cube", new Integer { value = nextCubeColor });
         }
-        
-        
-    }
 
-    public IEnumerator SmallCubeSpawn(int material, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        this.transform.position = dropPos.GetChild(Random.Range(0, 10)).position;
-        GameObject smallcube = Instantiate(smallCubePrefab, this.transform.position, Quaternion.Euler(Random.Range(0f, 90f), Random.Range(0f, 90f), Random.Range(0f, 90f)));
-        smallcube.GetComponent<MeshRenderer>().material = materials.materials[material];
-        results[material]++;
-    }
 
-    public IEnumerator DestroyCube(GameObject cube, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(cube);
-        CubeDestroyPost();
-    }
-
-    void CubeDestroyPost()
-    {
-        spawner.cubesPerColor[nextCubeColor]--;
-        if (nextCube+1 < spawnedCubes.Count)
-        {
-            for (int i = 0; i <= 2; i++)
-            {
-                if (spawnedCubes[nextCube+1].gameObject.GetComponent<MeshRenderer>().material.color.Equals(materials.materials[i].color))
-                {
-                    nextCubeColor = i;
-                }
-            }
-        }
-        thread.Interrupt();
-    }
-
-    void CheckResult()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            if (results[i] != slices[i])
-            {
-                Lose();
-                return;
-            }
-        }
-        Win();
-    }
-
-    void Win()
-    {
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        winUI.transform.root.gameObject.SetActive(true);
-        winUI.SetActive(true);
-        loseUI.SetActive(false);
-    }
-
-    void Lose()
-    {
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        loseUI.transform.root.gameObject.SetActive(true);
-        loseUI.SetActive(true);
-        winUI.SetActive(false);
-    }
-
-    void CheckRemainingCubes()
-    {
-
-        if (FindObjectsOfType<ColoredCube>().Length == 0)
-        {
-            CheckResult();
-        }
-    }
-
-    public void Retry()
-    {
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void NextLevel()
-    {
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        SceneManager.LoadScene(nextLevel);
-    }
-
-    void Observer.OnLetStatement()
-    {
-        return;
-    }
-
-    void Observer.OnBlockEnd()
-    {
-        return;
-    }
-
-    public void OnLoopEnd()
-    {
-        return;
     }
 
     public void OnProgramEnd()
