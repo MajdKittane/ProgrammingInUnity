@@ -131,14 +131,14 @@ public class ArrayHandler : MonoBehaviour, Observer
 
     public void OnLoopIterationEnd()
     {
-        checkDrop = true;
-        checkedDrop = false;
-        Thread.Sleep(200);
+        return;
     }
 
     public void OnLetStatement()
     {
-        return;
+        checkDrop = true;
+        checkedDrop = false;
+        Thread.Sleep(200);
     }
 
     public void OnBlockEnd()
@@ -147,6 +147,11 @@ public class ArrayHandler : MonoBehaviour, Observer
     }
 
     public void OnLoopEnd()
+    {
+        return;
+    }
+
+    public void OnProgramEnd()
     {
         currentArrayIndex++;
         createNextArray = true;

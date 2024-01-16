@@ -271,4 +271,9 @@ public class Robot : MonoBehaviour, Observer
     {
         return;
     }
+
+    public void OnProgramEnd()
+    {
+        return;
+    }
 }

@@ -13,6 +13,7 @@ namespace MyInterpreter
         void OnLoopEnd();
         void OnLetStatement();
         void OnBlockEnd();
+        void OnProgramEnd();
 
     }
 
@@ -93,7 +94,7 @@ namespace MyInterpreter
                     arr.elements[(int)idx[idx.Count-1].value] = val;
                     env.Set(letStatement.name.value,OriginalArray);
                 }
-                observer.OnLetStatement();
+                if (observer != null) observer.OnLetStatement();
             }
             else if (node is IfExpression)
             {
@@ -251,6 +252,7 @@ namespace MyInterpreter
                     return error;
                 }
             }
+            if (observer != null) observer.OnProgramEnd();
             return result;
         }
 
@@ -267,12 +269,12 @@ namespace MyInterpreter
                     Type rt = result.GetType();
                     if (rt == typeof(ReturnValue) || rt == typeof(Error))
                     {
-                        observer.OnBlockEnd();
+                        if (observer != null) observer.OnBlockEnd();
                         return result;
                     }
                 }
             }
-            observer.OnBlockEnd();
+            if (observer != null) observer.OnBlockEnd();
             return result;
         }
 
@@ -312,7 +314,7 @@ namespace MyInterpreter
                 {
                     result = Eval(loopExpression.body, env);
                     i.value--;
-                    observer.OnLoopIterationEnd();
+                    if (observer != null) observer.OnLoopIterationEnd();
 
                 }
             }
@@ -322,11 +324,11 @@ namespace MyInterpreter
                 {
                     result = Eval(loopExpression.body, env);
                     condition = Eval(loopExpression.condition, env);
-                    observer.OnLoopIterationEnd();
+                    if (observer != null) observer.OnLoopIterationEnd();
                 }
             }
 
-            observer.OnLoopEnd();
+            if (observer != null) observer.OnLoopEnd();
             return result;
         }
         private static Object EvalPrefixExpression(string op, Object right)

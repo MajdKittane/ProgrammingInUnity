@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace MyInterpreter
 {
@@ -12,7 +13,7 @@ namespace MyInterpreter
         {
             foreach(var arg in args)
             {
-                Console.WriteLine(arg.Inspect());
+                Debug.LogWarning(arg.Inspect());
             }
             return new Null();
         }
