@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ILevelLogic : MonoBehaviour
+public class LevelLogic : MonoBehaviour
 {
     [SerializeField] GameObject mainUI;
     [SerializeField] GameObject winUI;
     [SerializeField] GameObject loseUI;
+    [SerializeField] GameObject finishUI;
     [SerializeField] public TMPro.TextMeshProUGUI input;
     [SerializeField] string nextLevel;
     [HideInInspector] public bool codeSaved = false;
@@ -65,7 +66,7 @@ public class ILevelLogic : MonoBehaviour
     public void Win()
     {
         Pause();
-        winUI.transform.root.gameObject.SetActive(true);
+        finishUI.SetActive(true);
         winUI.SetActive(true);
         loseUI.SetActive(false);
     }
@@ -73,7 +74,7 @@ public class ILevelLogic : MonoBehaviour
     public void Lose()
     {
         Pause();
-        loseUI.transform.root.gameObject.SetActive(true);
+        finishUI.SetActive(true);
         loseUI.SetActive(true);
         winUI.SetActive(false);
     }

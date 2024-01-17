@@ -5,42 +5,37 @@ using System.Threading;
 using UnityEngine.SceneManagement;
 
 
-public class ArrayHandler : MonoBehaviour, Observer
+public class ArrayHandler : AbstractPuzzle, Observer
 {
-    [SerializeField] bool useTestInput;
-    [TextArea(3, 10)] [SerializeField] string testInput;
     [SerializeField] GameObject arrayEntryPrefab;
     [SerializeField] Transform arrayRoot;
-    [SerializeField] MaterialIndexing materials;
-    [SerializeField] TMPro.TextMeshProUGUI input;
+    Color[] colors = { Color.red, Color.green, Color.blue };
     int numOfEntries;
-    Environment env;
     List<MyInterpreter.Object> dropList = new List<MyInterpreter.Object>();
     List<MyInterpreter.Object> cubeList = new List<MyInterpreter.Object>();
     Boolean falseBool = new Boolean { value = false };
-    Thread thread;
     bool running, ran = false;
     bool checkDrop, checkedDrop = false;
     bool createNextArray, doneCreatingArray = false;
     int currentArrayIndex = 0;
+    bool checkingResults, checkedResults = false;
+    bool win = true;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        thread = new Thread(Run);
-        env = new Environment();
+        base.Start();
         CreateCubeArray(currentArrayIndex);
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        //Debug.LogWarning(env.Get("drop[0]"));
-        if (!running && Input.GetKeyDown(KeyCode.F)) running = true;
+        base.Update();
         if (running && !ran)
         {
             ran = true;
-            thread.Start(); 
+            thread.Start();
         }
 
         if (checkDrop && !checkedDrop)
@@ -57,12 +52,18 @@ public class ArrayHandler : MonoBehaviour, Observer
             checkedDrop = true;
         }
 
+        if (checkingResults && !checkedResults)
+        {
+            CheckResult();
+            checkedResults = true;
+        }
+
         if (createNextArray && !doneCreatingArray && currentArrayIndex < 3)
         {
             CreateCubeArray(currentArrayIndex);
             doneCreatingArray = true;
             createNextArray = false;
-            
+
         }
     }
 
@@ -84,8 +85,8 @@ public class ArrayHandler : MonoBehaviour, Observer
         for (int i = 0; i < numOfEntries; i++)
         {
             GameObject entry = AddArrayEntry(i);
-            cubeList.Add(new Integer { value = Random.Range(0, materials.materials.Length) });
-            entry.GetComponent<MeshRenderer>().material = materials.materials[((Integer)cubeList[i]).value];
+            cubeList.Add(new Integer { value = Random.Range(0, 3) });
+            entry.GetComponent<MeshRenderer>().material.color = colors[((Integer)cubeList[i]).value];
             dropList.Add(falseBool);
         }
         env.store["cubes"] = new Array { elements = cubeList };
@@ -121,14 +122,6 @@ public class ArrayHandler : MonoBehaviour, Observer
         return entry;
     }
 
-
-    void Run()
-    {
-        Lexer lexer = new Lexer(useTestInput ? testInput : input.text);
-        Program prog = new Parser(lexer).ParseProgram();
-        Evaluator.Eval(prog, env, this);
-    }
-
     public void OnLoopIterationEnd()
     {
         return;
@@ -153,8 +146,42 @@ public class ArrayHandler : MonoBehaviour, Observer
 
     public void OnProgramEnd()
     {
+        checkingResults = true;
+        checkedResults = false;
+        Thread.Sleep(300);
         currentArrayIndex++;
         createNextArray = true;
         doneCreatingArray = false;
+    }
+
+    public override void Action()
+    {
+        if (!running && levelManager.codeSaved)
+        {
+            running = true;
+        }
+    }
+
+    public override void CheckResult()
+    {
+        for (int i = 0; i < arrayRoot.childCount; i++)
+        {
+            if (arrayRoot.GetChild(i).GetComponent<Rigidbody>() != null && arrayRoot.GetChild(i).GetComponent<MeshRenderer>().material.color != colors[currentArrayIndex])
+            {
+                levelManager.Lose();
+                return;
+            }
+
+            if (arrayRoot.GetChild(i).GetComponent<Rigidbody>() == null && arrayRoot.GetChild(i).GetComponent<MeshRenderer>().material.color == colors[currentArrayIndex])
+            {
+                levelManager.Lose();
+                return;
+            }
+        }
+        if (currentArrayIndex >= 2 && win)
+        {
+            levelManager.Win();
+            return;
+        }
     }
 }

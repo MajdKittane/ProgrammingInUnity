@@ -4,20 +4,20 @@ using UnityEngine;
 using MyInterpreter;
 using System.Threading;
 
-public class VariablesManager : IPuzzleLogic, Observer
+public class VariablesManager : AbstractPuzzle, Observer
 {
     [SerializeField] Transform spawnTransform;
     [SerializeField] GameObject variableObject;
     [SerializeField] TMPro.TextMeshProUGUI objecitve;
     Vector3 spawnPosition;
-    int[] integers;
-    bool[] integersInstantiated;
-    bool[] booleans;
-    bool[] booleansInstantiated;
-    int remainingLetUses;
+    public int[] integers;
+    public bool[] integersInstantiated;
+    public bool[] booleans;
+    public bool[] booleansInstantiated;
+    public int remainingLetUses;
     bool isReady, isRunning = false;
     bool readyToSpawn, spawned = false;
-    bool isFull = false;
+    public bool isFull = false;
     
 
     // Start is called before the first frame update
@@ -112,51 +112,56 @@ public class VariablesManager : IPuzzleLogic, Observer
 
     public void OnLetStatement()
     {
-        if (remainingLetUses <= 0)
+        if (isFull)
         {
-            isFull = true;
             return;
         }
 
         readyToSpawn = true;
         spawned = false;
         remainingLetUses--;
+        
         Thread.Sleep(1000);
+
+        if (remainingLetUses <= 0)
+        {
+            isFull = true;
+        }
     }
 
     void Spawn()
     {
         foreach (MyInterpreter.Object obj in env.store.Values)
         {
-            for (int i = 0; i < integers.Length; i++)
-            {
-                if (obj is Integer objI)
+            if (obj is Integer objI)
+            { 
+                GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
+                go.transform.localScale *= objI.value;
+                go.AddComponent<Rigidbody>();
+                for (int i = 0; i < integers.Length; i++)
                 {
-                    GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f,1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
-                    go.transform.localScale *= objI.value;
-                    go.AddComponent<Rigidbody>();
                     if (objI.value == integers[i] && !integersInstantiated[i])
                     {
                         integersInstantiated[i] = true;
+                        return;
                     }
-                    return;
                 }
             }
 
-            for (int i = 0; i < booleans.Length; i++)
+
+            if (obj is Boolean objB)
             {
-                if (obj is Boolean objB)
+                GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
+                go.transform.localScale *= 2;
+                go.GetComponent<MeshRenderer>().material.color = objB.value ? Color.green : Color.red;
+                go.AddComponent<Rigidbody>();
+                for (int i = 0; i < integers.Length; i++)
                 {
-                    GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
-                    go.GetComponent<MeshRenderer>().material.color = objB.value ? Color.green : Color.red;
-                    go.transform.localScale *= 2;
-                    go.AddComponent<Rigidbody>();
-                    
                     if (objB.value == booleans[i] && !booleansInstantiated[i])
                     {
                         booleansInstantiated[i] = true;
+                        return;
                     }
-                    return;
                 }
             }
         }
@@ -189,16 +194,21 @@ public class VariablesManager : IPuzzleLogic, Observer
     {
         for (int i = 0; i<integers.Length; i++)
         {
-            if (!integersInstantiated[i]) levelManager.Lose();
-            return;
+            if (!integersInstantiated[i])
+            {
+                levelManager.Lose();
+                return;
+            }
         }
 
         for (int i = 0; i < booleans.Length; i++)
         {
-            if (!booleansInstantiated[i]) levelManager.Lose();
-            return;
+            if (!booleansInstantiated[i])
+            {
+                levelManager.Lose();
+                return;
+            }
         }
-
         levelManager.Win();
     }
 }

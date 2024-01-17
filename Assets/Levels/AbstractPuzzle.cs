@@ -4,20 +4,20 @@ using UnityEngine;
 using System.Threading;
 using MyInterpreter;
 
-public abstract class IPuzzleLogic : MonoBehaviour
+public abstract class AbstractPuzzle : MonoBehaviour
 {
     [SerializeField] bool useTestInput;
     [TextArea(3, 10)] [SerializeField] string testInput;
     
     protected Thread thread;
     protected Environment env;
-    protected ILevelLogic levelManager;
+    protected LevelLogic levelManager;
     // Start is called before the first frame update
     public virtual void Start()
     {
         thread = new Thread(Run);
         env = new Environment();
-        levelManager = FindAnyObjectByType<ILevelLogic>();
+        levelManager = FindAnyObjectByType<LevelLogic>();
     }
 
     // Update is called once per frame

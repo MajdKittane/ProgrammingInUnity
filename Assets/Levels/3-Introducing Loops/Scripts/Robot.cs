@@ -4,7 +4,7 @@ using UnityEngine;
 using MyInterpreter;
 using System.Threading;
 
-public class Robot : IPuzzleLogic, Observer
+public class Robot : AbstractPuzzle, Observer
 {
 
     [SerializeField] GameObject button;
@@ -32,6 +32,8 @@ public class Robot : IPuzzleLogic, Observer
     {
         base.Start();
         spawner.StartSpawning(true);
+        env.Set("n", new Integer { value = spawner.cubesPerColor[0]+ spawner.cubesPerColor[1]+ spawner.cubesPerColor[2] });
+        env.Set("cube", new Integer { value = nextCubeColor });
         for (int i = 0; i < 3; i++)
         {
             slicesPerColor[i] = Random.Range(3, 10);
@@ -62,8 +64,7 @@ public class Robot : IPuzzleLogic, Observer
                 {
                     slices[i] = spawner.cubesPerColor[i] * slicesPerColor[i];
                 }
-                env.Set("n", new Integer { value = spawnedCubes.Count });
-                env.Set("cube", new Integer { value = nextCubeColor });
+
             }
         }
 
@@ -162,7 +163,7 @@ public class Robot : IPuzzleLogic, Observer
     public override void Action()
     {
 
-        if (!running)
+        if (!running && spawnedCubes != null && levelManager.codeSaved)
         {
             running = true;
         }
@@ -207,7 +208,6 @@ public class Robot : IPuzzleLogic, Observer
 
         isSlicing = true;
 
-        //Thread.Sleep(100);
 
         try
         {

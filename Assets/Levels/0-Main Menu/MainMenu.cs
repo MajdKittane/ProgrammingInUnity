@@ -68,7 +68,7 @@ public class MainMenu : MonoBehaviour
     {
         if (index == 0)
         {
-            SceneManager.LoadScene("Level2-Introducing Conditions");
+            SceneManager.LoadScene("Level1-Introducing Variables");
         }
         if (index == 1)
         {
