@@ -556,6 +556,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7799917391136079602, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_text
+      value: "Generate Small Cubes\n\n\n\nWrite a code to generate required number
+        of small cubes for every big cube based on its color.\n\n\"Small Cubes /
+        Big Cube\" ratio based on color is shown above the machine. \n\n\n\nInput:\ncube,
+        0=Red, 1=Green, 2=Blue.\n\n\nOutput:\nslices = number of small cubes to produce."
+      objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262870, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_Name
       value: LevelUI

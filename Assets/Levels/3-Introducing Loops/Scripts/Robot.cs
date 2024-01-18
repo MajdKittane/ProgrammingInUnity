@@ -36,6 +36,7 @@ public class Robot : AbstractPuzzle, Observer
         env.Set("cube", new Integer { value = nextCubeColor });
         for (int i = 0; i < 3; i++)
         {
+            cubesColors[i].transform.parent.parent.gameObject.GetComponent<MeshRenderer>().material.color = spawner.colors[i];
             slicesPerColor[i] = Random.Range(3, 10);
             cubesColors[i].text = slicesPerColor[i].ToString();
         }
@@ -48,7 +49,6 @@ public class Robot : AbstractPuzzle, Observer
         base.Update();
         if (running && !ran)
         {
-            Debug.LogWarning("ActionCALLLED");
             ran = true;
             button.GetComponent<MeshRenderer>().material.color = Color.green;
             thread.Start();
@@ -199,7 +199,6 @@ public class Robot : AbstractPuzzle, Observer
 
     public void OnLoopIterationEnd()
     {
-        Debug.Log("ITERATION");
         nextSlices = (int)((Integer)env.Get("slices")).value;
         isHolding = true;
         Thread.Sleep(100);

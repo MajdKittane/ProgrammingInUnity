@@ -612,7 +612,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125747936}
-  m_LocalRotation: {x: 0.08976255, y: -0.7549814, z: 0.105738856, w: 0.6409097}
+  m_LocalRotation: {x: 0.08976255, y: -0.7549814, z: 0.105738886, w: 0.64090955}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4138,6 +4138,40 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7799917391136079602, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_text
+      value: 'More Cubes
+
+
+
+        With large number of cubes, it takes a long time
+        to use the previous machine.
+
+
+        Instead, you must program this robot
+        using loops to do the task.
+
+
+        This robot takes no time travelling
+        between destinations, so it will be more faster.
+
+
+
+        Input:
+
+        n
+        = number of big cubes.
+
+        cube = color of current cube, 0=Red, 1=Green,
+        2=Blue.
+
+
+
+
+        Output:
+
+        slices = number of small cubes to produce.'
+      objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262870, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_Name
       value: LevelUI

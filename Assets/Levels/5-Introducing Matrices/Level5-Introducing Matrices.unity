@@ -1400,6 +1400,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7799917391136079602, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_text
+      value: 'Drop More Cubes
+
+
+
+        You are asked to drop red cubes only.
+
+        But,
+        this time we are dealing with a matrix.
+
+
+
+        Input:
+
+        x = number
+        of columns.
+
+
+        y = number of rows.
+
+
+        cubes[ ][ ] = matrix
+        of cubes.
+
+
+        drop[ ][ ] = a matrix describes state of each cube
+
+        true=drop,
+        false=don''t drop
+
+        filled with false at start.
+
+
+
+        Output:
+
+        drop[
+        ][ ], alter the matrix to drop cubes'
+      objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262870, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_Name
       value: LevelUI

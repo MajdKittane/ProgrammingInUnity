@@ -6,7 +6,7 @@ using System.Threading;
 
 public class MachineLogic : AbstractPuzzle
 {
-
+    [Header("Cube Spawning")]
     [SerializeField] ColoredCubeSpawner spawner;
     [SerializeField] Transform cubePosition;
     [SerializeField] TMPro.TextMeshProUGUI[] cubesColors;

@@ -2074,6 +2074,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7799917391136079602, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_text
+      value: 'Drop Cubes
+
+
+        Write a code to drop cubes as following :
+
+
+        Drop
+        red cubes from the first array.
+
+        Drop green cubes from the second
+        array.
+
+        Drop blue cubes from the third array.
+
+
+
+        Input:
+
+        c
+        = number of cubes in the current array.
+
+
+        cubes[ ] = array of cubes.
+
+
+        n
+        = index of current array, 0<= n < 3
+
+
+        drop[ ] = array describes state
+        of each cube
+
+        true=drop, false=don''t drop
+
+        filled with false
+        at start.
+
+
+        Output:
+
+        drop[ ], alter the array to drop cubes'
+      objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262870, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_Name
       value: LevelUI

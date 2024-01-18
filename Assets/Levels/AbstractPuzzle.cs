@@ -6,12 +6,14 @@ using MyInterpreter;
 
 public abstract class AbstractPuzzle : MonoBehaviour
 {
+    [Header("In Editor Testing")]
     [SerializeField] bool useTestInput;
     [TextArea(3, 10)] [SerializeField] string testInput;
-    
+
     protected Thread thread;
     protected Environment env;
     protected LevelLogic levelManager;
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -27,8 +29,12 @@ public abstract class AbstractPuzzle : MonoBehaviour
         {
             Action();
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            levelManager.Retry();
+        }
+    }
 
     public void Run()
     {
