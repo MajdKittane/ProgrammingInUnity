@@ -5,7 +5,10 @@ using UnityEngine;
 public class TriggerManager : MonoBehaviour
 {
     [SerializeField] GameObject interactText;
+    [SerializeField] public GameObject fullScreenText;
+    [SerializeField] public GameObject nameInputField;
     Dictionary<InteractTrigger,bool> interactTriggers = new Dictionary<InteractTrigger, bool>();
+    public Dictionary<InteractTrigger, bool> interactDone = new Dictionary<InteractTrigger, bool>();
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +32,7 @@ public class TriggerManager : MonoBehaviour
     public void RegisterInteractTrigger(InteractTrigger trigger)
     {
         interactTriggers[trigger] = false;
+        interactDone[trigger] = false;
     }
 
     public InteractTrigger GetActiveTrigger()

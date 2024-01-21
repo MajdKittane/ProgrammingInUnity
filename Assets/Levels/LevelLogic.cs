@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelLogic : MonoBehaviour
 {
-    [SerializeField] GameObject mainUI;
+    [SerializeField] public GameObject mainUI;
     [SerializeField] GameObject winUI;
     [SerializeField] GameObject loseUI;
     [SerializeField] GameObject finishUI;
@@ -29,14 +29,14 @@ public class LevelLogic : MonoBehaviour
         }
     }
 
-    void Pause()
+    public void Pause()
     {
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    void Resume()
+    public void Resume()
     {
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
@@ -44,7 +44,7 @@ public class LevelLogic : MonoBehaviour
     }
     void ShowMainUI()
     {
-        if (!mainUI.activeSelf && !codeSaved)
+        if (!mainUI.activeSelf && !codeSaved && Time.timeScale != 0f)
         {
             mainUI.SetActive(true);
             Pause();

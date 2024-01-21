@@ -11,7 +11,7 @@ namespace MyInterpreter
     {
         void OnLoopIterationEnd();
         void OnLoopEnd();
-        void OnLetStatement();
+        void OnLetStatement(string name,Object value,List<Integer> indexes);
         void OnBlockEnd();
         void OnProgramEnd();
 
@@ -68,6 +68,7 @@ namespace MyInterpreter
                     Error error = (Error)val;
                     return error;
                 }
+                List<Integer> idx = null;
                 if (letStatement.index.Count == 0) env.Set(letStatement.name.value, val);
                 else
                 {
@@ -76,7 +77,7 @@ namespace MyInterpreter
                         return (Error) val;
                     }
                     List<Object> index = new List<Object>();
-                    List<Integer> idx = new List<Integer>();
+                    idx = new List<Integer>();
                     foreach (Expression indx in letStatement.index)
                     {
                         index.Add(Eval(indx, env));
@@ -94,7 +95,7 @@ namespace MyInterpreter
                     arr.elements[(int)idx[idx.Count-1].value] = val;
                     env.Set(letStatement.name.value,OriginalArray);
                 }
-                if (observer != null) observer.OnLetStatement();
+                if (observer != null) observer.OnLetStatement(letStatement.name.value, val,idx);
             }
             else if (node is IfExpression)
             {

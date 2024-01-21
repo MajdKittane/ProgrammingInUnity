@@ -25,7 +25,7 @@ public abstract class AbstractPuzzle : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && Time.timeScale != 0f)
         {
             Action();
         }

@@ -127,7 +127,7 @@ public class ArrayHandler : AbstractPuzzle, Observer
         return;
     }
 
-    public void OnLetStatement()
+    public void OnLetStatement(string name, MyInterpreter.Object value, List<Integer> indexes)
     {
         checkDrop = true;
         checkedDrop = false;
