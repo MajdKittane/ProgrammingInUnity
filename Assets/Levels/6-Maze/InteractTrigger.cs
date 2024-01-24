@@ -17,7 +17,11 @@ public class InteractTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (triggerManager == null)
+        {
+            triggerManager = FindAnyObjectByType<TriggerManager>();
+            triggerManager.RegisterInteractTrigger(this);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,6 +38,7 @@ public class InteractTrigger : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             triggerManager.OnInteractTrigger(this, false);
+            Debug.LogError("Exited" + this);
         }
     }
 }

@@ -441,7 +441,7 @@ namespace MyInterpreter
             }
             else if (op == TokenType.Mod)
             {
-                return new Integer { value = leftValue % rightValue};
+                return new Integer { value = (leftValue % rightValue) >=0 ? leftValue % rightValue : (leftValue % rightValue) + rightValue};
             }
             else if (op == TokenType.LessThan)
             {

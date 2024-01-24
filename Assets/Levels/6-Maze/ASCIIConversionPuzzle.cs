@@ -77,7 +77,6 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         {
             if (mazeLogic.playerName == "")
             {
-
                 mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(true);
                 levelManager.Pause();
             }
@@ -85,6 +84,9 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
             if (levelManager.codeSaved)
             {
                 RunCode();
+                InteractTrigger active = mazeLogic.triggerManager.GetActiveTrigger();
+                mazeLogic.triggerManager.OnInteractTrigger(active,false);
+                active.gameObject.SetActive(false);
             }
         }
 

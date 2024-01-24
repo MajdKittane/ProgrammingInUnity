@@ -20,6 +20,8 @@ public class TriggerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.LogWarning(GetActiveTrigger());
+
         if (GetActiveTrigger())
         {
             interactText.SetActive(true);
@@ -35,13 +37,14 @@ public class TriggerManager : MonoBehaviour
     {
         interactTriggers[trigger] = false;
         interactDone[trigger] = false;
-        Debug.Log(trigger);
     }
 
     public InteractTrigger GetActiveTrigger()
     {
+        
         foreach (InteractTrigger trigger in interactTriggers.Keys)
         {
+            Debug.LogWarning(trigger + "  " + interactTriggers[trigger]);
             if (interactTriggers[trigger])
             {
                 return trigger;
@@ -52,5 +55,6 @@ public class TriggerManager : MonoBehaviour
     public void OnInteractTrigger(InteractTrigger trigger,bool state)
     {
         interactTriggers[trigger] = state;
+        Debug.LogWarning(trigger + "  " + state);
     }
 }

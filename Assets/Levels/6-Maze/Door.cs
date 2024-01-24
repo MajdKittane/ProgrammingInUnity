@@ -26,7 +26,7 @@ public class Door : MonoBehaviour
 
         if (isOpen)
         {
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 

@@ -17,10 +17,10 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
     List<string> selectedWords = new List<string>();
     int textWorkingOn = 0;
 
-
     //Transition between threads.
     bool isSplittingText, splittedText = false;
     bool isUpdatingText, updatedText = false;
+    bool threadReady = true;
 
     //Data transfered between threads.
     string[] textCharArray;
@@ -83,7 +83,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
 
         if (mazeLogic.triggerManager.GetActiveTrigger().interactObject.GetComponent<Door>() is Door door)
         {
-
+            mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().placeholder.GetComponent<TMPro.TextMeshProUGUI>().text = "Enter Password : 3 Letters";
             mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(true);
             levelManager.Pause();
         }
@@ -108,8 +108,9 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             {
                 for (int i=0; i<3; i++)
                 {
-                    if (text == wallTexts[i].GetComponent<WallText>())
+                    if (text == wallTexts[i].GetComponent<WallText>() && threadReady)
                     {
+                        threadReady = false;
                         textWorkingOn = i;
                         RunCode(textWorkingOn);
                         return;
@@ -138,12 +139,16 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
         env.Set("a", new Array { elements = chars });
         wallTexts[textIndex].GetComponent<WallText>().enabled = false;
         wallTexts[textIndex].gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = wallTexts[textIndex].GetComponent<WallText>().fullText;
+
+        thread = new Thread(Run);
         thread.Start();
     }
 
     public override void CheckResult()
     {
-        for (int i =0; i< mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text.Length; i++)
+        if (mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text.Length != 3) levelManager.Lose();
+
+        for (int i =0; i< 3; i++)
         {
             if (selectedWords[i][solution[i]] != mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text[i])
             {
@@ -219,7 +224,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
         {
             isSplittingText = true;
             splittedText = false;
-            Thread.Sleep(300);
+            Thread.Sleep(100);
 
             int index = (int)indexes[0].value;
             if (IsASCIILetter((int)((Integer)value).value))
@@ -234,7 +239,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             isUpdatingText = true;
             updatedText = false;
 
-            Thread.Sleep(500);
+            Thread.Sleep(200);
         }
     }
 
@@ -245,7 +250,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
-        return;
+        threadReady = true;
     }
 
     public bool IsASCIILetter(int num)
@@ -263,6 +268,11 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
         return false;
     }
 
+    public int Mod(int a, int n)
+    {
+        return a%n >= 0?a%n:(a%n)+n;
+    }
+
     public bool IsNumberOrSpace(int num)
     {
         if (num >= 48 && num <= 57)
@@ -270,7 +280,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             return true;
         }
 
-        if (num == 32 || num == 10)
+        if (num == 32 || num == 10 || num == 46)
         {
             return true;
         }
@@ -281,7 +291,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
     int GenerateKey()
     {
         int key = Random.Range(20,77);
-        if (key % 52 == 0) return GenerateKey();
+        if (Mod(key,52) == 0) return GenerateKey();
         return key;
     }
 
@@ -296,7 +306,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
                 continue;
             }
             int plainInt = ((int)plainChar) >= 97 ? ((int)plainChar) - 97 : ((int)plainChar) - 39;
-            int cipherInt = (plainInt + key) % 52;
+            int cipherInt = Mod((plainInt + key) , 52);
             char cipherChar = cipherInt >= 26 ? ((char)(cipherInt + 39)) : ((char)(cipherInt + 97));
             encrypted += cipherChar;
         }
