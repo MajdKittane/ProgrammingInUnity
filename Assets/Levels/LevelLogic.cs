@@ -9,7 +9,7 @@ public class LevelLogic : MonoBehaviour
     [SerializeField] GameObject winUI;
     [SerializeField] GameObject loseUI;
     [SerializeField] GameObject finishUI;
-    [SerializeField] public TMPro.TextMeshProUGUI input;
+    [SerializeField] public TMPro.TMP_InputField input;
     [SerializeField] string nextLevel;
     [HideInInspector] public bool codeSaved = false;
     // Start is called before the first frame update

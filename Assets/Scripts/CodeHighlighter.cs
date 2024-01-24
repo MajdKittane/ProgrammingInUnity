@@ -30,7 +30,7 @@ public class CodeHighlighter : MonoBehaviour
 
     void Update()
     {
-        
+        UpdateStyledText();
     }
 
     public void UpdateStyledText()

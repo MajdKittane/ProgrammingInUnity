@@ -25,6 +25,7 @@ public class InteractTrigger : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             triggerManager.OnInteractTrigger(this, true);
+            Debug.LogError("Entered" + this);
         }
     }
 

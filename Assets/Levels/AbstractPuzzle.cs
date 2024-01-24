@@ -12,7 +12,7 @@ public abstract class AbstractPuzzle : MonoBehaviour
 
     protected Thread thread;
     protected Environment env;
-    protected LevelLogic levelManager;
+    [HideInInspector] public LevelLogic levelManager;
 
     // Start is called before the first frame update
     public virtual void Start()

@@ -32,7 +32,8 @@ namespace MyInterpreter
 
         public static Object Eval(Node node, Environment env, Observer _observer = null)
         {
-            if (observer == null) observer = _observer;
+            if (_observer != null) observer = _observer;
+
             if (node is Program)
             {
                 Program program = (Program)node;

@@ -1013,7 +1013,7 @@ MonoBehaviour:
   winUI: {fileID: 7799917391868658017}
   loseUI: {fileID: 7799917391401926660}
   finishUI: {fileID: 7799917390811434029}
-  input: {fileID: 7799917392391667119}
+  input: {fileID: 7799917392701601348}
   nextLevel: Level2-Introducing Conditions
   codeSaved: 0
 --- !u!1 &7799917391460188001
@@ -1797,7 +1797,7 @@ GameObject:
   - component: {fileID: 7799917392073743791}
   - component: {fileID: 7799917392073743784}
   m_Layer: 5
-  m_Name: SaveCdoeButton
+  m_Name: SaveCodeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2695,19 +2695,7 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7799917391423262868}
-        m_TargetAssemblyTypeName: CodeHighlighter, Assembly-CSharp
-        m_MethodName: UpdateStyledText
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []

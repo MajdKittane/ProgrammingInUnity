@@ -29,20 +29,12 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
     {
         base.Start();
         mazeLogic = gameObject.GetComponent<MazeLogic>();
-        for (int i =0; i<levelManager.mainUI.transform.GetChild(0).childCount; i++)
+        mazeLogic.triggerManager.inputButton.onClick.AddListener(() =>
         {
-            if (levelManager.mainUI.transform.GetChild(0).GetChild(i).name == "Description")
-            {
-                mazeLogic.levelDescription = levelManager.mainUI.transform.GetChild(0).GetChild(i).gameObject.GetComponent<TMPro.TextMeshProUGUI>();
-            }
-
-            if (levelManager.mainUI.transform.GetChild(0).GetChild(i).name == "SaveCdoeButton")
-            {
-                mazeLogic.saveCodeButton = levelManager.mainUI.transform.GetChild(0).GetChild(i).gameObject.GetComponent<Button>();
-                mazeLogic.saveCodeButton.interactable = false;
-            }
-        }
-        
+            SavePlayerName();
+            levelManager.Resume();
+            mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(false);
+        });
     }
 
     // Update is called once per frame
@@ -85,13 +77,14 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         {
             if (mazeLogic.playerName == "")
             {
-                mazeLogic.triggerManager.nameInputField.transform.root.gameObject.SetActive(true);
+
+                mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(true);
                 levelManager.Pause();
             }
 
             if (levelManager.codeSaved)
             {
-                RunFirstCode();
+                RunCode();
             }
         }
 
@@ -99,7 +92,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         {
 
             mazeLogic.triggerManager.fullScreenText.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = text.fullText;
-            mazeLogic.triggerManager.fullScreenText.SetActive(true);
+            mazeLogic.triggerManager.fullScreenText.transform.root.gameObject.SetActive(true);
             levelManager.Pause();
 
             if (!mazeLogic.triggerManager.interactDone[mazeLogic.triggerManager.GetActiveTrigger()])
@@ -111,7 +104,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         }
     }
 
-    public void RunFirstCode()
+    public void RunCode()
     {
         List<MyInterpreter.Object> chars = new List<MyInterpreter.Object>();
         for (int i =0; i<mazeLogic.playerName.Length; i++)
@@ -143,15 +136,21 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
 
     public void SavePlayerName()
     {
-        mazeLogic.playerName = mazeLogic.triggerManager.nameInputField.GetComponent<TMPro.TMP_InputField>().text;
-
-        onDoorText.text = "";
-        foreach (char ch in mazeLogic.playerName)
+        string text = "";
+        foreach (char ch in mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text)
         {
-            onDoorText.text += ((int)ch) >= 97 ? ((int)ch) - 97 : (((int)ch) - 39).ToString();
-            onDoorText.text += "\t";
+            if (!IsASCIILetter(ch))
+            {
+                return;
+            }
+            text += ((int)ch) >= 97 ? ((int)ch) - 97 : (((int)ch) - 39).ToString();
+            text += "\t";
         }
 
+        if (text == "") return;
+
+        mazeLogic.playerName = mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text;
+        onDoorText.text = text;
         descriptionDetails++;
         UpdateDescription(0);
 
@@ -224,7 +223,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
             Thread.Sleep(300);
 
             int index = (int)indexes[0].value;
-            nums[index] = IsASCIILetter((int)((Integer)value).value) ? ((char)((Integer)value).value).ToString() : ((Integer)value).value.ToString();
+            nums[index] = IsASCIILetter((int)((Integer)value).value) ? ((char)((Integer)value).value).ToString() : Mathf.Abs(((Integer)value).value).ToString();
 
             isUpdatingText = true;
             updatedText = false;

@@ -9,17 +9,18 @@ public class WallText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string[] lines = fullText.Split("\n");
-        foreach (string line in lines)
-        {
-            if (line.Trim() != "") shownText += line.Substring(0,4) + "...\n";
-        }
-        GetComponent<TMPro.TextMeshProUGUI>().text = shownText;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        shownText = "";
+        string[] lines = fullText.Split("\n");
+        foreach (string line in lines)
+        {
+            if (line.Trim() != "") shownText += line.Substring(0, line.Length/2) + "...\n";
+        }
+        GetComponent<TMPro.TextMeshProUGUI>().text = shownText;
     }
 }
