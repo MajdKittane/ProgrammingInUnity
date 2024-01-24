@@ -83,6 +83,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
 
         if (mazeLogic.triggerManager.GetActiveTrigger().interactObject.GetComponent<Door>() is Door door)
         {
+            mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text = "";
             mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().placeholder.GetComponent<TMPro.TextMeshProUGUI>().text = "Enter Password : 3 Letters";
             mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(true);
             levelManager.Pause();
@@ -192,15 +193,19 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "Input:";
             mazeLogic.levelDescription.text += "\n";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "n = number of characters in the message";
             mazeLogic.levelDescription.text += "\n";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "a[ ] = array of integer values of message's characters.";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "0 <= a[ ] <= 51 for letters";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "Others values (numbers/spaces) must not be edited, ignore them.";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "Output:";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "a[ ] = array of right integer values of characters after decryption.";
             mazeLogic.saveCodeButton.interactable = true;

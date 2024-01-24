@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TriggerManager : MonoBehaviour
 {
-    [SerializeField] GameObject interactText;
     [SerializeField] public GameObject fullScreenText;
     [SerializeField] public GameObject inputField;
     [SerializeField] public Button inputButton;
@@ -20,17 +19,7 @@ public class TriggerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.LogWarning(GetActiveTrigger());
 
-        if (GetActiveTrigger())
-        {
-            interactText.SetActive(true);
-        }
-
-        if (!GetActiveTrigger())
-        {
-            interactText.SetActive(false);
-        }
     }
 
     public void RegisterInteractTrigger(InteractTrigger trigger)
@@ -44,7 +33,6 @@ public class TriggerManager : MonoBehaviour
         
         foreach (InteractTrigger trigger in interactTriggers.Keys)
         {
-            Debug.LogWarning(trigger + "  " + interactTriggers[trigger]);
             if (interactTriggers[trigger])
             {
                 return trigger;
@@ -55,6 +43,5 @@ public class TriggerManager : MonoBehaviour
     public void OnInteractTrigger(InteractTrigger trigger,bool state)
     {
         interactTriggers[trigger] = state;
-        Debug.LogWarning(trigger + "  " + state);
     }
 }

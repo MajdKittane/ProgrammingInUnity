@@ -1446,7 +1446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: nextLevel
-      value: Level5-Introducing Matrices
+      value: Level6-Maze
       objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262875, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_RootOrder
@@ -1563,7 +1563,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1317955577}
-  m_LocalRotation: {x: 0.08976255, y: -0.7549814, z: 0.105738886, w: 0.64090955}
+  m_LocalRotation: {x: 0.08976255, y: -0.7549814, z: 0.105738856, w: 0.6409097}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2255,5 +2255,6 @@ MonoBehaviour:
     i = i +1;
 
     }'
+  levelManager: {fileID: 0}
   arrayEntryPrefab: {fileID: 3096216439536368040, guid: 624051715f0443749b7aad34b1f5bc76, type: 3}
   matrixRoot: {fileID: 173346213}

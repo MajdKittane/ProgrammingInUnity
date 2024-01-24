@@ -11,6 +11,8 @@ public class LevelLogic : MonoBehaviour
     [SerializeField] GameObject finishUI;
     [SerializeField] public TMPro.TMP_InputField input;
     [SerializeField] string nextLevel;
+    [SerializeField] public GameObject interactText;
+    [SerializeField] GameObject HUD;
     [HideInInspector] public bool codeSaved = false;
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,7 @@ public class LevelLogic : MonoBehaviour
 
     public void Pause()
     {
+        HUD.SetActive(false);
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -38,6 +41,7 @@ public class LevelLogic : MonoBehaviour
 
     public void Resume()
     {
+        HUD.SetActive(true);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

@@ -42,7 +42,14 @@ public class MazeLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (triggerManager.GetActiveTrigger())
+        {
+            levelManager.interactText.SetActive(true);
+        }
+        else
+        {
+            levelManager.interactText.SetActive(false);
+        }
     }
 
     public void NextPuzzle()
@@ -50,6 +57,8 @@ public class MazeLogic : MonoBehaviour
         levelManager.codeSaved = false;
         levelManager.input.text = "";
         levelDescription.text = "";
+        saveCodeButton.interactable = false;
+        saveCodeButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Explore to get more details";
         Destroy(puzzles[0]);
         puzzles[1].enabled = true;
     }

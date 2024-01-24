@@ -189,16 +189,19 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         {
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
-            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "Input:";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "n = number of characters in your name";
             mazeLogic.levelDescription.text += "\n";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "a[ ] = array of integer values of your name's characters.";
             mazeLogic.levelDescription.text += "\n";
+            mazeLogic.levelDescription.text += "0 <= a[ ] <= 51";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "Output:";
+            mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "a[ ] = array of right integer values of characters.";
             mazeLogic.saveCodeButton.interactable = true;
