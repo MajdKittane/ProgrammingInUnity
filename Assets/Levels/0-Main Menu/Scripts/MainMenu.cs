@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] TMPro.TextMeshProUGUI[] texts = new TMPro.TextMeshProUGUI[3];
     [SerializeField] float delay;
+    [SerializeField] GameObject guide;
     float counter = 0f;
     Dictionary<TMPro.TextMeshProUGUI, string> hoverText;
     Dictionary<TMPro.TextMeshProUGUI, string> normalText;
@@ -72,7 +73,7 @@ public class MainMenu : MonoBehaviour
         }
         if (index == 1)
         {
-            return;
+            guide.SetActive(true);
         }
         if (index == 2)
         {

@@ -35,6 +35,10 @@ public class LevelLogic : MonoBehaviour
         {
             writeCodeText.SetActive(false);
         }
+        else
+        {
+            writeCodeText.SetActive(true);
+        }
     }
 
     public void Pause()

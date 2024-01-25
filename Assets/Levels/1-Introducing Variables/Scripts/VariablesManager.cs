@@ -143,6 +143,7 @@ public class VariablesManager : AbstractPuzzle, Observer
                 if (objI.value == integers[i] && !integersInstantiated[i])
                 {
                     integersInstantiated[i] = true;
+                    break;
                 }
             }
             toSpawn = (objI, name + objI.ToString());
@@ -160,6 +161,7 @@ public class VariablesManager : AbstractPuzzle, Observer
                 if (objB.value == booleans[i] && !booleansInstantiated[i])
                 {
                     booleansInstantiated[i] = true;
+                    break;
                 }
             }
 
