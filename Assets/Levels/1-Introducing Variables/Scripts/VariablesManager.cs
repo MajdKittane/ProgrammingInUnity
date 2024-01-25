@@ -14,9 +14,11 @@ public class VariablesManager : AbstractPuzzle, Observer
     public bool[] integersInstantiated;
     public bool[] booleans;
     public bool[] booleansInstantiated;
+    List<string> variablesUsed;
     public int remainingLetUses;
     bool isReady, isRunning = false;
     bool readyToSpawn, spawned = false;
+    (MyInterpreter.Object,string) toSpawn;
     public bool isFull = false;
     
 
@@ -31,6 +33,44 @@ public class VariablesManager : AbstractPuzzle, Observer
 
         remainingLetUses = integers.Length + booleans.Length;
         spawnPosition = spawnTransform.position;
+    }
+
+
+
+    // Update is called once per frame
+    public override void Update()
+    {
+        base.Update();
+
+        if (levelManager.codeSaved && !isRunning)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
+            levelManager.interactText.SetActive(true);
+        }    
+        else
+        {
+            levelManager.interactText.SetActive(false);
+        }
+
+        if (isReady && !isRunning)
+        {
+            isRunning = true;
+            variablesUsed = new();
+            thread.Start();
+        }
+
+        if (readyToSpawn && !spawned)
+        {
+            readyToSpawn = false;
+            spawned = true;
+            Debug.LogError("Spawn Called;");
+            Spawn();
+        }
+
+        if (isFull)
+        {
+            CheckResult();
+        }
     }
 
     void InstantaiteArrays()
@@ -82,29 +122,6 @@ public class VariablesManager : AbstractPuzzle, Observer
         }
     }
 
-    // Update is called once per frame
-    public override void Update()
-    {
-        base.Update();
-        if (isReady && !isRunning)
-        {
-            isRunning = true;
-            thread.Start();
-        }
-
-        if (readyToSpawn && !spawned)
-        {
-            Spawn();
-            readyToSpawn = false;
-            spawned = true;
-        }
-
-        if (isFull)
-        {
-            CheckResult();
-        }
-    }
-
     public void OnBlockEnd()
     {
         return;
@@ -112,15 +129,50 @@ public class VariablesManager : AbstractPuzzle, Observer
 
     public void OnLetStatement(string name, MyInterpreter.Object value, List<Integer> indexes)
     {
+        Debug.LogWarning("LetSTATEMENT");
+
         if (isFull)
         {
             return;
         }
 
-        readyToSpawn = true;
-        spawned = false;
-        remainingLetUses--;
+        if (value is Integer objI)
+        {
+            for (int i = 0; i < integers.Length; i++)
+            {
+                if (objI.value == integers[i] && !integersInstantiated[i])
+                {
+                    integersInstantiated[i] = true;
+                }
+            }
+            toSpawn = (objI, name + objI.ToString());
+            readyToSpawn = true;
+            spawned = false;
+
+            Thread.Sleep(500);
+        }
+
+
+        else if (value is Boolean objB)
+        {
+            for (int i = 0; i < booleans.Length; i++)
+            {
+                if (objB.value == booleans[i] && !booleansInstantiated[i])
+                {
+                    booleansInstantiated[i] = true;
+                }
+            }
+
+            toSpawn = (objB, name + objB.ToString());
+            readyToSpawn = true;
+            spawned = false;
+
+            Thread.Sleep(500);
+        }
         
+
+        remainingLetUses--;
+
         Thread.Sleep(1000);
 
         if (remainingLetUses <= 0)
@@ -131,40 +183,21 @@ public class VariablesManager : AbstractPuzzle, Observer
 
     void Spawn()
     {
-        foreach (MyInterpreter.Object obj in env.store.Values)
+        Debug.Log("Spawned " + toSpawn);
+        if (toSpawn.Item1 is Integer objI)
         {
-            if (obj is Integer objI)
-            { 
-                GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
-                go.transform.localScale *= objI.value;
-                go.AddComponent<Rigidbody>();
-                for (int i = 0; i < integers.Length; i++)
-                {
-                    if (objI.value == integers[i] && !integersInstantiated[i])
-                    {
-                        integersInstantiated[i] = true;
-                        return;
-                    }
-                }
-            }
-
-
-            if (obj is Boolean objB)
-            {
-                GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
-                go.transform.localScale *= 2;
-                go.GetComponent<MeshRenderer>().material.color = objB.value ? Color.green : Color.red;
-                go.AddComponent<Rigidbody>();
-                for (int i = 0; i < integers.Length; i++)
-                {
-                    if (objB.value == booleans[i] && !booleansInstantiated[i])
-                    {
-                        booleansInstantiated[i] = true;
-                        return;
-                    }
-                }
-            }
+            GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
+            go.transform.localScale *= objI.value;
+            go.AddComponent<Rigidbody>();
         }
+        else if (toSpawn.Item1 is Boolean objB)
+        {
+            GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
+            go.transform.localScale *= 2;
+            go.GetComponent<MeshRenderer>().material.color = objB.value ? Color.green : Color.red;
+            go.AddComponent<Rigidbody>();
+        }
+        
     }
 
     public void OnLoopEnd()

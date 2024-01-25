@@ -40,13 +40,24 @@ public class Robot : AbstractPuzzle, Observer
             slicesPerColor[i] = Random.Range(3, 10);
             cubesColors[i].text = slicesPerColor[i].ToString();
         }
-
+        button.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     // Update is called once per frame
     public override void Update()
     {
         base.Update();
+
+        if (levelManager.codeSaved && !spawner.isSpawning && !ran)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
+            levelManager.interactText.SetActive(true);
+        }
+        else
+        {
+            levelManager.interactText.SetActive(false);
+        }
+
         if (running && !ran)
         {
             ran = true;

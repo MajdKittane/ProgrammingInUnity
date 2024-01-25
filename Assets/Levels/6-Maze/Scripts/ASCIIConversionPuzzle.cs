@@ -197,7 +197,9 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "a[ ] = array of integer values of your name's characters.";
             mazeLogic.levelDescription.text += "\n";
-            mazeLogic.levelDescription.text += "0 <= a[ ] <= 51";
+            mazeLogic.levelDescription.text += "0 <= a[ ] <= 51 for letters";
+            mazeLogic.levelDescription.text += "\n";
+            mazeLogic.levelDescription.text += "a[ ] contains only letters.";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "Output:";

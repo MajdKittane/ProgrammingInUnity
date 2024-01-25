@@ -16,6 +16,7 @@ public class ArrayHandler : AbstractPuzzle, Observer
     Boolean falseBool = new Boolean { value = false };
     bool running, ran = false;
     bool checkDrop, checkedDrop = false;
+    int indexToCheck;
     bool createNextArray, doneCreatingArray = false;
     int currentArrayIndex = 0;
     bool checkingResults, checkedResults = false;
@@ -32,6 +33,17 @@ public class ArrayHandler : AbstractPuzzle, Observer
     public override void Update()
     {
         base.Update();
+
+        if (levelManager.codeSaved && !ran)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
+            levelManager.interactText.SetActive(true);
+        }
+        else
+        {
+            levelManager.interactText.SetActive(false);
+        }
+
         if (running && !ran)
         {
             ran = true;
@@ -40,14 +52,14 @@ public class ArrayHandler : AbstractPuzzle, Observer
 
         if (checkDrop && !checkedDrop)
         {
-            for (int i = 0; i < numOfEntries; i++)
+            arrayRoot.GetChild(indexToCheck).gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = colors[currentArrayIndex];
+
+            if (((Boolean)((Array)env.Get("drop")).elements[indexToCheck]).value == true)
             {
-                if (((Boolean)((Array)env.Get("drop")).elements[i]).value == true && arrayRoot.GetChild(i).GetComponent<Rigidbody>() == null)
-                {
-                    arrayRoot.GetChild(i).gameObject.AddComponent<Rigidbody>();
-                    arrayRoot.GetChild(i).GetComponent<Collider>().enabled = true;
-                }
+                arrayRoot.GetChild(indexToCheck).gameObject.AddComponent<Rigidbody>();
+                arrayRoot.GetChild(indexToCheck).GetComponent<Collider>().enabled = true;
             }
+
             checkDrop = false;
             checkedDrop = true;
         }
@@ -129,9 +141,7 @@ public class ArrayHandler : AbstractPuzzle, Observer
 
     public void OnLetStatement(string name, MyInterpreter.Object value, List<Integer> indexes)
     {
-        checkDrop = true;
-        checkedDrop = false;
-        Thread.Sleep(200);
+        return;
     }
 
     public void OnBlockEnd()
@@ -146,9 +156,17 @@ public class ArrayHandler : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
+        for (int i =0; i<numOfEntries; i++)
+        {
+            indexToCheck = i;
+            checkDrop = true;
+            checkedDrop = false;
+            Thread.Sleep(500);
+        }
+
         checkingResults = true;
         checkedResults = false;
-        Thread.Sleep(300);
+        Thread.Sleep(700);
         currentArrayIndex++;
         createNextArray = true;
         doneCreatingArray = false;

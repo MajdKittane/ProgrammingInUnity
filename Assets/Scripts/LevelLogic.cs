@@ -11,8 +11,9 @@ public class LevelLogic : MonoBehaviour
     [SerializeField] GameObject finishUI;
     [SerializeField] public TMPro.TMP_InputField input;
     [SerializeField] string nextLevel;
-    [SerializeField] public GameObject interactText;
     [SerializeField] GameObject HUD;
+    [SerializeField] public GameObject interactText;
+    [SerializeField] GameObject writeCodeText;
     [HideInInspector] public bool codeSaved = false;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,11 @@ public class LevelLogic : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             ShowMainUI();
+        }
+
+        if (codeSaved)
+        {
+            writeCodeText.SetActive(false);
         }
     }
 

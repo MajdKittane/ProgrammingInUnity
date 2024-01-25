@@ -15,6 +15,7 @@ public class MatrixHandler : AbstractPuzzle, Observer
     Boolean falseBool = new Boolean { value = false };
     bool running, ran = false;
     bool checkDrop, checkedDrop = false;
+    (int, int) indexToCheck;
     bool checkingResults, checkedResults = false;
 
     // Start is called before the first frame update
@@ -29,6 +30,16 @@ public class MatrixHandler : AbstractPuzzle, Observer
     {
         base.Update();
 
+        if (levelManager.codeSaved && !ran)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
+            levelManager.interactText.SetActive(true);
+        }
+        else
+        {
+            levelManager.interactText.SetActive(false);
+        }
+
         if (running && !ran)
         {
             ran = true;
@@ -37,19 +48,13 @@ public class MatrixHandler : AbstractPuzzle, Observer
 
         if (checkDrop && !checkedDrop)
         {
-            Array arr = (Array)env.Get("drop");
-            for (int i = 0; i < numOfLevels; i++)
+            Array matrix = (Array)env.Get("drop");
+            Array row = (Array)matrix.elements[indexToCheck.Item1];
+            matrixRoot.GetChild(indexToCheck.Item1 * (numOfEntries) + indexToCheck.Item2).gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = Color.red;
+            if (((Boolean)row.elements[indexToCheck.Item2]).value == true)
             {
-                Array arr2 = (Array)arr.elements[i];
-                for (int j = 0; j < numOfEntries; j++)
-                {
-                    if (((Boolean)arr2.elements[j]).value == true && matrixRoot.GetChild(i * (numOfEntries) + j).gameObject.GetComponent<Rigidbody>() == null)
-                    {
-                        Debug.LogError(i * (numOfEntries) + j);
-                        matrixRoot.GetChild(i * (numOfEntries) + j).gameObject.AddComponent<Rigidbody>();
-                        matrixRoot.GetChild(i * (numOfEntries) + j).GetComponent<Collider>().enabled = true;
-                    }
-                }
+                matrixRoot.GetChild(indexToCheck.Item1 * (numOfEntries) + indexToCheck.Item2).gameObject.AddComponent<Rigidbody>();
+                matrixRoot.GetChild(indexToCheck.Item1 * (numOfEntries) + indexToCheck.Item2).GetComponent<Collider>().enabled = true;
             }
             checkDrop = false;
             checkedDrop = true;
@@ -118,9 +123,6 @@ public class MatrixHandler : AbstractPuzzle, Observer
 
     public void OnLetStatement(string name, MyInterpreter.Object value, List<Integer> indexes)
     {
-        checkDrop = true;
-        checkedDrop = false;
-        Thread.Sleep(200);
     }
 
     public void OnBlockEnd()
@@ -135,6 +137,17 @@ public class MatrixHandler : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
+        for (int i = 0; i < numOfLevels; i++)
+        {
+            for (int j = 0; j < numOfEntries; j++)
+            {
+                indexToCheck = (i,j);
+                checkDrop = true;
+                checkedDrop = false;
+                Thread.Sleep(500);
+            }
+        }
+
         checkingResults = true;
         checkedResults = false;
         Thread.Sleep(300);

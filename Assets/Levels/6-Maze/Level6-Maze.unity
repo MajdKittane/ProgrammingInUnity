@@ -742,10 +742,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813b693d37a568b43a9211342c72c962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullText: 'abcdefghijklmnopqrstuvwxyz
+  fullText: 'this is ASCII code
 
-    97 98 99 100 101 102 103 104 105 106
-    107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122
+    116 104 105 115 105 115 65 83 67 73 73 99 111
+    100 101
 
 '
 --- !u!114 &136245086
@@ -3102,7 +3102,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849420038}
-  m_LocalRotation: {x: 0.012338575, y: 0.9821883, z: -0.069611184, w: 0.17409281}
+  m_LocalRotation: {x: 0.012338578, y: 0.9821883, z: -0.06961116, w: 0.17409284}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4705,7 +4705,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh51666
+  m_Name: pb_Mesh67754
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5065,9 +5065,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813b693d37a568b43a9211342c72c962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullText: 'use this
+  fullText: 'uppercAse vs LOWERCaSE
 
-    117 115 101 116 104 105 115
+    117 112 112 101 114 99 65 115 101 118 115
+    76 79 87 69 82 67 97 83 69
 
 '
 --- !u!1 &1213612156
@@ -6166,6 +6167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4610909194b3640b519093aa939836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToPickup: {fileID: 0}
+  pickedObject: {fileID: 0}
   pickupPoint: {fileID: 1015764038}
 --- !u!65 &1464508516
 BoxCollider:

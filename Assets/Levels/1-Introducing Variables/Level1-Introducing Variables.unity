@@ -708,6 +708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4610909194b3640b519093aa939836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToPickup: {fileID: 0}
+  pickedObject: {fileID: 0}
   pickupPoint: {fileID: 1060864318}
 --- !u!65 &447399506
 BoxCollider:
@@ -2198,7 +2200,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useTestInput: 0
-  testInput: 
+  testInput: 'let i =1;
+
+    let j = 5;
+
+    let x = 3;
+
+    let f = false;
+
+    let
+    t = true;'
+  levelManager: {fileID: 0}
   spawnTransform: {fileID: 1699318347}
   variableObject: {fileID: 1148542516746997868, guid: f1355a7f0d3615345a8ccbbb3c4e0e28, type: 3}
   objecitve: {fileID: 1941485501}
@@ -2365,6 +2377,44 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7799917391136079602, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_text
+      value: 'Initialize Variables
+
+
+
+        You are asked to create a number of
+        integer and boolean varibales.
+
+
+        An integer spawns a sphered scaled
+        by its value.
+
+
+        A boolean spawns red sphere for false and green for
+        true.
+
+
+        number of variables and their values are written on a wall.
+
+
+
+        You
+        are free with the naming of variables.
+
+
+
+        Input:
+
+        No Input.
+
+
+
+        Output:
+
+        number
+        of different variables as asked.'
+      objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262870, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_Name
       value: LevelUI
@@ -2411,6 +2461,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7799917391423262875, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917391825509908, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917392736720353, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917392736720353, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

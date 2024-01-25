@@ -1285,8 +1285,9 @@ MonoBehaviour:
   finishUI: {fileID: 7799917390811434029}
   input: {fileID: 7799917392701601348}
   nextLevel: Level2-Introducing Conditions
-  interactText: {fileID: 8028902764510243662}
   HUD: {fileID: 6261456328790183844}
+  interactText: {fileID: 8028902764510243662}
+  writeCodeText: {fileID: 3278402905572493701}
   codeSaved: 0
 --- !u!1 &7799917391460188001
 GameObject:
@@ -3097,8 +3098,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 473, y: -323}
-  m_SizeDelta: {x: 313.9185, y: 50}
+  m_AnchoredPosition: {x: 456, y: -323}
+  m_SizeDelta: {x: 361.6684, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5942200091059027172
 CanvasRenderer:

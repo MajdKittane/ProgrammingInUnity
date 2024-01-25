@@ -13,11 +13,13 @@ public class MachineLogic : AbstractPuzzle
     [SerializeField] Transform defaultPos;
     [SerializeField] GameObject smallCube;
     [SerializeField] Transform smallCubeSpawn;
+    Pickup pickupLogic;
     int[] slicesPerColor = new int[3];
     int[] slices = new int[3];
     int[] results = new int[3];
     bool rotating;
     bool noCubes = false;
+    bool playerInArea = false;
     float angle = 0f;
 
     // Start is called before the first frame update
@@ -33,6 +35,7 @@ public class MachineLogic : AbstractPuzzle
             slices[i] = spawnedCubes[i] * slicesPerColor[i];
             cubesColors[i].text = slicesPerColor[i].ToString();
         }
+        pickupLogic = FindAnyObjectByType<Pickup>();
 
     }
 
@@ -40,6 +43,30 @@ public class MachineLogic : AbstractPuzzle
     public override void Update()
     {
         base.Update();
+
+        if (pickupLogic.objectToPickup != null)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Pick";
+            levelManager.interactText.SetActive(true);
+        }
+
+        if (playerInArea && cubePosition.childCount == 0)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Interact";
+            levelManager.interactText.SetActive(true);
+        }
+
+        if (!playerInArea && pickupLogic.pickedObject != null)
+        {
+            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Drop";
+            levelManager.interactText.SetActive(true);
+        }
+
+        if (!playerInArea && pickupLogic.objectToPickup == null && pickupLogic.pickedObject == null)
+        {
+            levelManager.interactText.SetActive(false);
+        }
+
         if (rotating)
         {
             cubePosition.rotation = Quaternion.Euler(new Vector3(angle, angle, angle));
@@ -54,7 +81,13 @@ public class MachineLogic : AbstractPuzzle
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<ColoredCube>() != null && levelManager.codeSaved)
+        if (other.gameObject.GetComponentInChildren<Pickup>() && other.gameObject.GetComponentInChildren<Pickup>().pickedObject != null)
+        {
+            playerInArea = true;
+        }
+
+
+        if (other.gameObject.GetComponent<ColoredCube>() != null && levelManager.codeSaved && cubePosition.childCount == 0)
         {
             other.transform.parent = cubePosition;
             other.gameObject.transform.localPosition = Vector3.zero;
@@ -77,10 +110,19 @@ public class MachineLogic : AbstractPuzzle
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponentInChildren<Pickup>())
+        {
+            playerInArea = false;
+        }
+    }
+
     public void TestCase(GameObject cube, int colorIndex)
     {
         rotating = true;
         env.store["cube"] = new Integer { value = colorIndex };
+
 
         Run();
 
