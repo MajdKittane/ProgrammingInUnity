@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Arrays
   m_EditorClassIdentifier: 
-  codeText: ArrayCode
+  codeText: out(x);
   descriptionText: ArrayDescription

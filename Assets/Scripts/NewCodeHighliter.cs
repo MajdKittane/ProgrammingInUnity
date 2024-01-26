@@ -29,7 +29,6 @@ public class NewCodeHighliter : MonoBehaviour
     void Update()
     {
         if (tokens.Count > 0) Debug.Log(tokens[0].tokenType + "\t" + tokens[0].literal);
-        //if (hidden.text == "") return;
         if (hidden.text.Replace("\n","").Replace("\t","").Replace("\r","").Replace(" ","") != previousFrameText.Replace("\n", "").Replace("\t", "").Replace("\r", "").Replace(" ", ""))
         {
             CodeRefactoring();

@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Loops
   m_EditorClassIdentifier: 
-  codeText: "let x =0;\r\nloop(10){ \r\nlet x =x+1;\r\nout(x);\r\n}\n\nlet x =0;\r\nlet
-    b = true;\nloop(b){ \r\nlet x =x+1;\r\nout(x);\r\nif(x>=10)\n{\nlet b = false;\n}\n}"
+  codeText: 'let x = 0;
+
+    out(x);
+
+    {
+
+    x
+
+    }'
   descriptionText: 'Loops are used for executing a block of code a number of times.
 
 
@@ -30,7 +37,7 @@ MonoBehaviour:
 
     }
 
-    
+
 
     -----------------
 
@@ -39,8 +46,8 @@ MonoBehaviour:
 
     {
 
-    Loops
-    until the Integer is 0
+    Loops until
+    the Integer is 0
 
     Integer decrements automatically every loop
 
