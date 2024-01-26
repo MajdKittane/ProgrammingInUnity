@@ -9,7 +9,7 @@ namespace MyInterpreter
     public class Lexer
     {
         string input;
-        int position;
+        public int position;
         int nextPosition;
         byte character;
 

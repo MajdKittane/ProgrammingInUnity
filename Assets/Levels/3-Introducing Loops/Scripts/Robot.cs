@@ -25,7 +25,7 @@ public class Robot : AbstractPuzzle, Observer
     bool isMoving, hasMoved = false;
     bool isSlicing = false;
     int[] results = { 0, 0, 0 };
-
+    bool programDone = false;
 
     // Start is called before the first frame update
     public override void Start()
@@ -115,11 +115,16 @@ public class Robot : AbstractPuzzle, Observer
             StartCoroutine(DestroyCube(spawnedCubes[nextCube], d + spawnDelay));
         }
 
+        if (programDone)
+        {
+            CheckResult();
+        }
+
         for (int i = 0; i < 3; i++)
         {
             if (spawner.cubesPerColor[i] != 0)
             {
-                return;
+                break;
             }
         }
         noCubes = true;
@@ -128,6 +133,8 @@ public class Robot : AbstractPuzzle, Observer
         {
             CheckRemainingCubes();
         }
+
+        
     }
 
     public IEnumerator SmallCubeSpawn(int colorIndex, float delay)
@@ -182,6 +189,7 @@ public class Robot : AbstractPuzzle, Observer
 
     public override void CheckResult()
     {
+        Debug.LogError("CHECKRESULT");
         for (int i = 0; i < 3; i++)
         {
             if (results[i] != slices[i])
@@ -234,6 +242,10 @@ public class Robot : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
-        return;
+        if (!noCubes)
+        {
+            Thread.Sleep(1000);
+            programDone = true;
+        }
     }
 }

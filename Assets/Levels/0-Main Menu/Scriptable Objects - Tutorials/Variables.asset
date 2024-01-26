@@ -12,5 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Variables
   m_EditorClassIdentifier: 
-  codeText: VariablesCode
-  descriptionText: VariablesDescription
+  codeText: 'let xInt = 6;
+
+    let age = 25;
+
+
+    let fNum = 5;
+
+    let sNum
+    = 10;
+
+    let sum = fNum + sNum;
+
+    out(sum);
+
+
+    let xBool = true;
+
+    let
+    isHigh = !xBool;
+
+    out(isHigh);
+
+    out(xBool);'
+  descriptionText: 'You can initialize variables by using let statement.
+
+
+    We
+    have 2 types of variables : Integers and Booleans.
+
+
+    The following code shows
+    how to initialize, print variables or doing operations on them.'

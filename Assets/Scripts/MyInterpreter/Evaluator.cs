@@ -246,11 +246,13 @@ namespace MyInterpreter
                 if (result is ReturnValue)
                 {
                     ReturnValue returnValue = (ReturnValue)result;
+                    if (observer != null) observer.OnProgramEnd();
                     return returnValue.value;
                 }
                 else if (result is Error)
                 {
                     Error error = (Error)result;
+                    if (observer != null) observer.OnProgramEnd();
                     return error;
                 }
             }

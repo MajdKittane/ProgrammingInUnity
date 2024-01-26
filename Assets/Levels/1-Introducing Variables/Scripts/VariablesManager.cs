@@ -20,7 +20,7 @@ public class VariablesManager : AbstractPuzzle, Observer
     bool readyToSpawn, spawned = false;
     (MyInterpreter.Object,string) toSpawn;
     public bool isFull = false;
-    
+    bool programDone = false;
 
     // Start is called before the first frame update
     public override void Start()
@@ -68,6 +68,11 @@ public class VariablesManager : AbstractPuzzle, Observer
         }
 
         if (isFull)
+        {
+            CheckResult();
+        }
+
+        if (programDone)
         {
             CheckResult();
         }
@@ -214,7 +219,11 @@ public class VariablesManager : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
-        return;
+        if (!isFull)
+        {
+            Thread.Sleep(1000);
+            programDone = true;
+        }
     }
 
     public override void Action()
