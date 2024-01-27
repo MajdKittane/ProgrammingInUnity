@@ -9,7 +9,7 @@ public class ColoredCubeSpawner : MonoBehaviour
     [SerializeField] private GameObject prefab;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float delay = 0f;
-    public List<GameObject> spawnedCubes { get; private set; }
+    public List<GameObject> spawnedCubes { get; private set; } = new();
     public bool isSpawning { get; private set; } = true;
     // Start is called before the first frame update
     void Start()

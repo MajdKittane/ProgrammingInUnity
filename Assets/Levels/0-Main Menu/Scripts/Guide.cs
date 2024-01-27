@@ -69,6 +69,7 @@ public class Guide : MonoBehaviour, Observer
 
     void ExecuteCode()
     {
+        outputText.text = "Output:\n";
         Lexer lexer = new Lexer(tutorials[currentIndex].code);
         Parser parser = new Parser(lexer);
         Program prog = parser.ParseProgram();
