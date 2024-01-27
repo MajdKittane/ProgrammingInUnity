@@ -48,10 +48,12 @@ public class ThirdPersonMovement : MonoBehaviour
         if (verticalInput == 0 && horizontalInput == 0)
         {
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+            GetComponent<AnimationController>().Idle();
         }
         else
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            GetComponent<AnimationController>().StartWalking();
         }
     }
 

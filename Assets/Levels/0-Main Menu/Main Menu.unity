@@ -251,8 +251,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.9999995, y: -4.9999995}
-  m_SizeDelta: {x: 560, y: 650}
+  m_AnchoredPosition: {x: -2.2521, y: -4.9999995}
+  m_SizeDelta: {x: 545.4958, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150177370
 MonoBehaviour:
@@ -301,8 +301,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -560,14 +560,13 @@ GameObject:
   m_Component:
   - component: {fileID: 262894758}
   - component: {fileID: 262894759}
-  - component: {fileID: 262894760}
   m_Layer: 0
   m_Name: Guide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &262894758
 Transform:
   m_ObjectHideFlags: 0
@@ -598,28 +597,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorials:
   - {fileID: 11400000, guid: 73bc208355d1dde45af46ab995a5cdbf, type: 2}
+  - {fileID: 11400000, guid: f87d429091a770641bf1e195f86bf24a, type: 2}
   - {fileID: 11400000, guid: c768647dbe9a81e4a916f235aaba6386, type: 2}
   - {fileID: 11400000, guid: 9e5825a8dba0d7f4cb7c8c9f133761f6, type: 2}
   - {fileID: 11400000, guid: 1123e4c95d95a5542952d2e9350ea9a8, type: 2}
   codeText: {fileID: 718085703}
   descriptionText: {fileID: 150177370}
+  outputText: {fileID: 880950488}
   nextButton: {fileID: 814061993}
   previousButton: {fileID: 1490451952}
+  runButton: {fileID: 326567314}
   backButton: {fileID: 243203022}
---- !u!114 &262894760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262894757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0dbc6f91067cb9439fb65d9b86ce8bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shown: {fileID: 0}
-  hidden: {fileID: 0}
 --- !u!1 &326567312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1880,7 +1868,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Console
+  m_text: 'Output:
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2666,7 +2656,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1280, y: 720}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ColoredCubeSpawner : MonoBehaviour
 {
-    public Color[] colors = { Color.red, Color.green, Color.blue };
+    public Color[] colors { get; private set; } = { Color.red, Color.green, Color.blue };
     [SerializeField] public int[] cubesPerColor = new int[3];
-    [SerializeField] GameObject prefab;
-    [SerializeField] Transform spawnPoint;
-    [SerializeField] float delay = 0f;
-    public List<GameObject> spawnedCubes;
-    public bool isSpawning = true;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float delay = 0f;
+    public List<GameObject> spawnedCubes { get; private set; }
+    public bool isSpawning { get; private set; } = true;
     // Start is called before the first frame update
     void Start()
     {

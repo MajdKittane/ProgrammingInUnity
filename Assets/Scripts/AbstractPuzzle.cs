@@ -6,16 +6,23 @@ using MyInterpreter;
 
 public abstract class AbstractPuzzle : MonoBehaviour
 {
-    [Header("In Editor Testing")]
+    //In Editor Testing
     [SerializeField] bool useTestInput;
     [TextArea(3, 10)] [SerializeField] string testInput;
 
+
     protected Thread thread;
     protected Environment env;
-    [HideInInspector] public LevelLogic levelManager;
+    protected bool isProgramDone = false;
+    [HideInInspector] public LevelLogic levelManager { get; protected set; }
 
     // Start is called before the first frame update
     public virtual void Start()
+    {
+        BaseStart();
+    }
+
+    protected void BaseStart()
     {
         thread = new Thread(Run);
         env = new Environment();
@@ -25,6 +32,11 @@ public abstract class AbstractPuzzle : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        BaseUpdate();
+    }
+
+    protected void BaseUpdate()
+    {
         if (Input.GetKeyDown(KeyCode.F) && Time.timeScale != 0f)
         {
             Action();
@@ -33,6 +45,11 @@ public abstract class AbstractPuzzle : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             levelManager.Retry();
+        }
+
+        if (isProgramDone)
+        {
+            CheckResult();
         }
     }
 

@@ -12,5 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Conditions
   m_EditorClassIdentifier: 
-  codeText: ConditionsCode
-  descriptionText: ConditionsDescription
+  codeText: "<color=#E7755B>let</color> <color=#5bcde7>x</color> = 7;\r\r\n<color=#E7755B>if</color>(<color=#5bcde7>x</color>%2
+    == 1)\r\n{\n    <color=#5bcde7>out</color>(false);\n}\n<color=#E7755B>else</color>\r\n{\n   
+    <color=#5bcde7>out</color>(true);\n}\r\n<color=#5bcde7>out</color>(<color=#5bcde7>xint</color>);\r\n<color=#5bcde7>out</color>(<color=#5bcde7>xbool</color>);"
+  descriptionText: "You can use conditions to perform different actions for different
+    decisions.\n\nUse if to specify a block of code to be executed, if a specified
+    condition is true\r.\n\nUse else to specify a block of code to be executed, if
+    the same condition is false."
+  code: 'let x = 7;
+
+    if(x%2 == 1)
+
+    {
+
+    out(false);
+
+    }
+
+    else
+
+    {
+
+    out(true);
+
+    }
+
+    out(xint);
+
+    out(xbool);'

@@ -6,21 +6,28 @@ using System.Threading;
 
 public class MachineLogic : AbstractPuzzle
 {
-    [Header("Cube Spawning")]
-    [SerializeField] ColoredCubeSpawner spawner;
-    [SerializeField] Transform cubePosition;
-    [SerializeField] TMPro.TextMeshProUGUI[] cubesColors;
-    [SerializeField] Transform defaultPos;
-    [SerializeField] GameObject smallCube;
-    [SerializeField] Transform smallCubeSpawn;
-    Pickup pickupLogic;
-    int[] slicesPerColor = new int[3];
-    int[] slices = new int[3];
-    int[] results = new int[3];
-    bool rotating;
-    bool noCubes = false;
-    bool playerInArea = false;
-    float angle = 0f;
+
+    //Cube Spawning
+    [SerializeField] private ColoredCubeSpawner spawner;
+    [SerializeField] private Transform cubePosition;
+    [SerializeField] private TMPro.TextMeshProUGUI[] cubesColors;
+    [SerializeField] private Transform defaultPos;
+    [SerializeField] private GameObject smallCube;
+    [SerializeField] private Transform smallCubeSpawn;
+
+    //Random Variables
+    private int[] slicesPerColor = new int[3];
+    private int[] slices = new int[3];
+    private int[] results = new int[3];
+
+    //Changing States of Machine
+    private bool rotating;
+    private bool noCubes = false;
+    private float angle = 0f;
+
+    //Reference for Player's Pickup Logic --- Used to Change HUD Interact Text based on context
+    private Pickup pickupLogic;
+    private bool playerInArea = false;
 
     // Start is called before the first frame update
     public override void Start()
@@ -44,6 +51,17 @@ public class MachineLogic : AbstractPuzzle
     {
         base.Update();
 
+        UpdateHUD();
+
+        if (rotating)
+        {
+            cubePosition.rotation = Quaternion.Euler(new Vector3(angle, angle, angle));
+            angle += 90 * Time.deltaTime;
+        }
+    }
+
+    void UpdateHUD()
+    {
         if (pickupLogic.objectToPickup != null)
         {
             levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Pick";
@@ -65,17 +83,6 @@ public class MachineLogic : AbstractPuzzle
         if (!playerInArea && pickupLogic.objectToPickup == null && pickupLogic.pickedObject == null)
         {
             levelManager.interactText.SetActive(false);
-        }
-
-        if (rotating)
-        {
-            cubePosition.rotation = Quaternion.Euler(new Vector3(angle, angle, angle));
-            angle += 90 * Time.deltaTime;
-        }
-
-        if (noCubes)
-        {
-            CheckRemainingCubes();
         }
     }
 
@@ -173,12 +180,13 @@ public class MachineLogic : AbstractPuzzle
                 return;
             }
         }
-        noCubes = true;
+        isProgramDone = true;
     }
 
 
     public override void CheckResult()
     {
+        if (CheckRemainingCubes()) return;
         for (int i = 0; i < 3; i++)
         {
             if (results[i] != slices[i])
@@ -190,15 +198,17 @@ public class MachineLogic : AbstractPuzzle
         levelManager.Win();
     }
 
-    void CheckRemainingCubes()
+    bool CheckRemainingCubes()
     {
 
         if (FindObjectsOfType<ColoredCube>().Length == 0)
         {
-            CheckResult();
+            return false;
         }
+        return true;
     }
 
+    //Action in this Level Controlled by the Pikup Logic of the Player
     public override void Action()
     {
         return;

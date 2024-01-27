@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallText : MonoBehaviour
 {
-    [TextArea(3,10)]public string fullText;
+    [TextArea(3,10)] public string fullText;
     string shownText = "";
     // Start is called before the first frame update
     void Start()

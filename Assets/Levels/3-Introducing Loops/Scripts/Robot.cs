@@ -6,26 +6,36 @@ using System.Threading;
 
 public class Robot : AbstractPuzzle, Observer
 {
-
+    //Robot Button - Becomes Green When Turned On
     [SerializeField] GameObject button;
-    [SerializeField] ColoredCubeSpawner spawner;
-    [SerializeField] TMPro.TextMeshProUGUI[] cubesColors;
-    [SerializeField] Transform dropPos;
-    [SerializeField] float spawnDelay;
-    [SerializeField] GameObject smallCubePrefab;
-    List<GameObject> spawnedCubes = null;
-    int[] slicesPerColor = new int[3];
-    int[] slices = new int[3];
-    int nextSlices;
-    int nextCube = 0;
-    int nextCubeColor = 0;
-    bool noCubes = false;
-    bool running, ran = false;
-    bool isHolding, isHeld = false;
-    bool isMoving, hasMoved = false;
-    bool isSlicing = false;
-    int[] results = { 0, 0, 0 };
-    bool programDone = false;
+
+    //Cubes Spawning Variables
+    [SerializeField] private ColoredCubeSpawner spawner;
+    [SerializeField] private TMPro.TextMeshProUGUI[] cubesColors;
+    [SerializeField] private Transform dropPos;
+    [SerializeField] private float spawnDelay;
+    [SerializeField] private GameObject smallCubePrefab;
+    private List<GameObject> spawnedCubes = null;
+
+    //Random Variables
+    private int[] slicesPerColor = new int[3];
+    private int[] slices = new int[3];
+
+
+    //Transition Between Threads
+    private bool noCubes = false;
+    private bool running, ran = false;
+    private bool isHolding, isHeld = false;
+    private bool isMoving, hasMoved = false;
+    private bool isSlicing = false;
+
+
+    //Data Transmitted Between Threads
+    private int currentSlicesNumber;
+    private int nextCube = 0;
+    private int nextCubeColor = 0;
+    private int[] results = { 0, 0, 0 };
+    
 
     // Start is called before the first frame update
     public override void Start()
@@ -48,6 +58,15 @@ public class Robot : AbstractPuzzle, Observer
     {
         base.Update();
 
+        UpdateHUD();
+
+        HandleStarting();
+
+        HandleWork();  
+    }
+
+    void UpdateHUD()
+    {
         if (levelManager.codeSaved && !spawner.isSpawning && !ran)
         {
             levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
@@ -57,7 +76,10 @@ public class Robot : AbstractPuzzle, Observer
         {
             levelManager.interactText.SetActive(false);
         }
+    }
 
+    void HandleStarting()
+    {
         if (running && !ran)
         {
             ran = true;
@@ -78,9 +100,10 @@ public class Robot : AbstractPuzzle, Observer
 
             }
         }
+    }
 
-
-
+    void HandleWork()
+    {
         if (isHolding && !isHeld)
         {
             GameObject cube = spawnedCubes[nextCube];
@@ -101,10 +124,9 @@ public class Robot : AbstractPuzzle, Observer
         {
 
             float d = 0f;
-            for (int j = 1; j <= nextSlices; j++)
+            for (int j = 1; j <= currentSlicesNumber; j++)
             {
                 d += spawnDelay;
-                Debug.LogWarning(nextCubeColor + "\t" + j);
                 StartCoroutine(SmallCubeSpawn(nextCubeColor, d));
             }
             isHolding = false;
@@ -114,27 +136,6 @@ public class Robot : AbstractPuzzle, Observer
             isSlicing = false;
             StartCoroutine(DestroyCube(spawnedCubes[nextCube], d + spawnDelay));
         }
-
-        if (programDone)
-        {
-            CheckResult();
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            if (spawner.cubesPerColor[i] != 0)
-            {
-                break;
-            }
-        }
-        noCubes = true;
-
-        if (noCubes)
-        {
-            CheckRemainingCubes();
-        }
-
-        
     }
 
     public IEnumerator SmallCubeSpawn(int colorIndex, float delay)
@@ -169,18 +170,8 @@ public class Robot : AbstractPuzzle, Observer
         thread.Interrupt();
     }
 
-    void CheckRemainingCubes()
-    {
-
-        if (FindObjectsOfType<ColoredCube>().Length == 0)
-        {
-            CheckResult();
-        }
-    }
-
     public override void Action()
     {
-
         if (!running && spawnedCubes != null && levelManager.codeSaved)
         {
             running = true;
@@ -189,7 +180,6 @@ public class Robot : AbstractPuzzle, Observer
 
     public override void CheckResult()
     {
-        Debug.LogError("CHECKRESULT");
         for (int i = 0; i < 3; i++)
         {
             if (results[i] != slices[i])
@@ -218,7 +208,7 @@ public class Robot : AbstractPuzzle, Observer
 
     public void OnLoopIterationEnd()
     {
-        nextSlices = (int)((Integer)env.Get("slices")).value;
+        currentSlicesNumber = (int)((Integer)env.Get("slices")).value;
         isHolding = true;
         Thread.Sleep(100);
         isMoving = true;
@@ -242,10 +232,12 @@ public class Robot : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
-        if (!noCubes)
-        {
-            Thread.Sleep(1000);
-            programDone = true;
-        }
+        Thread.Sleep(2000);
+        isProgramDone = true;
+    }
+
+    public void HandleOutputStream(string str)
+    {
+        return;
     }
 }

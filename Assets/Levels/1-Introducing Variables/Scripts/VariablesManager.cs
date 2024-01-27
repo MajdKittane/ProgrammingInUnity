@@ -6,21 +6,26 @@ using System.Threading;
 
 public class VariablesManager : AbstractPuzzle, Observer
 {
-    [SerializeField] Transform spawnTransform;
-    [SerializeField] GameObject variableObject;
-    [SerializeField] TMPro.TextMeshProUGUI objecitve;
-    Vector3 spawnPosition;
-    public int[] integers;
-    public bool[] integersInstantiated;
-    public bool[] booleans;
-    public bool[] booleansInstantiated;
-    List<string> variablesUsed;
-    public int remainingLetUses;
-    bool isReady, isRunning = false;
-    bool readyToSpawn, spawned = false;
-    (MyInterpreter.Object,string) toSpawn;
-    public bool isFull = false;
-    bool programDone = false;
+    [SerializeField] private Transform spawnTransform;
+    [SerializeField] private GameObject variableObject;
+    [SerializeField] private TMPro.TextMeshProUGUI objecitve;
+
+    //Variables Values
+    private Vector3 spawnPosition;
+    private int[] integers;
+    private bool[] integersInstantiated;
+    private bool[] booleans;
+    private bool[] booleansInstantiated;
+
+    //Transition Between Threads
+    private int remainingLetUses;
+    private bool isReady, isRunning = false;
+    private bool readyToSpawn, spawned = false;
+    private bool isFull = false;
+
+    //Data Transmitted Between Threads
+    private  (MyInterpreter.Object,string) toSpawn;
+    
 
     // Start is called before the first frame update
     public override void Start()
@@ -55,7 +60,6 @@ public class VariablesManager : AbstractPuzzle, Observer
         if (isReady && !isRunning)
         {
             isRunning = true;
-            variablesUsed = new();
             thread.Start();
         }
 
@@ -63,19 +67,9 @@ public class VariablesManager : AbstractPuzzle, Observer
         {
             readyToSpawn = false;
             spawned = true;
-            Debug.LogError("Spawn Called;");
             Spawn();
         }
 
-        if (isFull)
-        {
-            CheckResult();
-        }
-
-        if (programDone)
-        {
-            CheckResult();
-        }
     }
 
     void InstantaiteArrays()
@@ -134,8 +128,6 @@ public class VariablesManager : AbstractPuzzle, Observer
 
     public void OnLetStatement(string name, MyInterpreter.Object value, List<Integer> indexes)
     {
-        Debug.LogWarning("LetSTATEMENT");
-
         if (isFull)
         {
             return;
@@ -190,7 +182,6 @@ public class VariablesManager : AbstractPuzzle, Observer
 
     void Spawn()
     {
-        Debug.Log("Spawned " + toSpawn);
         if (toSpawn.Item1 is Integer objI)
         {
             GameObject go = Instantiate(variableObject, spawnPosition + new Vector3(Random.Range(0.2f, 1.0f), Random.Range(0.2f, 0.3f), Random.Range(0.2f, 1.0f)), Quaternion.identity);
@@ -219,11 +210,8 @@ public class VariablesManager : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
-        if (!isFull)
-        {
-            Thread.Sleep(1000);
-            programDone = true;
-        }
+        Thread.Sleep(2000);
+        isProgramDone = true;
     }
 
     public override void Action()
@@ -254,5 +242,10 @@ public class VariablesManager : AbstractPuzzle, Observer
             }
         }
         levelManager.Win();
+    }
+
+    public void HandleOutputStream(string str)
+    {
+        return;
     }
 }

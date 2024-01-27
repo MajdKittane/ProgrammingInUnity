@@ -13,7 +13,10 @@ namespace MyInterpreter
         {
             foreach(var arg in args)
             {
-                Debug.LogWarning(arg.Inspect());
+                if (Evaluator.observer != null)
+                {
+                    Evaluator.observer.HandleOutputStream(arg.Inspect());
+                }
             }
             return new Null();
         }

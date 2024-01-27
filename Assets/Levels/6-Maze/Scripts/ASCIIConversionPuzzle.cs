@@ -29,11 +29,11 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
     {
         base.Start();
         mazeLogic = gameObject.GetComponent<MazeLogic>();
-        mazeLogic.triggerManager.inputButton.onClick.AddListener(() =>
+        mazeLogic.triggerManager.GetInputButton().onClick.AddListener(() =>
         {
             SavePlayerName();
             levelManager.Resume();
-            mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(false);
+            mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(false);
         });
     }
 
@@ -60,6 +60,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
             updatedText = true;
         }
 
+
         if (getNextPuzzle)
         {
             mazeLogic.NextPuzzle();
@@ -73,11 +74,11 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
             return;
         }
 
-        if (mazeLogic.triggerManager.GetActiveTrigger().interactObject.GetComponent<Door>() is Door door)
+        if (mazeLogic.triggerManager.GetActiveTrigger().GetInteractObject().GetComponent<Door>() is Door door)
         {
             if (mazeLogic.playerName == "")
             {
-                mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(true);
+                mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(true);
                 levelManager.Pause();
             }
 
@@ -90,11 +91,11 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
             }
         }
 
-        if (mazeLogic.triggerManager.GetActiveTrigger().interactObject.GetComponentInChildren<WallText>() is WallText text)
+        if (mazeLogic.triggerManager.GetActiveTrigger().GetInteractObject().GetComponentInChildren<WallText>() is WallText text)
         {
 
-            mazeLogic.triggerManager.fullScreenText.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = text.fullText;
-            mazeLogic.triggerManager.fullScreenText.transform.root.gameObject.SetActive(true);
+            mazeLogic.triggerManager.GetFullScreenUI().GetComponentInChildren<TMPro.TextMeshProUGUI>().text = text.fullText;
+            mazeLogic.triggerManager.GetFullScreenUI().transform.root.gameObject.SetActive(true);
             levelManager.Pause();
 
             if (!mazeLogic.triggerManager.interactDone[mazeLogic.triggerManager.GetActiveTrigger()])
@@ -139,7 +140,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
     public void SavePlayerName()
     {
         string text = "";
-        foreach (char ch in mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text)
+        foreach (char ch in mazeLogic.triggerManager.GetInputField().GetComponent<TMPro.TMP_InputField>().text)
         {
             if (!IsASCIILetter(ch))
             {
@@ -151,7 +152,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
 
         if (text == "") return;
 
-        mazeLogic.playerName = mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text;
+        mazeLogic.SetPlayerName(mazeLogic.triggerManager.GetInputField().GetComponent<TMPro.TMP_InputField>().text);
         onDoorText.text = text;
         descriptionDetails++;
         UpdateDescription(0);
@@ -185,7 +186,7 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
                 break;
         }
 
-        if (descriptionDetails >=2 )
+        if (descriptionDetails ==2 )
         {
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
@@ -246,8 +247,8 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
 
     public void OnProgramEnd()
     {
-        CheckResult();
-        Thread.Sleep(500);
+        Thread.Sleep(2000);
+        isProgramDone = true;
     }
 
     public bool IsASCIILetter(int num)
@@ -263,5 +264,10 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         }
 
         return false;
+    }
+
+    public void HandleOutputStream(string str)
+    {
+        return;
     }
 }

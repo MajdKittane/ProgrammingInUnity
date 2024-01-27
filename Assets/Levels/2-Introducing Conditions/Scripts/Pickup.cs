@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    [HideInInspector] public GameObject objectToPickup;
-    [HideInInspector] public GameObject pickedObject;
+    [HideInInspector] public GameObject objectToPickup { get; private set; }
+    [HideInInspector] public GameObject pickedObject { get; private set; }
     [SerializeField] Transform pickupPoint;
     // Start is called before the first frame update
     void Start()

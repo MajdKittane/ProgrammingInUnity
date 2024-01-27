@@ -7,33 +7,57 @@ using UnityEngine.SceneManagement;
 
 public class ArrayHandler : AbstractPuzzle, Observer
 {
-    [SerializeField] GameObject arrayEntryPrefab;
-    [SerializeField] Transform arrayRoot;
-    Color[] colors = { Color.red, Color.green, Color.blue };
-    int numOfEntries;
-    List<MyInterpreter.Object> dropList = new List<MyInterpreter.Object>();
-    List<MyInterpreter.Object> cubeList = new List<MyInterpreter.Object>();
-    Boolean falseBool = new Boolean { value = false };
-    bool running, ran = false;
-    bool checkDrop, checkedDrop = false;
-    int indexToCheck;
+    [SerializeField] protected GameObject arrayEntryPrefab;
+    [SerializeField] protected Transform arrayRoot;
+
+    //Colors Indexing
+    protected Color[] colors = { Color.red, Color.green, Color.blue };
+
+    //Array Generating Varibales
+    protected bool isMatrix = false;
+    protected int numOfEntries;
+    protected List<MyInterpreter.Object> dropList = new List<MyInterpreter.Object>();
+    protected  List<MyInterpreter.Object> cubeList = new List<MyInterpreter.Object>();
+    protected Boolean falseBool = new Boolean { value = false };
+
+    //Transition Between Threads
+    protected bool running, ran = false;
+    protected bool checkDrop, checkedDrop = false;
     bool createNextArray, doneCreatingArray = false;
+    protected bool checkingResults, checkedResults = false;
+
+    //Data Transmitted Between Threads
+    int indexToCheck;
     int currentArrayIndex = 0;
-    bool checkingResults, checkedResults = false;
-    bool win = true;
+    protected int maxIndex = 2;
+
 
     // Start is called before the first frame update
     public override void Start()
     {
-        base.Start();
-        CreateCubeArray(currentArrayIndex);
+        BaseStart();
+        cubeList = CreateCubeArray(isMatrix);
+        env.store["cubes"] = new Array { elements = cubeList };
+        env.store["n"] = new Integer { value = currentArrayIndex };
+        env.store["c"] = new Integer { value = cubeList.Count };
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        base.Update();
+        BaseUpdate();
 
+        UpdateHUD();
+
+        HandleStarting();
+
+        HandleDropping();
+
+        HandleNextArrayCreation();
+    }
+
+    void UpdateHUD()
+    {
         if (levelManager.codeSaved && !ran)
         {
             levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
@@ -43,95 +67,112 @@ public class ArrayHandler : AbstractPuzzle, Observer
         {
             levelManager.interactText.SetActive(false);
         }
+    }
 
+    void HandleStarting()
+    {
         if (running && !ran)
         {
             ran = true;
+            FillDropList();
             thread.Start();
-        }
-
-        if (checkDrop && !checkedDrop)
-        {
-            arrayRoot.GetChild(indexToCheck).gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = colors[currentArrayIndex];
-
-            if (((Boolean)((Array)env.Get("drop")).elements[indexToCheck]).value == true)
-            {
-                arrayRoot.GetChild(indexToCheck).gameObject.AddComponent<Rigidbody>();
-                arrayRoot.GetChild(indexToCheck).GetComponent<Collider>().enabled = true;
-            }
-
-            checkDrop = false;
-            checkedDrop = true;
-        }
-
-        if (checkingResults && !checkedResults)
-        {
-            CheckResult();
-            checkedResults = true;
-        }
-
-        if (createNextArray && !doneCreatingArray && currentArrayIndex < 3)
-        {
-            CreateCubeArray(currentArrayIndex);
-            doneCreatingArray = true;
-            createNextArray = false;
-
         }
     }
 
-
-    void CreateCubeArray(int n)
+    void HandleNextArrayCreation()
     {
-        if (n != 0)
+        if (createNextArray && !doneCreatingArray && currentArrayIndex <= maxIndex)
         {
-            cubeList = new List<MyInterpreter.Object>();
-            dropList = new List<MyInterpreter.Object>();
             for (int i = 0; i < arrayRoot.childCount; i++)
             {
                 Destroy(arrayRoot.GetChild(i).gameObject);
             }
             arrayRoot.DetachChildren();
-        }
 
-        numOfEntries = Random.Range(8, 16);
-        for (int i = 0; i < numOfEntries; i++)
-        {
-            GameObject entry = AddArrayEntry(i);
-            cubeList.Add(new Integer { value = Random.Range(0, 3) });
-            entry.GetComponent<MeshRenderer>().material.color = colors[((Integer)cubeList[i]).value];
-            dropList.Add(falseBool);
-        }
-        env.store["cubes"] = new Array { elements = cubeList };
-        env.store["drop"] = new Array { elements = dropList };
-        env.store["n"] = new Integer { value = n };
-        env.store["c"] = new Integer { value = cubeList.Count };
+            cubeList = CreateCubeArray(isMatrix);
 
-        if (n != 0)
-        {
+            env.store["cubes"] = new Array { elements = cubeList };
+            env.store["n"] = new Integer { value = currentArrayIndex };
+            env.store["c"] = new Integer { value = cubeList.Count };
+            doneCreatingArray = true;
+            createNextArray = false;
+
+            dropList = new();
+            for (int i = 0; i < numOfEntries; i++)
+            {
+                dropList.Add(falseBool);
+            }
+            env.store["drop"] = new Array { elements = dropList };
+
             thread = new Thread(Run);
             thread.Start();
         }
     }
 
-    GameObject AddArrayEntry(int index)
+    void HandleDropping()
+    {
+        if (checkDrop && !checkedDrop)
+        {
+            CheckDrop();
+            checkDrop = false;
+            checkedDrop = true;
+        }
+    }
+
+
+    protected List<MyInterpreter.Object> CreateCubeArray(bool isMatrix,int level = 0)
+    {
+        List<MyInterpreter.Object>  tempCubeList = new List<MyInterpreter.Object>();
+
+        if (!isMatrix || level == 0) numOfEntries = Random.Range(8, 16);
+        for (int i = 0; i < numOfEntries; i++)
+        {
+            GameObject entry = AddArrayEntry(i,isMatrix,level);
+            tempCubeList.Add(new Integer { value = Random.Range(0, 3) });
+            entry.GetComponent<MeshRenderer>().material.color = colors[((Integer)tempCubeList[i]).value];
+        }
+
+        return tempCubeList;
+    }
+
+    GameObject AddArrayEntry(int index, bool isMatrix, int level = 0)
     {
         GameObject entry;
         if (index == 0)
         {
-            entry = Instantiate(arrayEntryPrefab, arrayRoot);
-            entry.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = 0.ToString();
+            entry = Instantiate(arrayEntryPrefab, arrayRoot.position + new Vector3(0, -level * 4, 0), Quaternion.identity, arrayRoot);
+            entry.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = isMatrix ? level.ToString() + "," + index.ToString() : index.ToString();
             return entry;
         }
         else if (index % 2 == 1)
         {
-            for (int i = 0; i < index; i++)
+            for (int i = arrayRoot.childCount - 1; i > arrayRoot.childCount - 1 - index; i--)
             {
-                arrayRoot.GetChild(i).transform.localPosition += new Vector3(2, 0, 0);
+                arrayRoot.GetChild(i).transform.localPosition += new Vector3(3, 0, 0);
             }
         }
-        entry = Instantiate(arrayEntryPrefab, arrayRoot.GetChild(index - 1).position - new Vector3(2, 0, 0), Quaternion.identity, arrayRoot);
-        entry.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = index.ToString();
+        entry = Instantiate(arrayEntryPrefab, arrayRoot.GetChild(arrayRoot.childCount - 1).position - new Vector3(3, 0, 0), Quaternion.identity, arrayRoot);
+        entry.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = isMatrix ? level.ToString() + "," + index.ToString() : index.ToString();
         return entry;
+    }
+
+    public virtual void FillDropList()
+    {
+        for (int i = 0; i < numOfEntries; i++)
+        {
+            dropList.Add(falseBool);
+        }
+        env.store["drop"] = new Array { elements = dropList };
+    }
+
+    public virtual void CheckDrop()
+    {
+        arrayRoot.GetChild(indexToCheck).gameObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().color = colors[currentArrayIndex];
+        if (((Boolean)((Array)env.Get("drop")).elements[indexToCheck]).value == true)
+        {
+            arrayRoot.GetChild(indexToCheck).gameObject.AddComponent<Rigidbody>();
+            arrayRoot.GetChild(indexToCheck).GetComponent<Collider>().enabled = true;
+        }
     }
 
     public void OnLoopIterationEnd()
@@ -154,7 +195,7 @@ public class ArrayHandler : AbstractPuzzle, Observer
         return;
     }
 
-    public void OnProgramEnd()
+    public virtual void OnProgramEnd()
     {
         for (int i =0; i<numOfEntries; i++)
         {
@@ -164,8 +205,8 @@ public class ArrayHandler : AbstractPuzzle, Observer
             Thread.Sleep(500);
         }
 
-        checkingResults = true;
-        checkedResults = false;
+        Thread.Sleep(1000);
+        isProgramDone = true;
         Thread.Sleep(700);
         currentArrayIndex++;
         createNextArray = true;
@@ -196,10 +237,15 @@ public class ArrayHandler : AbstractPuzzle, Observer
                 return;
             }
         }
-        if (currentArrayIndex >= 2 && win)
+        if (currentArrayIndex >= maxIndex)
         {
             levelManager.Win();
             return;
         }
+    }
+
+    public void HandleOutputStream(string str)
+    {
+        return;
     }
 }

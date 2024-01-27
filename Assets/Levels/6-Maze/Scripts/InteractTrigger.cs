@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractTrigger : MonoBehaviour
 {
-    public GameObject interactObject;
+    [SerializeField] private GameObject interactObject;
     TriggerManager triggerManager;
     
     // Start is called before the first frame update
@@ -29,7 +29,6 @@ public class InteractTrigger : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             triggerManager.OnInteractTrigger(this, true);
-            Debug.LogError("Entered" + this);
         }
     }
 
@@ -38,7 +37,11 @@ public class InteractTrigger : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             triggerManager.OnInteractTrigger(this, false);
-            Debug.LogError("Exited" + this);
         }
+    }
+
+    public GameObject GetInteractObject()
+    {
+        return interactObject;
     }
 }

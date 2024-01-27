@@ -15,6 +15,8 @@ namespace MyInterpreter
         void OnBlockEnd();
         void OnProgramEnd();
 
+        void HandleOutputStream(string str);
+
     }
 
     public static class Evaluator

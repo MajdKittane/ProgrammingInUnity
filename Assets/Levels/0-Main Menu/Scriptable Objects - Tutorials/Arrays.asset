@@ -12,5 +12,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Arrays
   m_EditorClassIdentifier: 
-  codeText: out(x);
-  descriptionText: ArrayDescription
+  codeText: '<color=#E7755B>let</color> <color=#5bcde7>x</color> = [1,2,3,4,5];
+
+    <color=#E7755B>let</color>
+    <color=#5bcde7>sum</color> = 0;
+
+    <color=#E7755B>let</color> <color=#5bcde7>i</color>
+    = 0;
+
+    <color=#E7755B>loop</color>(<color=#5bcde7>i</color><5)
+
+    {
+
+    <color=#E7755B>let</color>
+    <color=#5bcde7>sum</color> = <color=#5bcde7>sum</color> + <color=#5bcde7>x</color>[<color=#5bcde7>i</color>];
+
+    <color=#E7755B>let</color>
+    <color=#5bcde7>i</color> = <color=#5bcde7>i</color> + 1;
+
+    }
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>sum</color>);'
+  descriptionText: 'Arrays are used to store multiple values in a single variable,
+    instead of declaring separate variables for each value.
+
+
+    The following code
+    shows how you can initialize an array and access its elements.
+
+
+    You access
+    an array element by referring to the index number inside square brackets [ ].
+
+'
+  code: 'let x = [1,2,3,4,5];
+
+    let sum = 0;
+
+    let i = 0;
+
+    loop(i<5)
+
+    {
+
+    let
+    sum = sum + x[i];
+
+    let i = i + 1;
+
+    }
+
+    out(sum);'

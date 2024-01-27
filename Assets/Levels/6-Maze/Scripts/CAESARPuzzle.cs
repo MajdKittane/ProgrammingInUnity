@@ -10,6 +10,8 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
     [SerializeField] TMPro.TextMeshProUGUI hiddenWallText;
     [SerializeField] GameObject[] wallTexts = new GameObject[3];
     MazeLogic mazeLogic;
+
+    //Puzzle solution variables
     int encryptKey;
     int[] solution = new int[3];
     string encryptedPlayerName = "";
@@ -40,8 +42,8 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
         encryptedPlayerName = Encrypt(mazeLogic.playerName, encryptKey);
         hiddenWallText.GetComponent<TMPro.TextMeshProUGUI>().text = "Your Name is :\n" + encryptedPlayerName;
         UpdateDescription(0);
-        mazeLogic.triggerManager.inputButton.onClick.RemoveAllListeners();
-        mazeLogic.triggerManager.inputButton.onClick.AddListener(() =>
+        mazeLogic.triggerManager.GetInputButton().onClick.RemoveAllListeners();
+        mazeLogic.triggerManager.GetInputButton().onClick.AddListener(() =>
         {
             CheckResult();
         });
@@ -81,20 +83,20 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             return;
         }
 
-        if (mazeLogic.triggerManager.GetActiveTrigger().interactObject.GetComponent<Door>() is Door door)
+        if (mazeLogic.triggerManager.GetActiveTrigger().GetInteractObject().GetComponent<Door>() is Door door)
         {
-            mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text = "";
-            mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().placeholder.GetComponent<TMPro.TextMeshProUGUI>().text = "Enter Password : 3 Letters";
-            mazeLogic.triggerManager.inputField.transform.root.gameObject.SetActive(true);
+            mazeLogic.triggerManager.GetInputField().GetComponent<TMPro.TMP_InputField>().text = "";
+            mazeLogic.triggerManager.GetInputField().GetComponent<TMPro.TMP_InputField>().placeholder.GetComponent<TMPro.TextMeshProUGUI>().text = "Enter Password : 3 Letters";
+            mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(true);
             levelManager.Pause();
         }
 
-        if (mazeLogic.triggerManager.GetActiveTrigger().interactObject.GetComponentInChildren<WallText>() is WallText text)
+        if (mazeLogic.triggerManager.GetActiveTrigger().GetInteractObject().GetComponentInChildren<WallText>() is WallText text)
         {
             if (!levelManager.codeSaved)
             {
-                mazeLogic.triggerManager.fullScreenText.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = text.fullText;
-                mazeLogic.triggerManager.fullScreenText.transform.root.gameObject.SetActive(true);
+                mazeLogic.triggerManager.GetFullScreenUI().GetComponentInChildren<TMPro.TextMeshProUGUI>().text = text.fullText;
+                mazeLogic.triggerManager.GetFullScreenUI().transform.root.gameObject.SetActive(true);
                 levelManager.Pause();
             }
 
@@ -135,7 +137,6 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             }
             chars.Add(new Integer { value = ((int)wallTexts[textIndex].GetComponent<WallText>().fullText[i]) >= 97 ? ((int)wallTexts[textIndex].GetComponent<WallText>().fullText[i]) - 97 : ((int)wallTexts[textIndex].GetComponent<WallText>().fullText[i]) - 39 });
         }
-        Debug.Log(((Integer)chars[0]).value);
         env.Set("n", new Integer { value = wallTexts[textIndex].GetComponent<WallText>().fullText.Length });
         env.Set("a", new Array { elements = chars });
         wallTexts[textIndex].GetComponent<WallText>().enabled = false;
@@ -147,13 +148,14 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
 
     public override void CheckResult()
     {
-        if (mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text.Length != 3) levelManager.Lose();
+        if (mazeLogic.triggerManager.GetInputField().GetComponent<TMPro.TMP_InputField>().text.Length != 3) levelManager.Lose();
 
         for (int i =0; i< 3; i++)
         {
-            if (selectedWords[i][solution[i]] != mazeLogic.triggerManager.inputField.GetComponent<TMPro.TMP_InputField>().text[i])
+            if (selectedWords[i][solution[i]] != mazeLogic.triggerManager.GetInputField().GetComponent<TMPro.TMP_InputField>().text[i])
             {
                 levelManager.Lose();
+                return;
             }
         }
         levelManager.Win();
@@ -186,7 +188,7 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
                 break;
         }
 
-        if (descriptionDetails >= 2)
+        if (descriptionDetails == 2)
         {
             mazeLogic.levelDescription.text += "\n";
             mazeLogic.levelDescription.text += "\n";
@@ -335,5 +337,10 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
             wallTexts[i].GetComponent<WallText>().fullText = Encrypt(wallTexts[i].GetComponent<WallText>().fullText,encryptKey);
         }
         return sol;
+    }
+
+    public void HandleOutputStream(string str)
+    {
+        return;
     }
 }

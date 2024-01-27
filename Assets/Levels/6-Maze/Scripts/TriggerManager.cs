@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class TriggerManager : MonoBehaviour
 {
-    [SerializeField] public GameObject fullScreenText;
-    [SerializeField] public GameObject inputField;
-    [SerializeField] public Button inputButton;
+    [SerializeField] private GameObject fullScreenText;
+    [SerializeField] private GameObject inputField;
+    [SerializeField] private Button inputButton;
     Dictionary<InteractTrigger,bool> interactTriggers = new Dictionary<InteractTrigger, bool>();
-    public Dictionary<InteractTrigger, bool> interactDone = new Dictionary<InteractTrigger, bool>();
+    public Dictionary<InteractTrigger, bool> interactDone { get; } = new Dictionary<InteractTrigger, bool>();
     // Start is called before the first frame update
     void Start()
     {
@@ -43,5 +43,20 @@ public class TriggerManager : MonoBehaviour
     public void OnInteractTrigger(InteractTrigger trigger,bool state)
     {
         interactTriggers[trigger] = state;
+    }
+
+    public GameObject GetFullScreenUI()
+    {
+        return fullScreenText;
+    }
+
+    public GameObject GetInputField()
+    {
+        return inputField;
+    }
+
+    public Button GetInputButton()
+    {
+        return inputButton;
     }
 }

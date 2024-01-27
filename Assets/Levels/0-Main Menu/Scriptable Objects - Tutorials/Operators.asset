@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
+  m_Name: Operators
+  m_EditorClassIdentifier: 
+  codeText: '<color=#E7755B>let</color> <color=#5bcde7>intx</color> = 7;
+
+    <color=#E7755B>let</color>
+    <color=#5bcde7>inty</color> = 5;
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>intx</color>
+    + <color=#5bcde7>inty</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>intx</color>
+    - <color=#5bcde7>inty</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>intx</color>
+    * <color=#5bcde7>inty</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>intx</color>
+    / <color=#5bcde7>inty</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>intx</color>
+    % <color=#5bcde7>inty</color>);
+
+
+    <color=#5bcde7>out</color> (<color=#5bcde7>intx</color>
+    > <color=#5bcde7>inty</color>);
+
+    <color=#5bcde7>out</color> (<color=#5bcde7>inty</color>
+    > <color=#5bcde7>intx</color>);
+
+    <color=#5bcde7>out</color> (<color=#5bcde7>intx</color>
+    != <color=#5bcde7>inty</color>);
+
+
+    <color=#E7755B>let</color> <color=#5bcde7>boolx</color>
+    = true;
+
+    <color=#E7755B>let</color> <color=#5bcde7>booly</color> = false;
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>boolx</color>
+    && <color=#5bcde7>booly</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>boolx</color>
+    || <color=#5bcde7>booly</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>boolx</color>
+    && !<color=#5bcde7>booly</color>);
+
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>boolx</color>
+    && <color=#5bcde7>intx</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>inty</color>
+    + <color=#5bcde7>boolx</color>);'
+  descriptionText: "Operators are used to perform operations on variables and values.\n\nArithmetic
+    Operators \r:\n+ , Adds two integers\n- , Subtracts one integer from another\n*
+    , Multiplies two integers\n/ , Divides one integer by another\n% , Retruns the
+    division remainder\n\nComparison Operators:\n> , Compares two integers and returns
+    true if the first is bigger.\n>= , Compares two integers and returns true if
+    the first is bigger or equal.\n< , Compares two integers and returns true if
+    the second is bigger.\n<= , Compares two integers and returns true if the second
+    is bigger or equal.\n== , Compares two integers and returns true if they are
+    equal.\n!= , Compares two integers and returns true if they aren't equal.\n\nLogical
+    Operators:\n&& , Returns true if both booleans are true.\n|| , Returns true if
+    one of the booleans is true.\n! , Reverses the value true -> false, false ->
+    true.\n\nWe can use booleans with arethmetic operators and integers with logical
+    operators :\nIf a boolan used instead of an integer : true = 1, false = 0.\nIf
+    an integer used instead of a boolean : 0 = false, else = true."
+  code: 'let intx = 7;
+
+    let inty = 5;
+
+    out(intx + inty);
+
+    out(intx -
+    inty);
+
+    out(intx * inty);
+
+    out(intx / inty);
+
+    out(intx % inty);
+
+
+    out
+    (intx > inty);
+
+    out (inty > intx);
+
+    out (intx != inty);
+
+
+    let boolx
+    = true;
+
+    let booly = false;
+
+    out(boolx && booly);
+
+    out(boolx || booly);
+
+    out(boolx
+    && !booly);
+
+
+    out(boolx && intx);
+
+    out(inty + boolx);'

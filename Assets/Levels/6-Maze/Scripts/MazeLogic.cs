@@ -7,11 +7,11 @@ using MyInterpreter;
 public class MazeLogic : MonoBehaviour
 {
     
-    [HideInInspector] public TriggerManager triggerManager;
-    [HideInInspector] public LevelLogic levelManager;
-    [HideInInspector] public string playerName = "";
-    [HideInInspector] public TMPro.TextMeshProUGUI levelDescription;
-    [HideInInspector] public Button saveCodeButton;
+    [HideInInspector] public TriggerManager triggerManager { get; private set; }
+    [HideInInspector] public LevelLogic levelManager { get; private set; }
+    [HideInInspector] public string playerName { get; private set; } = "";
+    [HideInInspector] public TMPro.TextMeshProUGUI levelDescription { get; private set; }
+    [HideInInspector] public Button saveCodeButton { get; private set; }
     AbstractPuzzle[] puzzles = new AbstractPuzzle[2];
     
     // Start is called before the first frame update
@@ -61,5 +61,10 @@ public class MazeLogic : MonoBehaviour
         saveCodeButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Explore to get more details";
         Destroy(puzzles[0]);
         puzzles[1].enabled = true;
+    }
+
+    public void SetPlayerName(string name)
+    {
+        playerName = name;
     }
 }

@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Loops
   m_EditorClassIdentifier: 
-  codeText: 'let x = 0;
-
-    out(x);
-
-    {
-
-    x
-
-    }'
+  codeText: "<color=#E7755B>let</color> <color=#5bcde7>x</color> =0;\r\n<color=#E7755B>loop</color>(10)\n{\n   
+    <color=#E7755B>let</color> <color=#5bcde7>x</color> =<color=#5bcde7>x</color>+1;\r\n   
+    <color=#5bcde7>out</color>(<color=#5bcde7>x</color>);\r\n}\n\n<color=#E7755B>let</color>
+    <color=#5bcde7>x</color> = 0;\n<color=#E7755B>loop</color>(<color=#5bcde7>x</color><10)\n{\n   
+    <color=#E7755B>let</color> <color=#5bcde7>x</color> = <color=#5bcde7>x</color>
+    + 1;\n    <color=#5bcde7>out</color>(<color=#5bcde7>x</color>);\n}"
   descriptionText: 'Loops are used for executing a block of code a number of times.
 
 
@@ -28,12 +25,14 @@ MonoBehaviour:
     can be used in 2 ways :
 
 
-    loop(Boolean)
+    loop(Integer)
 
     {
 
-    Loops until xBool is
-    false
+    Loops until the Integer
+    is 0
+
+    Integer decrements automatically every loop
 
     }
 
@@ -42,13 +41,37 @@ MonoBehaviour:
     -----------------
 
 
-    loop(Integer)
+
+    loop(Boolean)
 
     {
 
-    Loops until
-    the Integer is 0
+    Loops
+    until xBool is false
 
-    Integer decrements automatically every loop
+    }'
+  code: 'let x = 0;
+
+    loop(10)
+
+    {
+
+    let x = x +1;
+
+    out(x);
+
+    }
+
+
+    let
+    x = 0;
+
+    loop(x < 10)
+
+    {
+
+    let x = x + 1;
+
+    out(x);
 
     }'

@@ -12,29 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983b020ec33c5bb42aa1d9282910c97b, type: 3}
   m_Name: Variables
   m_EditorClassIdentifier: 
-  codeText: 'let xInt = 6;
+  codeText: '<color=#E7755B>let</color> <color=#5bcde7>xint</color> = 6;
 
-    let age = 25;
-
-
-    let fNum = 5;
-
-    let sNum
-    = 10;
-
-    let sum = fNum + sNum;
-
-    out(sum);
+    <color=#E7755B>let</color>
+    <color=#5bcde7>age</color> = 25;
 
 
-    let xBool = true;
+    <color=#E7755B>let</color> <color=#5bcde7>fnum</color>
+    = 5;
 
-    let
-    isHigh = !xBool;
+    <color=#E7755B>let</color> <color=#5bcde7>snum</color> = 10;
 
-    out(isHigh);
+    <color=#E7755B>let</color>
+    <color=#5bcde7>sum</color> = <color=#5bcde7>fnum</color> + <color=#5bcde7>snum</color>;
 
-    out(xBool);'
+    <color=#5bcde7>out</color>(<color=#5bcde7>sum</color>);
+
+
+    <color=#E7755B>let</color>
+    <color=#5bcde7>xbool</color> = true;
+
+    <color=#E7755B>let</color> <color=#5bcde7>ishigh</color>
+    = !<color=#5bcde7>xbool</color>;
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>ishigh</color>);
+
+    <color=#5bcde7>out</color>(<color=#5bcde7>xbool</color>);'
   descriptionText: 'You can initialize variables by using let statement.
 
 
@@ -44,3 +47,26 @@ MonoBehaviour:
 
     The following code shows
     how to initialize, print variables or doing operations on them.'
+  code: 'let xInt = 6;
+
+    let age = 25;
+
+
+    let fNum = 5;
+
+    let sNum =
+    10;
+
+    let sum = fNum + SNum;
+
+    out(sum);
+
+
+    let xbool = true;
+
+    let
+    ishigh = !xbool;
+
+    out(ishigh);
+
+    out(xbool);'

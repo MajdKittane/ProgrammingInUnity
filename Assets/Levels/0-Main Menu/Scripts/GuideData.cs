@@ -7,6 +7,7 @@ public class GuideData : ScriptableObject
 {
     [TextArea(3, 15)] public string codeText;
     [TextArea(3, 15)] public string descriptionText;
+    [TextArea(3, 15)] public string code;
     // Start is called before the first frame update
     void Start()
     {
