@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173346213}
   m_Layer: 0
-  m_Name: Array
+  m_Name: Matrix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1586,7 +1586,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648686822}
-  m_LocalRotation: {x: 0.12838219, y: 0.37483844, z: -0.052497976, w: 0.91665596}
+  m_LocalRotation: {x: 0.12838219, y: 0.37483847, z: -0.052497987, w: 0.91665596}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1809,10 +1809,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1757148275}
-  - component: {fileID: 1757148276}
   - component: {fileID: 1757148277}
   m_Layer: 0
-  m_Name: ArrayHandler
+  m_Name: MatrixHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1833,51 +1832,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1757148276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1757148273}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38c3556bf37090640a9fe1eaa2c51244, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useTestInput: 0
-  testInput: 'let i = 0;
-
-    loop(i<y)
-
-    {
-
-    let j = 0;
-
-    loop(j<x)
-
-    {
-
-    if
-    (cubes[i][j] == 0)
-
-    {
-
-    let drop[i][j] = true;
-
-    }
-
-    let j = j+1;
-
-    }
-
-    let
-    i = i +1;
-
-    }'
-  levelManager: {fileID: 0}
-  arrayEntryPrefab: {fileID: 3096216439536368040, guid: 624051715f0443749b7aad34b1f5bc76, type: 3}
-  matrixRoot: {fileID: 173346213}
 --- !u!114 &1757148277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1892,7 +1846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useTestInput: 0
   testInput: 
-  levelManager: {fileID: 0}
   arrayEntryPrefab: {fileID: 3096216439536368040, guid: 624051715f0443749b7aad34b1f5bc76, type: 3}
   arrayRoot: {fileID: 173346213}
 --- !u!1 &2056364674

@@ -207,10 +207,6 @@ public class ArrayHandler : AbstractPuzzle, Observer
 
         Thread.Sleep(1000);
         isProgramDone = true;
-        Thread.Sleep(700);
-        currentArrayIndex++;
-        createNextArray = true;
-        doneCreatingArray = false;
     }
 
     public override void Action()
@@ -237,11 +233,17 @@ public class ArrayHandler : AbstractPuzzle, Observer
                 return;
             }
         }
+
         if (currentArrayIndex >= maxIndex)
         {
             levelManager.Win();
             return;
         }
+
+        currentArrayIndex++;
+        isProgramDone = false;
+        createNextArray = true;
+        doneCreatingArray = false;
     }
 
     public void HandleOutputStream(string str)

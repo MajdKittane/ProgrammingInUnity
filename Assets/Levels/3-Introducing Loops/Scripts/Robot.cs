@@ -23,7 +23,6 @@ public class Robot : AbstractPuzzle, Observer
 
 
     //Transition Between Threads
-    private bool noCubes = false;
     private bool running, ran = false;
     private bool isHolding, isHeld = false;
     private bool isMoving, hasMoved = false;

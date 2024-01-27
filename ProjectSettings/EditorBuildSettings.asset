@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Levels/0-Main Menu/Main Menu.unity
     guid: fae9601faa5767445972dfa56bcc2750
@@ -29,7 +26,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/6-Maze/Level6-Maze.unity
     guid: fe6da48d9692d5542b89edd2be923253
-  - enabled: 0
-    path: Assets/NewHighlighterTest.unity
-    guid: d9a2ccb94ebdd9e4ca86b11b8ecacb8b
   m_configObjects: {}

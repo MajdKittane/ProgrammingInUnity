@@ -22,7 +22,6 @@ public class MachineLogic : AbstractPuzzle
 
     //Changing States of Machine
     private bool rotating;
-    private bool noCubes = false;
     private float angle = 0f;
 
     //Reference for Player's Pickup Logic --- Used to Change HUD Interact Text based on context
@@ -186,7 +185,6 @@ public class MachineLogic : AbstractPuzzle
 
     public override void CheckResult()
     {
-        if (CheckRemainingCubes()) return;
         for (int i = 0; i < 3; i++)
         {
             if (results[i] != slices[i])
