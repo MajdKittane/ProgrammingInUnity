@@ -1847,7 +1847,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508968315}
-  m_LocalRotation: {x: 0.09173884, y: 0.12919953, z: -0.012005167, w: 0.98729295}
+  m_LocalRotation: {x: 0.09173885, y: 0.12919955, z: -0.01200517, w: 0.98729295}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1915,6 +1915,30 @@ PrefabInstance:
       propertyPath: nextLevel
       value: Level5-Introducing Matrices
       objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 73bc208355d1dde45af46ab995a5cdbf, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f87d429091a770641bf1e195f86bf24a, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c768647dbe9a81e4a916f235aaba6386, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e5825a8dba0d7f4cb7c8c9f133761f6, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1123e4c95d95a5542952d2e9350ea9a8, type: 2}
     - target: {fileID: 7799917391423262875, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -2009,7 +2033,6 @@ MonoBehaviour:
     let i = i + 1;
 
     }'
-  levelManager: {fileID: 0}
   arrayEntryPrefab: {fileID: 3096216439536368040, guid: 624051715f0443749b7aad34b1f5bc76, type: 3}
   arrayRoot: {fileID: 173346213}
 --- !u!4 &1757148275

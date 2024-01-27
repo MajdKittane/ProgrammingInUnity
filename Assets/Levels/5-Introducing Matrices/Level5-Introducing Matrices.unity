@@ -698,7 +698,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595949077}
-  m_LocalRotation: {x: 0.044088285, y: 0.37806728, z: -0.018028555, w: 0.92455196}
+  m_LocalRotation: {x: 0.04408829, y: 0.37806728, z: -0.018028557, w: 0.92455196}
   m_LocalPosition: {x: 11.205273, y: -3.4299998, z: -5.1243615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -907,7 +907,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671421045}
-  m_LocalRotation: {x: 0.08563769, y: 0.37687343, z: -0.035018917, w: 0.9216324}
+  m_LocalRotation: {x: 0.08563769, y: 0.37687343, z: -0.035018917, w: 0.92163247}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1065,6 +1065,30 @@ PrefabInstance:
       propertyPath: nextLevel
       value: Level6-Maze
       objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 73bc208355d1dde45af46ab995a5cdbf, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f87d429091a770641bf1e195f86bf24a, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c768647dbe9a81e4a916f235aaba6386, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e5825a8dba0d7f4cb7c8c9f133761f6, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1123e4c95d95a5542952d2e9350ea9a8, type: 2}
     - target: {fileID: 7799917391423262875, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1791,7 +1815,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715258648}
-  m_LocalRotation: {x: 0.044088278, y: 0.37806728, z: -0.018028555, w: 0.92455196}
+  m_LocalRotation: {x: 0.04408828, y: 0.37806728, z: -0.018028555, w: 0.92455196}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

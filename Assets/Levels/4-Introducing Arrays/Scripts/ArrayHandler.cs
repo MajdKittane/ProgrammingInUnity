@@ -60,12 +60,12 @@ public class ArrayHandler : AbstractPuzzle, Observer
     {
         if (levelManager.codeSaved && !ran)
         {
-            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
-            levelManager.interactText.SetActive(true);
+            levelManager.GetInteractText().GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Run Code";
+            levelManager.GetInteractText().SetActive(true);
         }
         else
         {
-            levelManager.interactText.SetActive(false);
+            levelManager.GetInteractText().SetActive(false);
         }
     }
 

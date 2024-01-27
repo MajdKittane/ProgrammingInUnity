@@ -55,7 +55,7 @@ public abstract class AbstractPuzzle : MonoBehaviour
 
     public void Run()
     {
-        Lexer lexer = new Lexer(useTestInput ? testInput : levelManager.input.text);
+        Lexer lexer = new Lexer(useTestInput ? testInput : levelManager.GetInput().text);
         Program prog = new Parser(lexer).ParseProgram();
         Evaluator.Eval(prog, env, this is Observer?(Observer)this:null);
     }

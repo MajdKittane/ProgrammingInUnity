@@ -1987,16 +1987,9 @@ MonoBehaviour:
 
     let
     t = true;'
-  levelManager: {fileID: 0}
   spawnTransform: {fileID: 1699318347}
   variableObject: {fileID: 1148542516746997868, guid: f1355a7f0d3615345a8ccbbb3c4e0e28, type: 3}
   objecitve: {fileID: 1941485501}
-  integers: 
-  integersInstantiated: 
-  booleans: 
-  booleansInstantiated: 
-  remainingLetUses: 0
-  isFull: 0
 --- !u!4 &1710377007
 Transform:
   m_ObjectHideFlags: 0
@@ -2206,6 +2199,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 73bc208355d1dde45af46ab995a5cdbf, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f87d429091a770641bf1e195f86bf24a, type: 2}
     - target: {fileID: 7799917391423262875, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_RootOrder
       value: 2

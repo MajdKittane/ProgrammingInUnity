@@ -390,6 +390,22 @@ PrefabInstance:
       propertyPath: nextLevel
       value: Level3-Introducing Loops
       objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 73bc208355d1dde45af46ab995a5cdbf, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f87d429091a770641bf1e195f86bf24a, type: 2}
+    - target: {fileID: 7799917391423262874, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
+      propertyPath: turorials.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c768647dbe9a81e4a916f235aaba6386, type: 2}
     - target: {fileID: 7799917391423262875, guid: c7ec106241204e3469b0a0009a4c5f9c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1494,7 +1510,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useTestInput: 0
   testInput: 
-  levelManager: {fileID: 0}
   spawner: {fileID: 717249163}
   cubePosition: {fileID: 621081147}
   cubesColors:
@@ -1644,16 +1659,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f23c2f88a042743becb7c9a3ae1c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
   cubesPerColor: 020000000200000003000000
   prefab: {fileID: 5664071223940903384, guid: 11508b413c8a4c34a88ad80f29029c70, type: 3}
   spawnPoint: {fileID: 1914397804}
   delay: 0.5
-  spawnedCubes: []
-  isSpawning: 1
 --- !u!4 &717249164
 Transform:
   m_ObjectHideFlags: 0

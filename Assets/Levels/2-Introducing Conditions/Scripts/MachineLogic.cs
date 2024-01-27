@@ -63,25 +63,25 @@ public class MachineLogic : AbstractPuzzle
     {
         if (pickupLogic.objectToPickup != null)
         {
-            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Pick";
-            levelManager.interactText.SetActive(true);
+            levelManager.GetInteractText().GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Pick";
+            levelManager.GetInteractText().SetActive(true);
         }
 
         if (playerInArea && cubePosition.childCount == 0)
         {
-            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Interact";
-            levelManager.interactText.SetActive(true);
+            levelManager.GetInteractText().GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Interact";
+            levelManager.GetInteractText().SetActive(true);
         }
 
         if (!playerInArea && pickupLogic.pickedObject != null)
         {
-            levelManager.interactText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Drop";
-            levelManager.interactText.SetActive(true);
+            levelManager.GetInteractText().GetComponent<TMPro.TextMeshProUGUI>().text = "Press F to Drop";
+            levelManager.GetInteractText().SetActive(true);
         }
 
         if (!playerInArea && pickupLogic.objectToPickup == null && pickupLogic.pickedObject == null)
         {
-            levelManager.interactText.SetActive(false);
+            levelManager.GetInteractText().SetActive(false);
         }
     }
 
@@ -130,6 +130,8 @@ public class MachineLogic : AbstractPuzzle
         env.store["cube"] = new Integer { value = colorIndex };
 
 
+
+        Evaluator.observer = null; // Evaluator is static class, observer will be saved from previous level, this will add unwanted delay and freezing. Fixed by setting it to null.
         Run();
 
         Integer slices = (Integer)env.Get("slices");
@@ -194,16 +196,6 @@ public class MachineLogic : AbstractPuzzle
             }
         }
         levelManager.Win();
-    }
-
-    bool CheckRemainingCubes()
-    {
-
-        if (FindObjectsOfType<ColoredCube>().Length == 0)
-        {
-            return false;
-        }
-        return true;
     }
 
     //Action in this Level Controlled by the Pikup Logic of the Player

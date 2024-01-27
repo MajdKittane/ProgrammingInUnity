@@ -2,22 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelLogic : MonoBehaviour
 {
-    [SerializeField] public GameObject mainUI;
-    [SerializeField] GameObject winUI;
-    [SerializeField] GameObject loseUI;
-    [SerializeField] GameObject finishUI;
-    [SerializeField] public TMPro.TMP_InputField input;
-    [SerializeField] string nextLevel;
-    [SerializeField] GameObject HUD;
-    [SerializeField] public GameObject interactText;
-    [SerializeField] GameObject writeCodeText;
-    [HideInInspector] public bool codeSaved = false;
+    [SerializeField] private List<GuideData> turorials;
+    [SerializeField] private GameObject mainUI;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private Button saveCodeButton;
+    [SerializeField] private Button helpButton;
+    [SerializeField] private GameObject winUI;
+    [SerializeField] private GameObject loseUI;
+    [SerializeField] private GameObject finishUI;
+    [SerializeField] private GameObject guideUI;
+    [SerializeField] private GameObject HUD;
+    [SerializeField] private TMPro.TMP_InputField input;
+    [SerializeField] private GameObject interactText;
+    [HideInInspector] public bool codeSaved { get; private set; } = false;
+    [SerializeField] private string nextLevel;
+    [SerializeField] private GameObject writeCodeText;
     // Start is called before the first frame update
     void Start()
     {
+        closeButton.onClick.AddListener(() => HideMainUI());
+        saveCodeButton.onClick.AddListener(() => SaveCode());
+        helpButton.onClick.AddListener(() => ShowGuide());
+        guideUI.GetComponent<Guide>().SetTutorials(turorials);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -38,6 +48,11 @@ public class LevelLogic : MonoBehaviour
         else
         {
             writeCodeText.SetActive(true);
+        }
+
+        if (!guideUI.activeSelf && Time.timeScale == 0f && !finishUI.activeSelf)
+        {
+            mainUI.SetActive(true);
         }
     }
 
@@ -92,6 +107,13 @@ public class LevelLogic : MonoBehaviour
         loseUI.SetActive(true);
         winUI.SetActive(false);
     }
+
+    public void ShowGuide()
+    {
+        mainUI.SetActive(false);
+        guideUI.SetActive(true);
+        Pause();
+    }
     public void Retry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -100,5 +122,23 @@ public class LevelLogic : MonoBehaviour
     public void NextLevel()
     {
         SceneManager.LoadScene(nextLevel);
+    }
+
+    public void ResetCode()
+    {
+        codeSaved = false;
+    }
+
+    public GameObject GetMainUI()
+    {
+        return mainUI;
+    }
+    public GameObject GetInteractText()
+    {
+        return interactText;
+    }
+    public TMPro.TMP_InputField GetInput()
+    {
+        return input;
     }
 }

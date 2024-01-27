@@ -6,29 +6,35 @@ using MyInterpreter;
 
 public class Guide : MonoBehaviour, Observer
 {
-    [SerializeField] GuideData[] tutorials;
+    [SerializeField] List<GuideData> tutorials;
     [SerializeField] TMPro.TextMeshProUGUI codeText;
     [SerializeField] TMPro.TextMeshProUGUI descriptionText;
     [SerializeField] TMPro.TextMeshProUGUI outputText;
     [SerializeField] Button nextButton;
     [SerializeField] Button previousButton;
     [SerializeField] Button runButton;
-    [SerializeField] Button backButton;
+    [SerializeField] private Button backButton;
     int currentIndex = 0;
     bool changed = true;
     // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
         nextButton.onClick.AddListener(() => NextTutorial());
         previousButton.onClick.AddListener(() => PreviousTutorial());
         backButton.onClick.AddListener(() => gameObject.SetActive(false));
         runButton.onClick.AddListener(() => ExecuteCode());
     }
+    
+    void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentIndex + 1 >= tutorials.Length)
+        if (currentIndex + 1 >= tutorials.Count)
         {
             nextButton.interactable = false;
         }
@@ -105,5 +111,15 @@ public class Guide : MonoBehaviour, Observer
     public void HandleOutputStream(string str)
     {
         outputText.text += str + " ";
+    }
+
+    public void SetTutorials(List<GuideData> data)
+    {
+        tutorials = data;
+    }
+
+    public Button GetBackButton()
+    {
+        return backButton;
     }
 }

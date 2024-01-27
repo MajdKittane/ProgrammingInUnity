@@ -23,16 +23,16 @@ public class MazeLogic : MonoBehaviour
         puzzles[0].enabled = true;
         puzzles[1] = GetComponent<CAESARPuzzle>();
 
-        for (int i = 0; i < levelManager.mainUI.transform.GetChild(0).childCount; i++)
+        for (int i = 0; i < levelManager.GetMainUI().transform.GetChild(0).childCount; i++)
         {
-            if (levelManager.mainUI.transform.GetChild(0).GetChild(i).name == "Description")
+            if (levelManager.GetMainUI().transform.GetChild(0).GetChild(i).name == "Description")
             {
-                levelDescription = levelManager.mainUI.transform.GetChild(0).GetChild(i).gameObject.GetComponent<TMPro.TextMeshProUGUI>();
+                levelDescription = levelManager.GetMainUI().transform.GetChild(0).GetChild(i).gameObject.GetComponent<TMPro.TextMeshProUGUI>();
             }
 
-            if (levelManager.mainUI.transform.GetChild(0).GetChild(i).name == "SaveCodeButton")
+            if (levelManager.GetMainUI().transform.GetChild(0).GetChild(i).name == "SaveCodeButton")
             {
-                saveCodeButton = levelManager.mainUI.transform.GetChild(0).GetChild(i).gameObject.GetComponent<Button>();
+                saveCodeButton = levelManager.GetMainUI().transform.GetChild(0).GetChild(i).gameObject.GetComponent<Button>();
                 saveCodeButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Explore to get more details";
                 saveCodeButton.interactable = false;
             }
@@ -44,18 +44,18 @@ public class MazeLogic : MonoBehaviour
     {
         if (triggerManager.GetActiveTrigger())
         {
-            levelManager.interactText.SetActive(true);
+            levelManager.GetInteractText().SetActive(true);
         }
         else
         {
-            levelManager.interactText.SetActive(false);
+            levelManager.GetInteractText().SetActive(false);
         }
     }
 
     public void NextPuzzle()
     {
-        levelManager.codeSaved = false;
-        levelManager.input.text = "";
+        levelManager.ResetCode();
+        levelManager.GetInput().text = "";
         levelDescription.text = "";
         saveCodeButton.interactable = false;
         saveCodeButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Explore to get more details";
