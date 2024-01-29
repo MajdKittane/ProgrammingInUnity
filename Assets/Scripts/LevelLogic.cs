@@ -28,6 +28,7 @@ public class LevelLogic : MonoBehaviour
         saveCodeButton.onClick.AddListener(() => SaveCode());
         helpButton.onClick.AddListener(() => ShowGuide());
         guideUI.GetComponent<Guide>().SetTutorials(turorials);
+        guideUI.GetComponent<Guide>().GetBackButton().onClick.AddListener(() => mainUI.SetActive(true));
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -48,11 +49,6 @@ public class LevelLogic : MonoBehaviour
         else
         {
             writeCodeText.SetActive(true);
-        }
-
-        if (!guideUI.activeSelf && Time.timeScale == 0f && !finishUI.activeSelf)
-        {
-            mainUI.SetActive(true);
         }
     }
 

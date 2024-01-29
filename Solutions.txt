@@ -1,0 +1,103 @@
+***Level 2:
+
+if (cube == 0)
+{
+let slices = 9;
+}
+if (cube == 1)
+{
+let slices = 9;
+}
+if (cube == 2)
+{
+let slices = 9;
+}
+
+
+
+***Level 3:
+
+loop(n)
+{
+if (cube == 0)
+{
+let slices = 9;
+}
+if (cube == 1)
+{
+let slices = 9;
+}
+if (cube == 2)
+{
+let slices = 9;
+}
+}
+
+
+***Level 4:
+
+let i = 0;
+loop(i<c)
+{
+if (cubes[i] == n)
+{
+let drop[i] = true;
+}
+let i = i + 1;
+}
+
+
+***Level 5:
+
+let i = 0;
+loop (i<y)
+{
+let j = 0;
+loop(j<x)
+{
+if (cubes[i][j] == 0)
+{
+let drop[i][j] = true;
+}
+let j = j +1;
+}
+let i = i + 1;
+}
+
+
+***Level 6-1:
+
+let i = 0;
+loop (i<n)
+{
+if (a[i] < 26)
+{
+let a[i] = a[i] + 97;
+}
+else
+{
+let a[i] = a[i] + 39;
+}
+let i = i + 1;
+}
+
+
+****Level 6-2:
+
+let i =0;
+loop(i<n)
+{
+if (a[i]<52)
+{
+let p = (a[i] - key) % 52;
+if (p<26)
+{
+let a[i] = p +97;
+}
+else
+{
+let a[i] = p + 39;
+}
+}
+let i = i +1;
+}

@@ -52,7 +52,7 @@ public class Guide : MonoBehaviour, Observer
             previousButton.interactable = true;
         }
 
-        if (changed)
+        if (changed && tutorials != null)
         {
             codeText.text = tutorials[currentIndex].codeText;
             descriptionText.text = tutorials[currentIndex].descriptionText;
