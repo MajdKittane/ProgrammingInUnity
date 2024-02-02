@@ -19,7 +19,14 @@ public class TriggerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (inputField.GetComponent<TMPro.TMP_InputField>().text == "")
+        {
+            inputButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Close";
+        }
+        else
+        {
+            inputButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = "Done";
+        }
     }
 
     public void RegisterInteractTrigger(InteractTrigger trigger)

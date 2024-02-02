@@ -45,7 +45,12 @@ public class CAESARPuzzle : AbstractPuzzle, Observer
         mazeLogic.triggerManager.GetInputButton().onClick.RemoveAllListeners();
         mazeLogic.triggerManager.GetInputButton().onClick.AddListener(() =>
         {
-            CheckResult();
+            if (mazeLogic.triggerManager.GetInputButton().GetComponentInChildren<TMPro.TextMeshProUGUI>().text == "Done") CheckResult();
+            else
+            {
+                levelManager.Resume();
+                mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(false);
+            }
         });
     }
 

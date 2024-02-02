@@ -31,9 +31,17 @@ public class ASCIIConversionPuzzle : AbstractPuzzle, Observer
         mazeLogic = gameObject.GetComponent<MazeLogic>();
         mazeLogic.triggerManager.GetInputButton().onClick.AddListener(() =>
         {
-            SavePlayerName();
-            levelManager.Resume();
-            mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(false);
+            if (mazeLogic.triggerManager.GetInputButton().GetComponentInChildren<TMPro.TextMeshProUGUI>().text == "Done")
+            {
+                SavePlayerName();
+                levelManager.Resume();
+                mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(false);
+            }
+            else
+            {
+                levelManager.Resume();
+                mazeLogic.triggerManager.GetInputField().transform.root.gameObject.SetActive(false);
+            }
         });
     }
 
